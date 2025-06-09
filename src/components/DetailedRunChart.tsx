@@ -36,13 +36,30 @@ interface DetailedRunChartProps {
       tension?: number;
     }[];
   };
+  chartData?: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      borderColor: string;
+      backgroundColor: string;
+      fill?: boolean;
+      tension?: number;
+      yAxisID?: string;
+    }[];
+  };
   height?: number;
   width?: number;
 }
 
 const DetailedRunChart = ({
   title = "Run Performance",
-  data = {
+  data,
+  chartData,
+  height = 400,
+  width = 1000,
+}: DetailedRunChartProps) => {
+  const defaultData = {
     labels: [
       "0km",
       "1km",
@@ -82,10 +99,9 @@ const DetailedRunChart = ({
         tension: 0.3,
       },
     ],
-  },
-  height = 400,
-  width = 1000,
-}: DetailedRunChartProps) => {
+  };
+
+  const chartDataToUse = chartData || data || defaultData;
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -135,7 +151,7 @@ const DetailedRunChart = ({
       className="bg-white rounded-xl shadow-md p-6 w-full"
       style={{ height, maxWidth: width }}
     >
-      <Line options={options} data={data} />
+      <Line options={options} data={chartDataToUse} />
     </div>
   );
 };
