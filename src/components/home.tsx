@@ -22,7 +22,7 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
   useEffect(() => {
     const loadRuns = async () => {
       try {
-        const indexRes = await fetch("/data/runs/index.json");
+        const indexRes = await fetch(`${import.meta.env.BASE_URL}data/runs/index.json`)
         const filenames: string[] = await indexRes.json();
 
         const runs = await Promise.all(
