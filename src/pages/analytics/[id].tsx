@@ -49,7 +49,7 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
     const fetchRunData = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/data/runs/${runId}.json`); // Change to your actual endpoint if needed
+        const res = await fetch(`${import.meta.env.BASE_URL}data/runs/${runId}.json`); // Change to your actual endpoint if needed
         if (!res.ok) throw new Error("Failed to fetch run data");
         const data = await res.json();
         setRunData(data);
