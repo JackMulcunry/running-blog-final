@@ -27,7 +27,7 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
 
         const runs = await Promise.all(
           filenames.map(async (filename) => {
-            const res = await fetch(`/data/runs/${filename}`);
+            const res = await fetch(`${import.meta.env.BASE_URL}data/runs/${filename}`);
             return await res.json();
           })
         );
