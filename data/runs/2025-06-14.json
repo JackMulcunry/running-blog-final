@@ -1,9 +1,9 @@
 {
-  "id": "2025-06-14T18-41-49-688Z",
+  "id": "2025-06-14",
   "title": "Run on 2025-06-14",
   "date": "2025-06-14",
-  "description": "Consistent recovery run with moderate effort and good pacing to aid midweek recovery.",
-  "detailedDescription": "Today's recovery run showed a fairly consistent pacing with a variance of ±14 sec/km, which is reasonable given the focus on easy aerobic effort. The pace of 5:44/km aligns well with a recovery pace, helping to promote blood flow and recovery without adding excessive fatigue. The elevation gain was minimal, keeping the effort moderate. The fatigue score of 89.15 suggests some residual tiredness, which is expected midweek after two days of interval training. Going forward, maintaining this easy pace and effort will support recovery and prepare me for the upcoming hill session on Thursday.",
+  "description": "Steady recovery run with consistent pacing and low effort to support aerobic recovery.",
+  "detailedDescription": "Today's recovery run covered 4.21 km at a steady pace of 5:44/km with a pacing variance of ±17 seconds per kilometer, showing reasonably consistent pacing for a recovery effort. The elevation gain was minimal at 16.4 meters, aligning well with the purpose of an easy recovery run without excessive climbing stress. The effort score of 352 and fatigue score of 90.34 indicate that this run was low intensity relative to previous interval workouts earlier in the week, supporting optimal recovery. Moving forward, maintaining this gentle aerobic effort on recovery days will help promote adaptation and prepare for the more demanding sessions later in the week.",
   "type": "daily",
   "stats": {
     "distance": 4.21,
@@ -14,8 +14,8 @@
     "effort_score": 352,
     "effort_per_km": 83.61,
     "elevation_percent_per_km": 0.39,
-    "pace_variance": "14 sec/km",
-    "fatigue_score": 89.15
+    "pace_variance": "17 sec/km",
+    "fatigue_score": 90.34
   },
   "chartData": {
     "pace_per_km": {
