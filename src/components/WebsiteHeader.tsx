@@ -16,7 +16,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
             {/* Logo */}
             <div className="flex-shrink-0">
               <img
-                src="/6AMKICK.png"
+                src="/running-blog-final/6AMKICK.png"
                 alt="The 6AM Kick Logo"
                 className="h-10 w-auto sm:h-12 drop-shadow-sm"
               />
