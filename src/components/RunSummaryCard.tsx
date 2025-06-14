@@ -77,32 +77,87 @@ const RunSummaryCard = ({
   includedDates = [],
   onNavigateToAnalytics = () => {},
 }: RunSummaryCardProps) => {
+  // Analyze pace trend from chart data
+  const analyzePaceTrend = () => {
+    if (!chartData.datasets[0] || chartData.datasets[0].data.length < 2) {
+      return {
+        trend: "even",
+        caption: "Paced evenly",
+        color: "#6b7280",
+        startPace: null,
+        endPace: null,
+      };
+    }
+
+    const paceData = chartData.datasets[0].data;
+    const startPace = paceData[0];
+    const endPace = paceData[paceData.length - 1];
+    const paceDifference = endPace - startPace;
+
+    // Format pace as MM:SS
+    const formatPace = (pace: number) => {
+      const minutes = Math.floor(pace);
+      const seconds = Math.round((pace - minutes) * 60);
+      return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    };
+
+    let trend, caption, color;
+
+    // Use ±1 second (0.017 minutes) as threshold for "same" pace
+    if (Math.abs(paceDifference) <= 0.017) {
+      // Same pace (within 1 second)
+      trend = "even";
+      caption = "Paced evenly";
+      color = "#6b7280"; // Gray
+    } else if (paceDifference < 0) {
+      // Faster finish (negative difference means faster pace)
+      trend = "faster";
+      caption = "Strong finish";
+      color = "#22c55e"; // Green
+    } else {
+      // Slower finish (positive difference means slower pace)
+      trend = "slower";
+      caption = "Started fast";
+      color = "#ef4444"; // Red
+    }
+
+    return {
+      trend,
+      caption,
+      color,
+      startPace: formatPace(startPace),
+      endPace: formatPace(endPace),
+      paceDifference,
+    };
+  };
+
+  const paceAnalysis = analyzePaceTrend();
   // Get styling based on summary type
   const getTypeConfig = (type: SummaryType) => {
     const configs = {
       daily: {
-        accentColor: "bg-green-500 hover:bg-green-600",
-        badgeColor: "bg-green-100 text-green-800",
-        chartColor: "rgb(34, 197, 94)",
-        chartBg: "rgba(34, 197, 94, 0.2)",
+        accentColor: "bg-orange-500 hover:bg-orange-600",
+        badgeColor: "bg-orange-50 text-orange-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       weekly: {
-        accentColor: "bg-blue-500 hover:bg-blue-600",
-        badgeColor: "bg-blue-100 text-blue-800",
-        chartColor: "rgb(59, 130, 246)",
-        chartBg: "rgba(59, 130, 246, 0.2)",
+        accentColor: "bg-teal-500 hover:bg-teal-600",
+        badgeColor: "bg-teal-50 text-teal-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       monthly: {
-        accentColor: "bg-purple-500 hover:bg-purple-600",
-        badgeColor: "bg-purple-100 text-purple-800",
-        chartColor: "rgb(147, 51, 234)",
-        chartBg: "rgba(147, 51, 234, 0.2)",
+        accentColor: "bg-indigo-500 hover:bg-indigo-600",
+        badgeColor: "bg-indigo-50 text-indigo-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       yearly: {
-        accentColor: "bg-yellow-500 hover:bg-yellow-600",
-        badgeColor: "bg-yellow-100 text-yellow-800",
-        chartColor: "rgb(234, 179, 8)",
-        chartBg: "rgba(234, 179, 8, 0.2)",
+        accentColor: "bg-red-600 hover:bg-red-700",
+        badgeColor: "bg-red-50 text-red-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
     };
     return configs[type];
@@ -110,53 +165,78 @@ const RunSummaryCard = ({
 
   const typeConfig = getTypeConfig(type);
 
-  // Update chart data with type-specific colors
+  // Update chart data with trend-based colors
   const updatedChartData = {
     ...chartData,
     datasets: chartData.datasets.map((dataset) => ({
       ...dataset,
-      borderColor: typeConfig.chartColor,
-      backgroundColor: typeConfig.chartBg,
+      borderColor: paceAnalysis.color,
+      backgroundColor: `${paceAnalysis.color}20`, // 20% opacity
+      borderWidth: 2,
+      fill: false,
     })),
   };
 
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 2,
+        right: 2,
+        bottom: 2,
+        left: 2,
+      },
+    },
+    animation: {
+      duration: 1500,
+      easing: "easeOutQuart",
+      y: {
+        from: (ctx: any) => {
+          if (ctx.type === "data" && ctx.mode === "default") {
+            const chart = ctx.chart;
+            const { ctx: canvasCtx, chartArea } = chart;
+            if (!chartArea) return;
+            return chartArea.bottom;
+          }
+        },
+      },
+    },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
-        enabled: true,
+        enabled: false, // Disable tooltips for sparkline effect
       },
     },
     scales: {
       y: {
+        display: false, // Completely hide y-axis
         beginAtZero: false,
-        ticks: {
-          display: false,
-        },
         grid: {
-          display: false,
+          display: false, // Remove gridlines
         },
       },
       x: {
-        ticks: {
-          display: false,
-        },
+        display: false, // Completely hide x-axis
         grid: {
-          display: false,
+          display: false, // Remove gridlines
         },
       },
     },
     elements: {
       line: {
-        tension: 0.4,
+        tension: 0.2, // Flattened curve as requested
       },
       point: {
         radius: 0,
+        hoverRadius: 0,
       },
+    },
+    interaction: {
+      intersect: false,
+      mode: "index" as const,
     },
   };
 
@@ -165,69 +245,47 @@ const RunSummaryCard = ({
 
   return (
     <Card
-      className={`w-full bg-white shadow-lg rounded-lg transition-all duration-300 hover:shadow-xl flex flex-col ${cardHeight}`}
+      className={`w-full bg-white shadow-sm rounded-xl transition-all duration-300 hover:shadow-md flex flex-col ${cardHeight}`}
       style={{
         boxShadow:
-          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
       }}
       onMouseEnter={(e) => {
-        if (type === "weekly") {
-          e.currentTarget.style.boxShadow =
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 12px rgba(59, 130, 246, 0.5)";
-        } else if (type === "monthly") {
-          e.currentTarget.style.boxShadow =
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 12px rgba(168, 85, 247, 0.5)";
-        } else if (type === "yearly") {
-          e.currentTarget.style.boxShadow =
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 12px rgba(234, 179, 8, 0.5)";
-        } else {
-          e.currentTarget.style.boxShadow =
-            "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
-        }
-      }}
-      onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow =
           "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)";
       }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow =
+          "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)";
+      }}
     >
-      <CardHeader className="pb-3 p-6 bg-white border-b border-gray-100">
-        <div className="flex items-center justify-between mb-2">
+      <CardHeader className="pb-3 p-6 bg-white">
+        <div className="flex items-center justify-between mb-3">
           <Badge
-            className={`${typeConfig.badgeColor} transition-all duration-200 cursor-default hover:font-semibold hover:bg-current`}
-            style={{
-              boxShadow: "none",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow =
-                "0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)";
-              e.currentTarget.style.transform = "scale(1.02)";
-              // Preserve the original background color
-              const bgColor = typeConfig.badgeColor.includes("green")
-                ? "rgb(220, 252, 231)"
-                : typeConfig.badgeColor.includes("blue")
-                  ? "rgb(219, 234, 254)"
-                  : typeConfig.badgeColor.includes("purple")
-                    ? "rgb(243, 232, 255)"
-                    : "rgb(254, 249, 195)";
-              e.currentTarget.style.backgroundColor = bgColor;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = "none";
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.backgroundColor = "";
-            }}
+            className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
         </div>
-        <CardTitle className="text-lg font-bold text-gray-800">
+        <CardTitle className="text-xl font-bold text-gray-900 leading-tight">
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="px-6 pb-4 flex-1 overflow-hidden">
-        <p className="text-sm text-gray-600 mb-4">{description}</p>
-        <div className="h-32 w-full mb-4">
-          <Line options={chartOptions} data={updatedChartData} />
+        <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+          {description}
+        </p>
+        <div className="mb-4">
+          <div className="h-14 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
+            <Line options={chartOptions} data={updatedChartData} />
+          </div>
+          <div className="flex items-center justify-center">
+            {paceAnalysis.startPace && paceAnalysis.endPace && (
+              <span className="text-xs text-gray-600 font-mono text-center">
+                Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Scrollable section for non-daily summaries */}
@@ -245,7 +303,7 @@ const RunSummaryCard = ({
                   >
                     <Check
                       size={14}
-                      className={`${typeConfig.accentColor.replace("bg-", "text-").replace("hover:bg-", "").replace("-500", "-500").replace("-600", "")} flex-shrink-0`}
+                      className={`${typeConfig.accentColor.replace("bg-", "text-").replace(" hover:bg-", "").split(" ")[0]} flex-shrink-0`}
                     />
                     <span>{date}</span>
                   </div>
