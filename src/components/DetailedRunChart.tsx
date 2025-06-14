@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 
 ChartJS.register(
@@ -48,20 +49,20 @@ const DynamicChart = ({
   paceFormat = false,
   dualAxis = false,
 }: ChartProps) => {
-  const chartOptions = {
+  const chartOptions: ChartOptions<"line" | "bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: "top" as const },
+      legend: { position: "top" },
       title: {
         display: true,
         text: title,
-        font: { size: 16, weight: "bold" },
+        font: { size: 16, weight: "bold" as const },
         padding: { top: 10, bottom: 20 },
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: (context) => {
             const val = context.parsed.y;
             if (paceFormat) return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
             return `${context.dataset.label}: ${val}`;
@@ -74,11 +75,10 @@ const DynamicChart = ({
         beginAtZero: false,
         ticks: paceFormat
           ? {
-              callback: (value: any) => {
-                return typeof value === "number" ? formatToMMSS(value) : value;
-              },
+              callback: (value: any) =>
+                typeof value === "number" ? formatToMMSS(value) : value,
             }
-          : undefined,
+          : {},
         grid: { color: "rgba(0,0,0,0.05)" },
       },
       ...(dualAxis && {
@@ -87,13 +87,19 @@ const DynamicChart = ({
           grid: { drawOnChartArea: false },
         },
       }),
-      x: { grid: { color: "rgba(0,0,0,0.05)" } },
+      x: {
+        grid: { color: "rgba(0,0,0,0.05)" },
+      },
     },
   };
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 w-full" style={{ height, maxWidth: width }}>
-      {type === "line" ? <Line data={data} options={chartOptions} /> : <Bar data={data} options={chartOptions} />}
+      {type === "line" ? (
+        <Line data={data} options={chartOptions as ChartOptions<"line">} />
+      ) : (
+        <Bar data={data} options={chartOptions as ChartOptions<"bar">} />
+      )}
     </div>
   );
 };
