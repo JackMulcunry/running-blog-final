@@ -67,7 +67,12 @@ const RunSummaryCard = ({
   onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
   const analyzePaceTrend = () => {
-    if (!chartData.datasets[0] || chartData.datasets[0].data.length < 2) {
+    if (
+      !chartData.datasets ||
+      chartData.datasets.length === 0 ||
+      !chartData.datasets[0].data ||
+      chartData.datasets[0].data.length < 2
+    ) {
       return {
         trend: "even",
         caption: "Paced evenly",
@@ -266,3 +271,4 @@ const RunSummaryCard = ({
 };
 
 export default RunSummaryCard;
+
