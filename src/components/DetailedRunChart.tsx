@@ -16,7 +16,7 @@ import {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
+ PointElement,
   LineElement,
   Title,
   Tooltip,
@@ -60,41 +60,13 @@ const DetailedRunChart = ({
   width = 1000,
 }: DetailedRunChartProps) => {
   const defaultData = {
-    labels: [
-      "0km",
-      "1km",
-      "2km",
-      "3km",
-      "4km",
-      "5km",
-      "6km",
-      "7km",
-      "8km",
-      "9km",
-      "10km",
-    ],
+    labels: ["1km", "2km", "3km", "4km"],
     datasets: [
       {
         label: "Pace (min/km)",
-        data: [5.2, 5.1, 5.3, 5.0, 5.4, 5.2, 5.1, 5.0, 4.9, 4.8, 4.7],
+        data: [5.7, 5.65, 5.67, 5.75],
         borderColor: "rgb(34, 197, 94)",
         backgroundColor: "rgba(34, 197, 94, 0.1)",
-        fill: true,
-        tension: 0.3,
-      },
-      {
-        label: "Heart Rate (bpm)",
-        data: [130, 145, 150, 155, 160, 165, 168, 170, 172, 175, 178],
-        borderColor: "rgb(239, 68, 68)",
-        backgroundColor: "rgba(239, 68, 68, 0.1)",
-        fill: true,
-        tension: 0.3,
-      },
-      {
-        label: "Elevation (m)",
-        data: [10, 15, 20, 25, 30, 25, 20, 25, 30, 35, 30],
-        borderColor: "rgb(59, 130, 246)",
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
         fill: true,
         tension: 0.3,
       },
@@ -102,12 +74,13 @@ const DetailedRunChart = ({
   };
 
   const chartDataToUse = chartData || data || defaultData;
+
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top" as const,
+        position: "top",
       },
       title: {
         display: true,
@@ -124,6 +97,15 @@ const DetailedRunChart = ({
       tooltip: {
         mode: "index",
         intersect: false,
+        callbacks: {
+          label: function (context) {
+            const value = context.parsed.y;
+            const minutes = Math.floor(value);
+            const seconds = Math.round((value - minutes) * 60);
+            const formatted = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+            return `${context.dataset.label}: ${formatted} /km`;
+          },
+        },
       },
     },
     scales: {
@@ -131,6 +113,16 @@ const DetailedRunChart = ({
         beginAtZero: false,
         grid: {
           color: "rgba(0, 0, 0, 0.05)",
+        },
+        ticks: {
+          callback: function (value) {
+            if (typeof value === "number") {
+              const minutes = Math.floor(value);
+              const seconds = Math.round((value - minutes) * 60);
+              return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+            }
+            return value;
+          },
         },
       },
       x: {
