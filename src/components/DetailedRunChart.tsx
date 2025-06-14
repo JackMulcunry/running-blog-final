@@ -1,109 +1,70 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from "chart.js";
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
- PointElement,
+  PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
-interface DetailedRunChartProps {
-  title?: string;
-  data?: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      borderColor: string;
-      backgroundColor: string;
-      fill?: boolean;
-      tension?: number;
-    }[];
-  };
-  chartData?: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      borderColor: string;
-      backgroundColor: string;
-      fill?: boolean;
-      tension?: number;
-      yAxisID?: string;
-    }[];
-  };
+interface ChartProps {
+  title: string;
+  type: "line" | "bar";
+  data: any;
   height?: number;
   width?: number;
+  paceFormat?: boolean;
+  dualAxis?: boolean;
 }
 
-const DetailedRunChart = ({
-  title = "Run Performance",
+const formatToMMSS = (value: number): string => {
+  const min = Math.floor(value);
+  const sec = Math.round((value - min) * 60);
+  return `${min}:${sec.toString().padStart(2, "0")}`;
+};
+
+const DynamicChart = ({
+  title,
+  type,
   data,
-  chartData,
   height = 400,
   width = 1000,
-}: DetailedRunChartProps) => {
-  const defaultData = {
-    labels: ["1km", "2km", "3km", "4km"],
-    datasets: [
-      {
-        label: "Pace (min/km)",
-        data: [5.7, 5.65, 5.67, 5.75],
-        borderColor: "rgb(34, 197, 94)",
-        backgroundColor: "rgba(34, 197, 94, 0.1)",
-        fill: true,
-        tension: 0.3,
-      },
-    ],
-  };
-
-  const chartDataToUse = chartData || data || defaultData;
-
-  const options: ChartOptions<"line"> = {
+  paceFormat = false,
+  dualAxis = false,
+}: ChartProps) => {
+  const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: "top",
-      },
+      legend: { position: "top" as const },
       title: {
         display: true,
         text: title,
-        font: {
-          size: 16,
-          weight: "bold",
-        },
-        padding: {
-          top: 10,
-          bottom: 20,
-        },
+        font: { size: 16, weight: "bold" },
+        padding: { top: 10, bottom: 20 },
       },
       tooltip: {
-        mode: "index",
-        intersect: false,
         callbacks: {
-          label: function (context) {
-            const value = context.parsed.y;
-            const minutes = Math.floor(value);
-            const seconds = Math.round((value - minutes) * 60);
-            const formatted = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-            return `${context.dataset.label}: ${formatted} /km`;
+          label: (context: any) => {
+            const val = context.parsed.y;
+            if (paceFormat) return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
+            return `${context.dataset.label}: ${val}`;
           },
         },
       },
@@ -111,41 +72,30 @@ const DetailedRunChart = ({
     scales: {
       y: {
         beginAtZero: false,
-        grid: {
-          color: "rgba(0, 0, 0, 0.05)",
-        },
-        ticks: {
-          callback: function (value) {
-            if (typeof value === "number") {
-              const minutes = Math.floor(value);
-              const seconds = Math.round((value - minutes) * 60);
-              return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        ticks: paceFormat
+          ? {
+              callback: (value: any) => {
+                return typeof value === "number" ? formatToMMSS(value) : value;
+              },
             }
-            return value;
-          },
-        },
+          : undefined,
+        grid: { color: "rgba(0,0,0,0.05)" },
       },
-      x: {
-        grid: {
-          color: "rgba(0, 0, 0, 0.05)",
+      ...(dualAxis && {
+        y1: {
+          position: "right" as const,
+          grid: { drawOnChartArea: false },
         },
-      },
-    },
-    interaction: {
-      mode: "nearest",
-      axis: "x",
-      intersect: false,
+      }),
+      x: { grid: { color: "rgba(0,0,0,0.05)" } },
     },
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-md p-6 w-full"
-      style={{ height, maxWidth: width }}
-    >
-      <Line options={options} data={chartDataToUse} />
+    <div className="bg-white rounded-xl shadow-md p-6 w-full" style={{ height, maxWidth: width }}>
+      {type === "line" ? <Line data={data} options={chartOptions} /> : <Bar data={data} options={chartOptions} />}
     </div>
   );
 };
 
-export default DetailedRunChart;
+export default DynamicChart;
