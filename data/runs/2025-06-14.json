@@ -2,34 +2,23 @@
   "id": "2025-06-14",
   "title": "Run on 2025-06-14",
   "date": "2025-06-14",
-  "description": "Short AI summary here...",
-  "detailedDescription": "Longer AI breakdown here...",
+  "description": "$input.first().json.message.content.short_description",
+  "detailedDescription": "$input.first().json.message.content.analysis",
   "type": "daily",
   "stats": {
-    "distance": 4.21,
-    "duration": "24:08",
-    "pace": "5:44",
     "elevation": 16.4
   },
   "chartData": {
-    "labels": [
-      "1km",
-      "2km",
-      "3km",
-      "4km"
-    ],
+    "labels": [],
     "datasets": [
       {
         "label": "Pace (min/km)",
-        "data": [
-          5.87,
-          5.8,
-          5.87,
-          5.83
-        ],
+        "data": [],
+        "customTooltipLabels": [],
         "borderColor": "#10b981",
         "backgroundColor": "rgba(16, 185, 129, 0.1)",
-        "fill": true
+        "fill": true,
+        "tension": 0.4
       }
     ]
   }
