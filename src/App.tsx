@@ -21,7 +21,7 @@ function App() {
     <Suspense fallback={<p>Loading...</p>}>
       <>
         <WebsiteHeader />
-        <div className="pt-16 sm:pt-20">
+        <div className="pt-40 sm:pt-44">
           {currentView === "home" && (
             <Home onNavigateToAnalytics={handleNavigateToAnalytics} />
           )}
