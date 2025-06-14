@@ -27,7 +27,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -35,7 +34,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
 type SummaryType = "daily" | "weekly" | "monthly" | "yearly";
@@ -59,25 +58,14 @@ interface RunSummaryCardProps {
 }
 
 const RunSummaryCard = ({
-  id = "sample-run-1",
-  title = "June 9 - Daily Summary",
-  description = "Completed a 5K morning run with steady pace throughout. Weather was perfect with light breeze.",
+  id,
+  title,
+  description,
   type = "daily",
-  chartData = {
-    labels: ["0km", "1km", "2km", "3km", "4km", "5km"],
-    datasets: [
-      {
-        label: "Pace (min/km)",
-        data: [5.2, 5.0, 5.1, 4.9, 5.0, 4.8],
-        borderColor: "rgb(34, 197, 94)",
-        backgroundColor: "rgba(34, 197, 94, 0.2)",
-      },
-    ],
-  },
+  chartData,
   includedDates = [],
-  onNavigateToAnalytics = () => {},
+  onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
-  // Analyze pace trend from chart data
   const analyzePaceTrend = () => {
     if (!chartData.datasets[0] || chartData.datasets[0].data.length < 2) {
       return {
@@ -94,7 +82,6 @@ const RunSummaryCard = ({
     const endPace = paceData[paceData.length - 1];
     const paceDifference = endPace - startPace;
 
-    // Format pace as MM:SS
     const formatPace = (pace: number) => {
       const minutes = Math.floor(pace);
       const seconds = Math.round((pace - minutes) * 60);
@@ -103,22 +90,18 @@ const RunSummaryCard = ({
 
     let trend, caption, color;
 
-    // Use ±1 second (0.017 minutes) as threshold for "same" pace
     if (Math.abs(paceDifference) <= 0.017) {
-      // Same pace (within 1 second)
       trend = "even";
       caption = "Paced evenly";
-      color = "#6b7280"; // Gray
+      color = "#6b7280";
     } else if (paceDifference < 0) {
-      // Faster finish (negative difference means faster pace)
       trend = "faster";
       caption = "Strong finish";
-      color = "#22c55e"; // Green
+      color = "#22c55e";
     } else {
-      // Slower finish (positive difference means slower pace)
       trend = "slower";
       caption = "Started fast";
-      color = "#ef4444"; // Red
+      color = "#ef4444";
     }
 
     return {
@@ -132,7 +115,7 @@ const RunSummaryCard = ({
   };
 
   const paceAnalysis = analyzePaceTrend();
-  // Get styling based on summary type
+
   const getTypeConfig = (type: SummaryType) => {
     const configs = {
       daily: {
@@ -165,15 +148,15 @@ const RunSummaryCard = ({
 
   const typeConfig = getTypeConfig(type);
 
-  // Update chart data with trend-based colors
   const updatedChartData = {
     ...chartData,
     datasets: chartData.datasets.map((dataset) => ({
       ...dataset,
       borderColor: paceAnalysis.color,
-      backgroundColor: `${paceAnalysis.color}20`, // 20% opacity
+      backgroundColor: `${paceAnalysis.color}20`,
       borderWidth: 2,
-      fill: false,
+      fill: true,
+      tension: 0.2,
     })),
   };
 
@@ -181,57 +164,36 @@ const RunSummaryCard = ({
     responsive: true,
     maintainAspectRatio: false,
     layout: {
-      padding: {
-        top: 2,
-        right: 2,
-        bottom: 2,
-        left: 2,
-      },
+      padding: 0,
     },
     animation: {
-      duration: 1500,
-      easing: "easeOutQuart",
-      y: {
-        from: (ctx: any) => {
-          if (ctx.type === "data" && ctx.mode === "default") {
-            const chart = ctx.chart;
-            const { ctx: canvasCtx, chartArea } = chart;
-            if (!chartArea) return;
-            return chartArea.bottom;
-          }
-        },
-      },
+      duration: 800,
     },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
-        enabled: false, // Disable tooltips for sparkline effect
+        enabled: false,
       },
     },
     scales: {
       y: {
-        display: false, // Completely hide y-axis
-        beginAtZero: false,
+        display: false,
         grid: {
-          display: false, // Remove gridlines
+          display: false,
         },
       },
       x: {
-        display: false, // Completely hide x-axis
+        display: false,
         grid: {
-          display: false, // Remove gridlines
+          display: false,
         },
       },
     },
     elements: {
-      line: {
-        tension: 0.2, // Flattened curve as requested
-      },
       point: {
         radius: 0,
-        hoverRadius: 0,
       },
     },
     interaction: {
@@ -240,30 +202,11 @@ const RunSummaryCard = ({
     },
   };
 
-  // Fixed uniform height for all cards
-  const cardHeight = "h-[420px]";
-
   return (
-    <Card
-      className={`w-full bg-white shadow-sm rounded-xl transition-all duration-300 hover:shadow-md flex flex-col ${cardHeight}`}
-      style={{
-        boxShadow:
-          "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow =
-          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow =
-          "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)";
-      }}
-    >
+    <Card className="w-full bg-white shadow-sm rounded-xl transition-all flex flex-col h-[420px]">
       <CardHeader className="pb-3 p-6 bg-white">
         <div className="flex items-center justify-between mb-3">
-          <Badge
-            className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}
-          >
+          <Badge className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}>
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
         </div>
@@ -276,19 +219,14 @@ const RunSummaryCard = ({
           {description}
         </p>
         <div className="mb-4">
-          <div className="h-14 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
+          <div className="h-16 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
             <Line options={chartOptions} data={updatedChartData} />
           </div>
-          <div className="flex items-center justify-center">
-            {paceAnalysis.startPace && paceAnalysis.endPace && (
-              <span className="text-xs text-gray-600 font-mono text-center">
-                Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
-              </span>
-            )}
+          <div className="text-center text-xs font-mono text-gray-500">
+            Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
           </div>
         </div>
 
-        {/* Scrollable section for non-daily summaries */}
         {type !== "daily" && includedDates && includedDates.length > 0 && (
           <div className="mt-4 flex-1 overflow-hidden">
             <div className="text-sm font-medium text-gray-700 mb-2">
