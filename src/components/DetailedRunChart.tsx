@@ -49,6 +49,16 @@ const DynamicChart = ({
   paceFormat = false,
   dualAxis = false,
 }: ChartProps) => {
+  // Safeguard against undefined data
+  const safeData = data?.datasets?.[0]?.data;
+  if (!safeData || !Array.isArray(safeData)) {
+    return (
+      <div className="bg-white rounded-xl shadow-md p-6 w-full text-center text-gray-500" style={{ height, maxWidth: width }}>
+        <p>No data available for this chart.</p>
+      </div>
+    );
+  }
+
   const chartOptions: ChartOptions<"line" | "bar"> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -105,3 +115,4 @@ const DynamicChart = ({
 };
 
 export default DynamicChart;
+
