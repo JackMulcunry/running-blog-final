@@ -9,13 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { ArrowRight, ChevronDown, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -44,15 +38,7 @@ interface RunSummaryCardProps {
   title: string;
   description: string;
   type?: SummaryType;
-  chartData: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      borderColor: string;
-      backgroundColor: string;
-    }[];
-  };
+  chartData: any;
   includedDates?: string[];
   onNavigateToAnalytics: (runId: string) => void;
 }
@@ -66,13 +52,10 @@ const RunSummaryCard = ({
   includedDates = [],
   onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
+  const paceChart = chartData?.pace_per_km;
+
   const analyzePaceTrend = () => {
-    if (
-      !chartData.datasets ||
-      chartData.datasets.length === 0 ||
-      !chartData.datasets[0].data ||
-      chartData.datasets[0].data.length < 2
-    ) {
+    if (!paceChart || !paceChart.datasets || paceChart.datasets.length < 1 || paceChart.datasets[0].data.length < 2) {
       return {
         trend: "even",
         caption: "Paced evenly",
@@ -82,7 +65,7 @@ const RunSummaryCard = ({
       };
     }
 
-    const paceData = chartData.datasets[0].data;
+    const paceData = paceChart.datasets[0].data;
     const startPace = paceData[0];
     const endPace = paceData[paceData.length - 1];
     const paceDifference = endPace - startPace;
@@ -126,26 +109,18 @@ const RunSummaryCard = ({
       daily: {
         accentColor: "bg-orange-500 hover:bg-orange-600",
         badgeColor: "bg-orange-50 text-orange-700",
-        chartColor: "rgb(107, 114, 128)",
-        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       weekly: {
         accentColor: "bg-teal-500 hover:bg-teal-600",
         badgeColor: "bg-teal-50 text-teal-700",
-        chartColor: "rgb(107, 114, 128)",
-        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       monthly: {
         accentColor: "bg-indigo-500 hover:bg-indigo-600",
         badgeColor: "bg-indigo-50 text-indigo-700",
-        chartColor: "rgb(107, 114, 128)",
-        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       yearly: {
         accentColor: "bg-red-600 hover:bg-red-700",
         badgeColor: "bg-red-50 text-red-700",
-        chartColor: "rgb(107, 114, 128)",
-        chartBg: "rgba(107, 114, 128, 0.1)",
       },
     };
     return configs[type];
@@ -154,15 +129,15 @@ const RunSummaryCard = ({
   const typeConfig = getTypeConfig(type);
 
   const updatedChartData = {
-    ...chartData,
-    datasets: chartData.datasets.map((dataset) => ({
+    ...paceChart,
+    datasets: paceChart?.datasets?.map((dataset: any) => ({
       ...dataset,
       borderColor: paceAnalysis.color,
       backgroundColor: `${paceAnalysis.color}20`,
       borderWidth: 2,
       fill: true,
       tension: 0.2,
-    })),
+    })) || [],
   };
 
   const chartOptions = {
@@ -271,4 +246,3 @@ const RunSummaryCard = ({
 };
 
 export default RunSummaryCard;
-
