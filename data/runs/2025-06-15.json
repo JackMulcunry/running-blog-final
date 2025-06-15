@@ -2,8 +2,8 @@
   "id": "2025-06-15",
   "title": "Run on 2025-06-15",
   "date": "2025-06-15",
-  "description": "Steady recovery run with consistent pacing and low effort to support aerobic recovery.",
-  "detailedDescription": "Today's recovery run covered 4.21 km at a steady pace of 5:44/km with a pacing variance of ±17 seconds per kilometer, showing reasonably consistent pacing for a recovery effort. The elevation gain was minimal at 16.4 meters, aligning well with the purpose of an easy recovery run without excessive climbing stress. The effort score of 352 and fatigue score of 90.34 indicate that this run was low intensity relative to previous interval workouts earlier in the week, supporting optimal recovery. Moving forward, maintaining this gentle aerobic effort on recovery days will help promote adaptation and prepare for the more demanding sessions later in the week.",
+  "description": "A steady recovery run with moderate effort and some pacing variability, supporting muscle recovery and aerobic maintenance midweek.",
+  "detailedDescription": "Today's recovery run covered 4.21 km at a steady pace of 5:44 per kilometer with a moderate elevation gain of 16.4 meters. The pacing variance of ±19 seconds per kilometer indicates some fluctuations, which is typical on recovery days when the focus is on loosening up rather than strict pacing. The aerobic effort was moderate, reflected by an effort score of 352 and a fatigue score of 91.13, suggesting adequate active recovery without overexertion. Overall, the run supported muscle recovery and helped maintain aerobic base without adding significant fatigue.",
   "type": "daily",
   "stats": {
     "distance": 4.21,
@@ -14,8 +14,8 @@
     "effort_score": 352,
     "effort_per_km": 83.61,
     "elevation_percent_per_km": 0.39,
-    "pace_variance": "17 sec/km",
-    "fatigue_score": 90.34
+    "pace_variance": "19 sec/km",
+    "fatigue_score": 91.13
   },
   "chartData": {
     "pace_per_km": {
@@ -75,11 +75,11 @@
         {
           "label": "Fatigue Score",
           "data": [
-            90.34,
-            90.34,
-            90.34,
-            90.34,
-            90.34
+            91.13,
+            91.13,
+            91.13,
+            91.13,
+            91.13
           ],
           "borderColor": "#8b5cf6",
           "backgroundColor": "rgba(139, 92, 246, 0.1)",
@@ -124,11 +124,11 @@
         {
           "label": "Pace Variance (sec/km)",
           "data": [
-            17,
-            17,
-            17,
-            17,
-            17
+            19,
+            19,
+            19,
+            19,
+            19
           ],
           "backgroundColor": "rgba(234, 179, 8, 0.6)"
         }
