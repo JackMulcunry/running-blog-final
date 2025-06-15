@@ -18,14 +18,15 @@ interface HomeProps {
 
 function Home({ onNavigateToAnalytics }: HomeProps) {
   const [runs, setRuns] = useState<RunData[]>([]);
-  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     const loadRuns = async () => {
       try {
         const indexRes = await fetch(`${import.meta.env.BASE_URL}data/runs/index.json`);
         const filenames: string[] = await indexRes.json();
-        console.log(`📁 Found ${filenames.length} run files in index.json`, filenames);
+
+        console.log(`📁 Found ${filenames.length} run files in index.json`);
 
         const errors: string[] = [];
 
@@ -36,18 +37,15 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
               const res = await fetch(fileUrl);
               if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
 
-              const data = await res.json();
-              console.log(`📄 Loaded file: ${filename}`, data);
+              const json = await res.json();
+              console.log(`📄 Loaded ${filename}`, json);
 
-              if (
-                !data.chartData ||
-                !data.chartData.pace_per_km ||
-                !Array.isArray(data.chartData.pace_per_km.datasets)
-              ) {
-                throw new Error("Missing or malformed chartData.pace_per_km.datasets");
+              // Sanity checks
+              if (!json.chartData || typeof json.chartData !== "object") {
+                throw new Error(`Missing or invalid chartData`);
               }
 
-              return data;
+              return json;
             } catch (err: any) {
               const msg = `❌ Error loading ${filename}: ${err.message}`;
               console.error(msg);
@@ -58,14 +56,14 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
         );
 
         const validRuns = results
-          .filter((r) => r.status === "fulfilled" && r.value !== null)
-          .map((r) => (r as PromiseFulfilledResult<RunData>).value);
+          .filter((r): r is PromiseFulfilledResult<RunData> => r.status === "fulfilled" && r.value !== null)
+          .map((r) => r.value);
 
         setRuns(validRuns);
-        setErrorMessages(errors);
+        setErrors(errors);
       } catch (err: any) {
-        console.error("🚨 Failed to load index.json:", err);
-        setErrorMessages([`Failed to load index.json: ${err.message}`]);
+        console.error("❌ Failed to load index.json:", err.message);
+        setErrors([`Failed to load index.json: ${err.message}`]);
       }
     };
 
@@ -75,12 +73,12 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
   return (
     <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {errorMessages.length > 0 && (
-          <div className="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded-md text-sm">
-            <strong>Some files failed to load:</strong>
-            <ul className="mt-2 list-disc list-inside">
-              {errorMessages.map((msg, i) => (
-                <li key={i}>{msg}</li>
+        {errors.length > 0 && (
+          <div className="bg-red-100 text-red-800 p-4 rounded mb-6">
+            <p className="font-bold mb-2">Some runs failed to load:</p>
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              {errors.map((e, i) => (
+                <li key={i}>{e}</li>
               ))}
             </ul>
           </div>
