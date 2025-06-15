@@ -1,3 +1,4 @@
+
 import React from "react";
 
 interface WebsiteHeaderProps {
@@ -15,7 +16,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start h-32 sm:h-36 py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start h-28 sm:h-32 py-4">
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
               <div className="flex-shrink-0">
                 <img
@@ -35,21 +36,15 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
         </div>
       </header>
 
-      {/* Mission Line */}
-      <div className="fixed top-32 sm:top-36 left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
+      <div className="fixed top-[7.5rem] sm:top-[8.5rem] left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
         <div className="max-w-4xl mx-auto px-4 py-5 sm:py-6">
           <p className="text-center text-amber-700/80 text-xs sm:text-sm font-normal tracking-wide leading-relaxed">
-            Posted before sunrise. Built while you sleep. One real run, one real
-            reason to move.
+            Posted before sunrise. Built while you sleep. One real run, one real reason to move.
           </p>
         </div>
       </div>
-
-      {/* Spacer to prevent overlap */}
-      <div className="h-[13rem] sm:h-[14rem]" aria-hidden="true" />
     </>
   );
 };
 
 export default WebsiteHeader;
-
