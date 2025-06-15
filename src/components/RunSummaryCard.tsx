@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -26,6 +27,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -111,21 +113,22 @@ const RunSummaryCard = ({
     const end = data[data.length - 1];
 
     const diff = end - start;
-    const trend = Math.abs(diff) <= 0.2 ? "even" : diff > 0 ? "faster" : "slower";
+    const trend =
+      Math.abs(diff) <= 0.2 ? "even" : diff > 0 ? "faster" : "slower";
 
     const caption =
       trend === "faster"
         ? "Accelerated"
         : trend === "slower"
-        ? "Slowed down"
-        : "Maintained speed";
+          ? "Slowed down"
+          : "Maintained speed";
 
     const color =
       trend === "faster"
         ? "#22c55e"
         : trend === "slower"
-        ? "#ef4444"
-        : "#6b7280";
+          ? "#ef4444"
+          : "#6b7280";
 
     return {
       trend,
@@ -165,7 +168,7 @@ const RunSummaryCard = ({
     },
   }[type];
 
-  const chartOptions: ChartOptions<"line"> = {
+  const chartOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -177,10 +180,8 @@ const RunSummaryCard = ({
       x: { display: false },
     },
     elements: {
-      point: { radius: 0 },
-      line: {
-        borderWidth: 2,
-        tension: 0.4,
+      bar: {
+        borderRadius: 2,
       },
     },
   };
@@ -189,10 +190,19 @@ const RunSummaryCard = ({
     labels: paceChartData?.labels || [],
     datasets:
       paceChartData?.datasets?.length > 0
-        ? paceChartData.datasets.map((ds) => ({
+        ? paceChartData.datasets.map((ds, index) => ({
             ...ds,
             borderColor: typeConfig.chartColor,
-            backgroundColor: typeConfig.chartBg,
+            backgroundColor: [
+              "#f59e0b", // amber-500
+              "#f97316", // orange-500
+              "#ea580c", // orange-600
+              "#d97706", // amber-600
+              "#fb923c", // orange-400
+              "#fbbf24", // amber-400
+              "#fed7aa", // orange-200
+              "#fde68a", // amber-200
+            ],
             fill: true,
           }))
         : [],
@@ -217,7 +227,7 @@ const RunSummaryCard = ({
         <div className="mb-4">
           <div className="relative h-[120px] w-full overflow-hidden">
             {miniChartData.datasets.length > 0 ? (
-              <Line data={miniChartData} options={chartOptions} />
+              <Bar data={miniChartData} options={chartOptions} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
                 No speed data available
@@ -242,4 +252,3 @@ const RunSummaryCard = ({
 };
 
 export default RunSummaryCard;
-

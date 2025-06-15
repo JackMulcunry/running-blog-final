@@ -1,8 +1,28 @@
-
-
 import React from "react";
 import { Chart } from "react-chartjs-2";
 import { ChartData, ChartOptions } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 interface DetailedRunChartProps {
   title?: string;
@@ -10,9 +30,7 @@ interface DetailedRunChartProps {
 }
 
 const DetailedRunChart: React.FC<DetailedRunChartProps> = ({ title, data }) => {
-  const chartType = ["heart_rate", "efficiency_score"].includes(title?.toLowerCase() || "")
-    ? "bar"
-    : "line";
+  const chartType = "bar";
 
   const chartOptions: ChartOptions<"bar" | "line"> = {
     responsive: true,
