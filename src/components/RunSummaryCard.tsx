@@ -38,7 +38,15 @@ interface RunSummaryCardProps {
   title: string;
   description: string;
   type?: SummaryType;
-  chartData: any;
+  chartData: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      borderColor: string;
+      backgroundColor: string;
+    }[];
+  };
   includedDates?: string[];
   onNavigateToAnalytics: (runId: string) => void;
 }
@@ -52,10 +60,8 @@ const RunSummaryCard = ({
   includedDates = [],
   onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
-  const paceChart = chartData?.pace_per_km;
-
   const analyzePaceTrend = () => {
-    if (!paceChart || !paceChart.datasets || paceChart.datasets.length < 1 || paceChart.datasets[0].data.length < 2) {
+    if (!chartData.datasets[0] || chartData.datasets[0].data.length < 2) {
       return {
         trend: "even",
         caption: "Paced evenly",
@@ -65,7 +71,7 @@ const RunSummaryCard = ({
       };
     }
 
-    const paceData = paceChart.datasets[0].data;
+    const paceData = chartData.datasets[0].data;
     const startPace = paceData[0];
     const endPace = paceData[paceData.length - 1];
     const paceDifference = endPace - startPace;
@@ -109,18 +115,26 @@ const RunSummaryCard = ({
       daily: {
         accentColor: "bg-orange-500 hover:bg-orange-600",
         badgeColor: "bg-orange-50 text-orange-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       weekly: {
         accentColor: "bg-teal-500 hover:bg-teal-600",
         badgeColor: "bg-teal-50 text-teal-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       monthly: {
         accentColor: "bg-indigo-500 hover:bg-indigo-600",
         badgeColor: "bg-indigo-50 text-indigo-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
       yearly: {
         accentColor: "bg-red-600 hover:bg-red-700",
         badgeColor: "bg-red-50 text-red-700",
+        chartColor: "rgb(107, 114, 128)",
+        chartBg: "rgba(107, 114, 128, 0.1)",
       },
     };
     return configs[type];
@@ -129,16 +143,18 @@ const RunSummaryCard = ({
   const typeConfig = getTypeConfig(type);
 
   const updatedChartData = {
-  ...paceChart,
-  datasets: paceChart?.datasets?.map((dataset: any) => ({
-    ...dataset,
-    borderColor: paceAnalysis.color,
-    backgroundColor: `${paceAnalysis.color}20`,
-    borderWidth: 2,
-    fill: true,
-    tension: dataset.tension ?? 0.2, // preserve original if set
-  })) || [],
-};
+    ...chartData,
+    datasets: chartData.datasets.map((dataset) => ({
+      ...dataset,
+      borderColor: paceAnalysis.color,
+      backgroundColor: `${paceAnalysis.color}20`,
+      borderWidth: 2,
+      fill: true,
+      tension: 0.3,
+      pointRadius: 2,
+    })),
+  };
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -146,7 +162,7 @@ const RunSummaryCard = ({
       padding: 0,
     },
     animation: {
-      duration: 800,
+      duration: 500,
     },
     plugins: {
       legend: {
@@ -198,7 +214,7 @@ const RunSummaryCard = ({
           {description}
         </p>
         <div className="mb-4">
-          <div className="h-16 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
+          <div className="h-20 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
             <Line options={chartOptions} data={updatedChartData} />
           </div>
           <div className="text-center text-xs font-mono text-gray-500">
