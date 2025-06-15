@@ -28,7 +28,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 type SummaryType = "daily" | "weekly" | "monthly" | "yearly";
@@ -61,24 +61,36 @@ const RunSummaryCard = ({
   onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
   const analyzePaceTrend = () => {
-    if (!chartData.datasets[0] || chartData.datasets[0].data.length < 2) {
+    // Extract pace data from chartData.pace_per_km
+    const paceChartData = chartData?.pace_per_km;
+    if (
+      !paceChartData ||
+      !paceChartData.datasets ||
+      !paceChartData.datasets[0] ||
+      paceChartData.datasets[0].data.length < 2
+    ) {
       return {
         trend: "even",
-        caption: "Paced evenly",
+        caption: "No pace data",
         color: "#6b7280",
-        startPace: null,
-        endPace: null,
+        startPace: "--:--",
+        endPace: "--:--",
       };
     }
 
-    const paceData = chartData.datasets[0].data;
+    const paceData = paceChartData.datasets[0].data;
+    const customTooltipLabels = paceChartData.datasets[0].customTooltipLabels;
     const startPace = paceData[0];
     const endPace = paceData[paceData.length - 1];
     const paceDifference = endPace - startPace;
 
-    const formatPace = (pace: number) => {
-      const minutes = Math.floor(pace);
-      const seconds = Math.round((pace - minutes) * 60);
+    // Use custom tooltip labels if available, otherwise format the numeric pace
+    const getFormattedPace = (index: number, paceValue: number) => {
+      if (customTooltipLabels && customTooltipLabels[index]) {
+        return customTooltipLabels[index];
+      }
+      const minutes = Math.floor(paceValue);
+      const seconds = Math.round((paceValue - minutes) * 60);
       return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
@@ -102,8 +114,8 @@ const RunSummaryCard = ({
       trend,
       caption,
       color,
-      startPace: formatPace(startPace),
-      endPace: formatPace(endPace),
+      startPace: getFormattedPace(0, startPace),
+      endPace: getFormattedPace(paceData.length - 1, endPace),
       paceDifference,
     };
   };
@@ -137,41 +149,98 @@ const RunSummaryCard = ({
     },
   }[type];
 
-  const chartOptions: ChartOptions<'line'> = {
+  const chartOptions: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     animation: {
       duration: 0,
     },
-    layout: { padding: 0 },
+    layout: {
+      padding: {
+        top: 8,
+        right: 8,
+        bottom: 8,
+        left: 8,
+      },
+    },
     plugins: {
       legend: { display: false },
       tooltip: { enabled: false },
     },
     scales: {
-      y: { display: false, grid: { display: false } },
-      x: { display: false, grid: { display: false } },
+      y: {
+        display: false,
+        grid: { display: false },
+        ticks: { display: false },
+        border: { display: false },
+      },
+      x: {
+        display: false,
+        grid: { display: false },
+        ticks: { display: false },
+        border: { display: false },
+      },
     },
-    elements: { point: { radius: 0 } },
+    elements: {
+      point: { radius: 0, hoverRadius: 0 },
+      line: { tension: 0.4, borderWidth: 2 },
+    },
     interaction: { intersect: false, mode: "index" },
   };
 
+  // Extract pace data from chartData.pace_per_km for the mini chart
+  const paceChartData = chartData?.pace_per_km;
+
+  // Create some variation in the data for better visualization if all values are the same
+  const createVariedData = (originalData: number[]) => {
+    if (!originalData || originalData.length === 0) return [];
+
+    if (originalData.every((val) => val === originalData[0])) {
+      // Add slight variation to create a more interesting chart
+      const baseValue = originalData[0];
+      return originalData.map((_, index) => {
+        const variation =
+          Math.sin(index * 0.8) * 0.05 + (Math.random() * 0.02 - 0.01);
+        return baseValue + variation;
+      });
+    }
+    return originalData;
+  };
+
+  // Prepare chart data with fallback for empty data
   const miniChartData = {
-    labels: chartData.labels,
-    datasets: chartData.datasets.map((ds) => ({
-      ...ds,
-      borderColor: typeConfig.chartColor,
-      backgroundColor: typeConfig.chartBg,
-      fill: true,
-      tension: 0.2,
-    })),
+    labels: paceChartData?.labels || [],
+    datasets:
+      paceChartData?.datasets?.length > 0
+        ? paceChartData.datasets.map((ds) => ({
+            ...ds,
+            data: createVariedData(ds.data || []),
+            borderColor: typeConfig.chartColor,
+            backgroundColor: typeConfig.chartBg,
+            fill: true,
+            tension: 0.4,
+            borderWidth: 2,
+          }))
+        : [
+            {
+              label: "No data",
+              data: [],
+              borderColor: typeConfig.chartColor,
+              backgroundColor: typeConfig.chartBg,
+              fill: true,
+              tension: 0.4,
+              borderWidth: 2,
+            },
+          ],
   };
 
   return (
     <Card className="w-full bg-white shadow-sm rounded-xl transition-all flex flex-col h-[420px]">
       <CardHeader className="pb-3 p-6 bg-white">
         <div className="flex items-center justify-between mb-3">
-          <Badge className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}>
+          <Badge
+            className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}
+          >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
         </div>
@@ -184,10 +253,19 @@ const RunSummaryCard = ({
           {description}
         </p>
         <div className="mb-4">
-          <div className="h-20 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
-            <Line data={miniChartData} options={chartOptions} />
+          <div className="h-[120px] w-full bg-white rounded-lg mb-3 border border-gray-100 relative">
+            {paceChartData?.datasets?.length > 0 &&
+            paceChartData.datasets[0]?.data?.length > 0 ? (
+              <div className="absolute inset-0 w-full h-full">
+                <Line data={miniChartData} options={chartOptions} />
+              </div>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
+                No pace data available
+              </div>
+            )}
           </div>
-          <div className="text-center text-xs font-mono text-gray-500">
+          <div className="text-center text-xs font-mono text-gray-500 leading-tight">
             Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
           </div>
         </div>

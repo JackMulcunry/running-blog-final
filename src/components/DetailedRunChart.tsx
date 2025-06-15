@@ -1,11 +1,12 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -16,13 +17,15 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface DetailedRunChartProps {
   title: string;
+  type?: "line" | "bar";
   data: {
     labels: string[];
     datasets: {
@@ -37,6 +40,7 @@ interface DetailedRunChartProps {
   };
   dualAxis?: boolean;
   paceFormat?: boolean;
+  height?: number;
 }
 
 const formatToMMSS = (value: number): string => {
@@ -45,7 +49,14 @@ const formatToMMSS = (value: number): string => {
   return `${min}:${sec.toString().padStart(2, "0")}`;
 };
 
-const DetailedRunChart = ({ title, data, dualAxis = false, paceFormat = false }: DetailedRunChartProps) => {
+const DetailedRunChart = ({
+  title,
+  type = "line",
+  data,
+  dualAxis = false,
+  paceFormat = false,
+  height = 400,
+}: DetailedRunChartProps) => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -63,7 +74,8 @@ const DetailedRunChart = ({ title, data, dualAxis = false, paceFormat = false }:
         callbacks: {
           label: (context: any) => {
             const val = context.parsed.y;
-            if (paceFormat) return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
+            if (paceFormat)
+              return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
             return `${context.dataset.label}: ${val}`;
           },
         },
@@ -102,13 +114,13 @@ const DetailedRunChart = ({ title, data, dualAxis = false, paceFormat = false }:
     },
   };
 
+  const ChartComponent = type === "bar" ? Bar : Line;
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 w-full h-[320px] sm:h-[360px] md:h-[400px]">
-      <Line data={data} options={chartOptions} />
+    <div className="w-full" style={{ height: `${height}px` }}>
+      <ChartComponent data={data} options={chartOptions} />
     </div>
   );
 };
 
 export default DetailedRunChart;
-
-

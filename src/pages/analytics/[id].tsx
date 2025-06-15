@@ -140,14 +140,19 @@ export default function RunAnalyticsPage({
     },
   }[runData.type];
 
-  // Mock data for demonstration - in real app this would come from the API
-  const mockChartData = {
-    pacePerKm: {
-      labels: ["1km", "2km", "3km", "4km", "5km"],
+  // Use actual chart data from n8n or fallback to empty data
+  const getChartData = (chartKey: string, fallbackLabel: string) => {
+    const data = runData?.chartData?.[chartKey];
+    if (data && data.datasets && data.datasets.length > 0) {
+      return data;
+    }
+    // Return empty chart structure for graceful fallback
+    return {
+      labels: [],
       datasets: [
         {
-          label: "Pace",
-          data: [4.5, 4.3, 4.6, 4.4, 4.2],
+          label: fallbackLabel,
+          data: [],
           borderColor: theme.iconColor.includes("amber")
             ? "#f59e0b"
             : "#3b82f6",
@@ -157,58 +162,15 @@ export default function RunAnalyticsPage({
           tension: 0.4,
         },
       ],
-    },
-    effortVsFatigue: {
-      labels: ["1km", "2km", "3km", "4km", "5km"],
-      datasets: [
-        {
-          label: "Effort per km",
-          data: [7.5, 8.2, 8.8, 8.5, 9.1],
-          borderColor: "#f59e0b",
-          yAxisID: "y",
-        },
-        {
-          label: "Fatigue Score",
-          data: [3.2, 4.1, 5.5, 6.2, 7.8],
-          borderColor: "#ef4444",
-          yAxisID: "y1",
-        },
-      ],
-    },
-    climbRate: {
-      labels: ["1km", "2km", "3km", "4km", "5km"],
-      datasets: [
-        {
-          label: "Climb Rate (m/km)",
-          data: [12, 18, 25, 15, 8],
-          borderColor: "#10b981",
-          backgroundColor: "#d1fae5",
-          tension: 0.4,
-        },
-      ],
-    },
-    paceVariance: {
-      labels: ["1km", "2km", "3km", "4km", "5km"],
-      datasets: [
-        {
-          label: "Pace Variance",
-          data: [0.2, 0.15, 0.3, 0.18, 0.12],
-          backgroundColor: theme.iconColor.includes("amber")
-            ? "#fbbf24"
-            : "#60a5fa",
-        },
-      ],
-    },
-    caloriesPerKm: {
-      labels: ["1km", "2km", "3km", "4km", "5km"],
-      datasets: [
-        {
-          label: "Calories per km",
-          data: [85, 88, 92, 87, 90],
-          backgroundColor: "#f97316",
-        },
-      ],
-    },
+    };
+  };
+
+  const chartData = {
+    pacePerKm: getChartData("pace_per_km", "Pace"),
+    effortVsFatigue: getChartData("effort_vs_fatigue", "Effort vs Fatigue"),
+    climbRate: getChartData("climb_rate", "Climb Rate"),
+    paceVariance: getChartData("pace_variance", "Pace Variance"),
+    caloriesPerKm: getChartData("calories_per_km", "Calories per km"),
   };
 
   return (
@@ -320,7 +282,7 @@ export default function RunAnalyticsPage({
         </Card>
 
         {/* 🏃 Performance Metrics Section */}
-        <div className="mb-12">
+        <div className="mb-16">
           <div className="mb-6">
             <h2
               className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
@@ -331,7 +293,7 @@ export default function RunAnalyticsPage({
               Track your speed and elevation performance throughout the run
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Pace per km */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
@@ -339,16 +301,14 @@ export default function RunAnalyticsPage({
                   Pace per Kilometer
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <DetailedRunChart
-                    title=""
-                    type="line"
-                    data={mockChartData.pacePerKm}
-                    paceFormat={true}
-                    height={300}
-                  />
-                </div>
+              <CardContent className="p-6">
+                <DetailedRunChart
+                  title=""
+                  type="line"
+                  data={chartData.pacePerKm}
+                  paceFormat={true}
+                  height={300}
+                />
               </CardContent>
             </Card>
 
@@ -359,22 +319,20 @@ export default function RunAnalyticsPage({
                   Climb Rate per Kilometer
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <DetailedRunChart
-                    title=""
-                    type="line"
-                    data={mockChartData.climbRate}
-                    height={300}
-                  />
-                </div>
+              <CardContent className="p-6">
+                <DetailedRunChart
+                  title=""
+                  type="line"
+                  data={chartData.climbRate}
+                  height={300}
+                />
               </CardContent>
             </Card>
           </div>
         </div>
 
         {/* 🎯 Consistency & Efficiency Section */}
-        <div className="mb-12">
+        <div className="mb-16">
           <div className="mb-6">
             <h2
               className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
@@ -385,7 +343,7 @@ export default function RunAnalyticsPage({
               Analyze your pacing consistency and energy expenditure
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Pace Variance */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
@@ -393,15 +351,13 @@ export default function RunAnalyticsPage({
                   Pace Variance
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <DetailedRunChart
-                    title=""
-                    type="bar"
-                    data={mockChartData.paceVariance}
-                    height={300}
-                  />
-                </div>
+              <CardContent className="p-6">
+                <DetailedRunChart
+                  title=""
+                  type="bar"
+                  data={chartData.paceVariance}
+                  height={300}
+                />
               </CardContent>
             </Card>
 
@@ -412,22 +368,20 @@ export default function RunAnalyticsPage({
                   Calories per Kilometer
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <DetailedRunChart
-                    title=""
-                    type="bar"
-                    data={mockChartData.caloriesPerKm}
-                    height={300}
-                  />
-                </div>
+              <CardContent className="p-6">
+                <DetailedRunChart
+                  title=""
+                  type="bar"
+                  data={chartData.caloriesPerKm}
+                  height={300}
+                />
               </CardContent>
             </Card>
           </div>
         </div>
 
         {/* 🧠 Recovery & Load Section */}
-        <div className="mb-12">
+        <div className="mb-16">
           <div className="mb-6">
             <h2
               className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
@@ -438,7 +392,7 @@ export default function RunAnalyticsPage({
               Monitor your effort levels and recovery patterns
             </p>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Effort vs Fatigue */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
@@ -446,16 +400,14 @@ export default function RunAnalyticsPage({
                   Effort vs Fatigue Score
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="h-[300px]">
-                  <DetailedRunChart
-                    title=""
-                    type="line"
-                    data={mockChartData.effortVsFatigue}
-                    dualAxis={true}
-                    height={300}
-                  />
-                </div>
+              <CardContent className="p-6">
+                <DetailedRunChart
+                  title=""
+                  type="line"
+                  data={chartData.effortVsFatigue}
+                  dualAxis={true}
+                  height={300}
+                />
               </CardContent>
             </Card>
           </div>
