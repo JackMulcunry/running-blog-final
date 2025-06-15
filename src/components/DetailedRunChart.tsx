@@ -1,16 +1,14 @@
 import React from "react";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  BarElement,
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from "chart.js";
 
 ChartJS.register(
@@ -18,20 +16,27 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  BarElement,
   Title,
   Tooltip,
   Legend
 );
 
-interface ChartProps {
+interface DetailedRunChartProps {
   title: string;
-  type: "line" | "bar";
-  data: any;
-  height?: number;
-  width?: number;
-  paceFormat?: boolean;
+  data: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      borderColor: string;
+      backgroundColor: string;
+      fill?: boolean;
+      tension?: number;
+      yAxisID?: string;
+    }[];
+  };
   dualAxis?: boolean;
+  paceFormat?: boolean;
 }
 
 const formatToMMSS = (value: number): string => {
@@ -40,38 +45,23 @@ const formatToMMSS = (value: number): string => {
   return `${min}:${sec.toString().padStart(2, "0")}`;
 };
 
-const DynamicChart = ({
-  title,
-  type,
-  data,
-  height = 400,
-  width = 1000,
-  paceFormat = false,
-  dualAxis = false,
-}: ChartProps) => {
-  const chartOptions: ChartOptions<"line" | "bar"> = {
+const DetailedRunChart = ({ title, data, dualAxis = false, paceFormat = false }: DetailedRunChartProps) => {
+  const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    layout: {
-      padding: { top: 10, right: 15, bottom: 10, left: 15 },
-    },
     plugins: {
       legend: {
-        position: "top",
-        labels: {
-          boxWidth: 12,
-          font: { size: 10 },
-        },
+        position: "top" as const,
       },
       title: {
         display: true,
         text: title,
-        font: { size: 16, weight: "bold" },
+        font: { size: 16, weight: "bold" as const },
         padding: { top: 10, bottom: 20 },
       },
       tooltip: {
         callbacks: {
-          label: (context) => {
+          label: (context: any) => {
             const val = context.parsed.y;
             if (paceFormat) return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
             return `${context.dataset.label}: ${val}`;
@@ -92,32 +82,33 @@ const DynamicChart = ({
       },
       ...(dualAxis && {
         y1: {
-          position: "right",
+          position: "right" as const,
           grid: { drawOnChartArea: false },
         },
       }),
       x: {
         grid: { color: "rgba(0,0,0,0.05)" },
-        ticks: {
-          font: { size: 10 },
-        },
+      },
+    },
+    elements: {
+      point: {
+        radius: 4,
+        borderWidth: 2,
+        hoverRadius: 6,
+      },
+      line: {
+        tension: 0.3,
       },
     },
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-md p-4 w-full h-full"
-      style={{ height: `${height}px`, maxWidth: `${width}px` }}
-    >
-      {type === "line" ? (
-        <Line data={data} options={chartOptions as ChartOptions<"line">} />
-      ) : (
-        <Bar data={data} options={chartOptions as ChartOptions<"bar">} />
-      )}
+    <div className="bg-white rounded-xl shadow-md p-6 w-full h-[320px] sm:h-[360px] md:h-[400px]">
+      <Line data={data} options={chartOptions} />
     </div>
   );
 };
 
-export default DynamicChart;
+export default DetailedRunChart;
+
 
