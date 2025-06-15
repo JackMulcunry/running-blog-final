@@ -39,14 +39,39 @@ interface RunSummaryCardProps {
   description: string;
   type?: SummaryType;
   chartData: {
-    pace_per_km: {
+    speed_cadence: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+      }[];
+    };
+    heart_rate?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string[];
+      }[];
+    };
+    efficiency_score?: {
       labels: string[];
       datasets: {
         label: string;
         data: number[];
         borderColor: string;
         backgroundColor: string;
-        customTooltipLabels?: string[];
+        fill: boolean;
+        tension: number;
+      }[];
+    };
+    elevation_summary?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string[];
       }[];
     };
   };
@@ -65,53 +90,53 @@ const RunSummaryCard = ({
 }: RunSummaryCardProps) => {
   const paceChartData = chartData?.speed_cadence;
 
-const analyzeSpeedTrend = () => {
-  if (
-    !paceChartData ||
-    !paceChartData.datasets ||
-    !paceChartData.datasets[0] ||
-    paceChartData.datasets[0].data.length < 2
-  ) {
+  const analyzeSpeedTrend = () => {
+    if (
+      !paceChartData ||
+      !paceChartData.datasets ||
+      !paceChartData.datasets[0] ||
+      paceChartData.datasets[0].data.length < 2
+    ) {
+      return {
+        trend: "even",
+        caption: "No speed data",
+        color: "#6b7280",
+        startSpeed: "--",
+        endSpeed: "--",
+      };
+    }
+
+    const data = paceChartData.datasets[0].data;
+    const start = data[0];
+    const end = data[data.length - 1];
+
+    const diff = end - start;
+    const trend = Math.abs(diff) <= 0.2 ? "even" : diff > 0 ? "faster" : "slower";
+
+    const caption =
+      trend === "faster"
+        ? "Accelerated"
+        : trend === "slower"
+        ? "Slowed down"
+        : "Maintained speed";
+
+    const color =
+      trend === "faster"
+        ? "#22c55e"
+        : trend === "slower"
+        ? "#ef4444"
+        : "#6b7280";
+
     return {
-      trend: "even",
-      caption: "No speed data",
-      color: "#6b7280",
-      startSpeed: "--",
-      endSpeed: "--",
+      trend,
+      caption,
+      color,
+      startSpeed: `${start.toFixed(2)} km/h`,
+      endSpeed: `${end.toFixed(2)} km/h`,
     };
-  }
-
-  const data = paceChartData.datasets[0].data;
-  const start = data[0];
-  const end = data[data.length - 1];
-
-  const diff = end - start;
-  const trend = Math.abs(diff) <= 0.2 ? "even" : diff > 0 ? "faster" : "slower";
-
-  const caption =
-    trend === "faster"
-      ? "Accelerated"
-      : trend === "slower"
-      ? "Slowed down"
-      : "Maintained speed";
-
-  const color =
-    trend === "faster"
-      ? "#22c55e"
-      : trend === "slower"
-      ? "#ef4444"
-      : "#6b7280";
-
-  return {
-    trend,
-    caption,
-    color,
-    startSpeed: `${start.toFixed(2)} km/h`,
-    endSpeed: `${end.toFixed(2)} km/h`,
   };
-};
 
-const paceAnalysis = analyzeSpeedTrend();
+  const paceAnalysis = analyzeSpeedTrend();
 
   const typeConfig = {
     daily: {
@@ -195,13 +220,13 @@ const paceAnalysis = analyzeSpeedTrend();
               <Line data={miniChartData} options={chartOptions} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
-                No pace data available
+                No speed data available
               </div>
             )}
           </div>
           <div className="text-center text-xs text-gray-500 mt-2 font-mono">
-              Start: {paceAnalysis.startSpeed} • End: {paceAnalysis.endSpeed}
-        </div>
+            Start: {paceAnalysis.startSpeed} • End: {paceAnalysis.endSpeed}
+          </div>
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-4 mt-auto">
