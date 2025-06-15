@@ -14,7 +14,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
             "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 8px 16px -4px rgba(251, 191, 36, 0.15)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-6">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start h-32 sm:h-36 py-6">
             {/* Logo and Brand Name Container */}
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
@@ -40,7 +40,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
       </header>
 
       {/* Mission Line */}
-      <div className="fixed top-32 sm:top-36 left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
+      <div className="fixed top-36 sm:top-40 left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
         <div className="max-w-4xl mx-auto px-4 py-5 sm:py-6">
           <p className="text-center text-amber-700/80 text-xs sm:text-sm font-normal tracking-wide leading-relaxed">
             Posted before sunrise. Built while you sleep. One real run, one real
@@ -53,3 +53,4 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
 };
 
 export default WebsiteHeader;
+
