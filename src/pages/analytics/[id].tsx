@@ -140,38 +140,8 @@ export default function RunAnalyticsPage({
     },
   }[runData.type];
 
-  // Use actual chart data from n8n or fallback to empty data
-  const getChartData = (chartKey: string, fallbackLabel: string) => {
-    const data = runData?.chartData?.[chartKey];
-    if (data && data.datasets && data.datasets.length > 0) {
-      return data;
-    }
-    // Return empty chart structure for graceful fallback
-    return {
-      labels: [],
-      datasets: [
-        {
-          label: fallbackLabel,
-          data: [],
-          borderColor: theme.iconColor.includes("amber")
-            ? "#f59e0b"
-            : "#3b82f6",
-          backgroundColor: theme.iconColor.includes("amber")
-            ? "#fef3c7"
-            : "#dbeafe",
-          tension: 0.4,
-        },
-      ],
-    };
-  };
-
-  const chartData = {
-    pacePerKm: getChartData("pace_per_km", "Pace"),
-    effortVsFatigue: getChartData("effort_vs_fatigue", "Effort vs Fatigue"),
-    climbRate: getChartData("climb_rate", "Climb Rate"),
-    paceVariance: getChartData("pace_variance", "Pace Variance"),
-    caloriesPerKm: getChartData("calories_per_km", "Calories per km"),
-  };
+  // Chart initialization will be handled by n8n injection
+  // Canvas elements are ready for dynamic Chart.js configuration
 
   return (
     <div className={`min-h-screen ${theme.bgClass} py-8 px-4 sm:px-6 lg:px-8`}>
@@ -222,22 +192,31 @@ export default function RunAnalyticsPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+              <div
+                id="distance-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
                 <MapPin className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`} />
                 <p className="text-sm text-gray-600 font-medium">Distance</p>
                 <p className="text-xl font-bold text-gray-800">
                   {runData.stats.distance} km
                 </p>
               </div>
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
+              <div
+                id="duration-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
                 <Clock className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`} />
                 <p className="text-sm text-gray-600 font-medium">Duration</p>
                 <p className="text-xl font-bold text-gray-800">
                   {runData.stats.duration}
                 </p>
               </div>
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
+              <div
+                id="pace-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
                 <TrendingUp
                   className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`}
                 />
@@ -246,7 +225,10 @@ export default function RunAnalyticsPage({
                   {runData.stats.pace}
                 </p>
               </div>
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
+              <div
+                id="elevation-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
                 <Mountain
                   className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`}
                 />
@@ -257,157 +239,148 @@ export default function RunAnalyticsPage({
                   {runData.stats.elevation} m
                 </p>
               </div>
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
-                <Target className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`} />
-                <p className="text-sm text-gray-600 font-medium">
-                  Pace Variance
-                </p>
-                <p className="text-xl font-bold text-gray-800">
-                  {runData.stats.paceVariance || 0.18}
-                </p>
+              <div
+                id="heart-rate-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
+                <Heart className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`} />
+                <p className="text-sm text-gray-600 font-medium">Heart Rate</p>
+                <p className="text-xl font-bold text-gray-800">180.6 bpm</p>
+                <p className="text-xs text-gray-500 mt-1">Average</p>
               </div>
-              <div className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center">
+              <div
+                id="cadence-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
+                <Zap className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`} />
+                <p className="text-sm text-gray-600 font-medium">Cadence</p>
+                <p className="text-xl font-bold text-gray-800">88.5 rpm</p>
+                <p className="text-xs text-gray-500 mt-1">Avg Cadence</p>
+              </div>
+              <div
+                id="speed-card"
+                className="bg-white/60 p-4 rounded-lg border border-gray-200/50 text-center"
+              >
                 <Activity
                   className={`h-8 w-8 ${theme.iconColor} mx-auto mb-2`}
                 />
-                <p className="text-sm text-gray-600 font-medium">
-                  Fatigue Score
-                </p>
-                <p className="text-xl font-bold text-gray-800">
-                  {runData.stats.fatigueScore || 5.4}
-                </p>
+                <p className="text-sm text-gray-600 font-medium">Speed</p>
+                <p className="text-xl font-bold text-gray-800">5.44 km/h</p>
+                <p className="text-xs text-gray-500 mt-1">Average</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* 🏃 Performance Metrics Section */}
+        {/* 🏃 Speed & Performance Section */}
         <div className="mb-16">
           <div className="mb-6">
             <h2
               className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
             >
-              🏃 Performance Metrics
+              🏃 Speed & Performance
             </h2>
             <p className="text-gray-600">
-              Track your speed and elevation performance throughout the run
+              Track your speed, cadence, and heart rate performance
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Pace per km */}
+            {/* Speed & Cadence Overview */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
                 <CardTitle className={`text-xl font-bold ${theme.accentColor}`}>
-                  Pace per Kilometer
+                  Speed & Cadence Overview
                 </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Dual-axis view of speed (km/h) and cadence (rpm)
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <DetailedRunChart
-                  title=""
-                  type="line"
-                  data={chartData.pacePerKm}
-                  paceFormat={true}
-                  height={300}
-                />
+                <div className="w-full h-[300px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <canvas
+                    id="speed-cadence-chart"
+                    className="w-full h-full"
+                    style={{ maxHeight: "300px" }}
+                  ></canvas>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Climb Rate */}
+            {/* Heart Rate Analysis */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
                 <CardTitle className={`text-xl font-bold ${theme.accentColor}`}>
-                  Climb Rate per Kilometer
+                  Heart Rate Analysis
                 </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Average and maximum heart rate (bpm)
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <DetailedRunChart
-                  title=""
-                  type="line"
-                  data={chartData.climbRate}
-                  height={300}
-                />
+                <div className="w-full h-[300px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <canvas
+                    id="heart-rate-chart"
+                    className="w-full h-full"
+                    style={{ maxHeight: "300px" }}
+                  ></canvas>
+                </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* 🎯 Consistency & Efficiency Section */}
+        {/* 🎯 Efficiency & Elevation Section */}
         <div className="mb-16">
           <div className="mb-6">
             <h2
               className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
             >
-              🎯 Consistency & Efficiency
+              🎯 Efficiency & Elevation
             </h2>
             <p className="text-gray-600">
-              Analyze your pacing consistency and energy expenditure
+              Analyze your running efficiency and elevation profile
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Pace Variance */}
+            {/* Running Efficiency Score */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
                 <CardTitle className={`text-xl font-bold ${theme.accentColor}`}>
-                  Pace Variance
+                  Running Efficiency Score
                 </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Calculated efficiency trend: (speed × cadence) / heart rate
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <DetailedRunChart
-                  title=""
-                  type="bar"
-                  data={chartData.paceVariance}
-                  height={300}
-                />
+                <div className="w-full h-[300px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <canvas
+                    id="efficiency-score-chart"
+                    className="w-full h-full"
+                    style={{ maxHeight: "300px" }}
+                  ></canvas>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Calories per km */}
+            {/* Elevation Summary */}
             <Card className={`${theme.cardBg} shadow-lg`}>
               <CardHeader>
                 <CardTitle className={`text-xl font-bold ${theme.accentColor}`}>
-                  Calories per Kilometer
+                  Elevation Summary
                 </CardTitle>
+                <CardDescription className="text-gray-600">
+                  Elevation range and total gain throughout the run
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <DetailedRunChart
-                  title=""
-                  type="bar"
-                  data={chartData.caloriesPerKm}
-                  height={300}
-                />
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* 🧠 Recovery & Load Section */}
-        <div className="mb-16">
-          <div className="mb-6">
-            <h2
-              className={`text-2xl font-bold ${theme.accentColor} flex items-center mb-2`}
-            >
-              🧠 Recovery & Load
-            </h2>
-            <p className="text-gray-600">
-              Monitor your effort levels and recovery patterns
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Effort vs Fatigue */}
-            <Card className={`${theme.cardBg} shadow-lg`}>
-              <CardHeader>
-                <CardTitle className={`text-xl font-bold ${theme.accentColor}`}>
-                  Effort vs Fatigue Score
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <DetailedRunChart
-                  title=""
-                  type="line"
-                  data={chartData.effortVsFatigue}
-                  dualAxis={true}
-                  height={300}
-                />
+                <div className="w-full h-[300px] flex items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                  <canvas
+                    id="elevation-summary-chart"
+                    className="w-full h-full"
+                    style={{ maxHeight: "300px" }}
+                  ></canvas>
+                </div>
               </CardContent>
             </Card>
           </div>
