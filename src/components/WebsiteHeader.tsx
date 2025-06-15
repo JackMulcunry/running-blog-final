@@ -16,9 +16,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start h-32 sm:h-36 py-6">
-            {/* Logo and Brand Name Container */}
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
-              {/* Logo */}
               <div className="flex-shrink-0">
                 <img
                   src="/running-blog-final/6AMKICK.png"
@@ -26,8 +24,6 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
                 />
               </div>
-
-              {/* Brand Name */}
               <div className="flex flex-col items-center sm:items-start justify-center">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-wider leading-none drop-shadow-md text-center sm:text-left">
                   THE 6AM KICK
@@ -48,8 +44,12 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
           </p>
         </div>
       </div>
+
+      {/* Spacer to prevent overlap */}
+      <div className="h-[13rem] sm:h-[14rem]" aria-hidden="true" />
     </>
   );
 };
 
 export default WebsiteHeader;
+
