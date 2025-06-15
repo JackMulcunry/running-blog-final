@@ -1,13 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
 import DetailedRunChart from "../../components/DetailedRunChart";
-import { getRunDataById } from "../../lib/data";
+import runDataList from "../../../public/data/runs.json"; // Adjust path if needed
 
 const RunDetailsPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const runData = getRunDataById(id as string);
+  const runData = runDataList.find((run) => run.id === id);
 
   if (!runData) {
     return <div>Run not found.</div>;
@@ -26,9 +26,7 @@ const RunDetailsPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {Object.entries(runData.chartData).map(([key, chart]) => {
           if (isDaily && key === "efficiency_score") return null;
-          return (
-            <DetailedRunChart key={key} title={key} data={chart} />
-          );
+          return <DetailedRunChart key={key} title={key} data={chart} />;
         })}
       </div>
     </div>
