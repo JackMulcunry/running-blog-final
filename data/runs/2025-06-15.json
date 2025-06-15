@@ -2,159 +2,102 @@
   "id": "2025-06-15",
   "title": "Run on 2025-06-15",
   "date": "2025-06-15",
-  "description": "Solid recovery run with moderate effort and decent pacing consistency; aim for even steadier pacing next time.",
-  "detailedDescription": "Today's 4.21 km recovery run was well-paced with a moderate effort that aligns with the goal of active recovery. The pacing variance of ±12 sec/km indicates reasonable consistency, though there is some room for smoother pacing to enhance recovery effectiveness. The effort score of 352 and fatigue score of 88.36 suggest a light aerobic effort, appropriate for a Wednesday recovery day between more intense interval and hill workouts. Given the slight elevation gain and climb rate, the run had some mild challenges but nothing taxing, supporting muscle recovery without adding undue stress. Moving forward, focusing on maintaining an even steadier pace during recovery runs could further optimize recovery and prepare the body for upcoming harder sessions.",
+  "description": "Strong interval session with high heart rate and good efficiency; focus on maintaining speed with improved heart rate control next time.",
+  "detailedDescription": "Today's short 4 km interval workout showed a high average heart rate of 180.6 bpm with a max reaching 193 bpm, indicating strong cardiovascular effort typical for intense track sessions. The efficiency score of 1.69 is solid, suggesting good running economy despite the elevated heart rate. Elevation gain was modest at 21.7 m, appropriate for a track workout focusing on speed rather than hills. The cadence of 88.5 rpm aligns well with maintaining quick turnover during interval training. Overall, the session met expectations for a speed-focused workout, but aiming to slightly lower average heart rate while maintaining pace could improve efficiency further.",
   "type": "daily",
   "stats": {
-    "distance": 4.21,
-    "duration": "24:08",
-    "pace": "5:44",
-    "elevation": 16.4,
-    "climb_per_km": 3.9,
-    "effort_score": 352,
-    "effort_per_km": 83.61,
-    "elevation_percent_per_km": 0.39,
-    "pace_variance": "12 sec/km",
-    "fatigue_score": 88.36
+    "distance": 4,
+    "duration": "19:27",
+    "pace": "4:52",
+    "elevation": 21.7,
+    "climb_per_km": 5.4,
+    "avg_speed_kph": 3.45,
+    "max_speed_kph": 7.417,
+    "avg_cadence_rpm": 88.5,
+    "avg_heartrate_bpm": 180.6,
+    "max_heartrate_bpm": 193,
+    "efficiency_score": 1.69,
+    "elevation_low_m": 83,
+    "elevation_high_m": 85.9
   },
   "chartData": {
-    "pace_per_km": {
+    "speed_cadence": {
       "labels": [
-        "1km",
-        "2km",
-        "3km",
-        "4km",
-        "4.21km"
+        "Average Speed",
+        "Max Speed",
+        "Cadence"
       ],
       "datasets": [
         {
-          "label": "Pace (min/km)",
+          "label": "Speed (km/h) and Cadence (rpm)",
           "data": [
-            5.42,
-            5.39,
-            5.4,
-            5.45,
-            5.44
+            3.45,
+            7.417,
+            88.5
           ],
-          "borderColor": "#10b981",
-          "backgroundColor": "rgba(16, 185, 129, 0.1)",
-          "fill": true,
-          "tension": 0.4,
-          "customTooltipLabels": [
-            "5:42",
-            "5:39",
-            "5:40",
-            "5:45",
-            "5:44"
+          "backgroundColor": [
+            "rgba(34, 197, 94, 0.6)",
+            "rgba(59, 130, 246, 0.6)",
+            "rgba(251, 191, 36, 0.6)"
           ]
         }
       ]
     },
-    "effort_vs_fatigue": {
+    "heart_rate": {
       "labels": [
-        "1km",
-        "2km",
-        "3km",
-        "4km",
-        "4.21km"
+        "Avg HR",
+        "Max HR"
       ],
       "datasets": [
         {
-          "label": "Effort Score",
+          "label": "Heart Rate (bpm)",
           "data": [
-            84,
-            88,
-            90,
-            89,
-            88
+            180.6,
+            193
           ],
-          "borderColor": "#f59e0b",
-          "backgroundColor": "rgba(245, 158, 11, 0.1)",
-          "tension": 0.3
-        },
-        {
-          "label": "Fatigue Score",
-          "data": [
-            82,
-            85,
-            87,
-            88,
-            86
-          ],
-          "borderColor": "#8b5cf6",
-          "backgroundColor": "rgba(139, 92, 246, 0.1)",
-          "tension": 0.3,
-          "yAxisID": "y1"
+          "backgroundColor": [
+            "rgba(239, 68, 68, 0.6)",
+            "rgba(220, 38, 38, 0.6)"
+          ]
         }
       ]
     },
-    "climb_rate": {
+    "efficiency_score": {
       "labels": [
-        "1km",
-        "2km",
-        "3km",
-        "4km",
-        "4.21km"
+        "2025-06-15"
       ],
       "datasets": [
         {
-          "label": "Climb Rate (m/km)",
+          "label": "Efficiency Score",
           "data": [
-            3.5,
-            3.8,
-            4.2,
-            3.9,
-            3.7
+            1.69
           ],
-          "borderColor": "#3b82f6",
-          "backgroundColor": "rgba(59, 130, 246, 0.1)",
-          "tension": 0.3
+          "borderColor": "#6366f1",
+          "backgroundColor": "rgba(99, 102, 241, 0.1)",
+          "fill": true,
+          "tension": 0.4
         }
       ]
     },
-    "pace_variance": {
+    "elevation_summary": {
       "labels": [
-        "1km",
-        "2km",
-        "3km",
-        "4km",
-        "4.21km"
+        "Low",
+        "High",
+        "Gain"
       ],
       "datasets": [
         {
-          "label": "Pace Variance (sec/km)",
+          "label": "Elevation (m)",
           "data": [
-            0.18,
-            0.13,
-            0.29,
-            0.17,
-            0.22
+            83,
+            85.9,
+            21.7
           ],
-          "backgroundColor": "rgba(234, 179, 8, 0.6)"
-        }
-      ]
-    },
-    "calories_per_km": {
-      "labels": [
-        "1km",
-        "2km",
-        "3km",
-        "4km",
-        "4.21km"
-      ],
-      "datasets": [
-        {
-          "label": "Calories/km",
-          "data": [
-            88,
-            92,
-            87,
-            90,
-            89
-          ],
-          "borderColor": "#ef4444",
-          "backgroundColor": "rgba(239, 68, 68, 0.1)",
-          "tension": 0.3
+          "backgroundColor": [
+            "rgba(148, 163, 184, 0.6)",
+            "rgba(96, 165, 250, 0.6)",
+            "rgba(253, 224, 71, 0.6)"
+          ]
         }
       ]
     }
