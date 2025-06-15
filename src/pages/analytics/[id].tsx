@@ -1,3 +1,4 @@
+// Same header imports
 import React, { useEffect, useState } from "react";
 import DetailedRunChart from "../../components/DetailedRunChart";
 import {
@@ -40,6 +41,8 @@ interface RunData {
     elevationPercentPerKm?: number;
     paceVariance?: number;
     fatigueScore?: number;
+    avgSpeed?: number;
+    cadence?: number;
   };
   chartData: any;
   includedDates?: string[];
@@ -161,7 +164,7 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
                 </div>
                 <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
                   <Mountain className="h-5 w-5 text-purple-500 mb-1" />
-                  <span className="text-sm text-gray-500">Elevation Gain</span>
+                  <span className="text-sm text-gray-500">Elevation</span>
                   <span className="text-lg font-semibold">{runData.stats.elevation} m</span>
                 </div>
                 {runData.stats.heartRate && (
@@ -178,11 +181,26 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
                     <span className="text-lg font-semibold">{runData.stats.climbPerKm}</span>
                   </div>
                 )}
+                {runData.stats.avgSpeed && (
+                  <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                    <TrendingUp className="h-5 w-5 text-yellow-500 mb-1" />
+                    <span className="text-sm text-gray-500">Avg Speed</span>
+                    <span className="text-lg font-semibold">{runData.stats.avgSpeed} km/h</span>
+                  </div>
+                )}
+                {runData.stats.cadence && (
+                  <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                    <Activity className="h-5 w-5 text-indigo-500 mb-1" />
+                    <span className="text-sm text-gray-500">Cadence</span>
+                    <span className="text-lg font-semibold">{runData.stats.cadence} spm</span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
         )}
 
+        {/* Speed & Cadence, Heart Rate */}
         <div className="mb-16">
           <h2 className={`text-2xl font-bold ${theme.accentColor} mb-2`}>🏃 Speed & Performance</h2>
           <p className="text-gray-600 mb-4">Track your speed, cadence, and heart rate performance</p>
@@ -200,6 +218,7 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
           </div>
         </div>
 
+        {/* Efficiency & Elevation */}
         <div className="mb-16">
           <h2 className={`text-2xl font-bold ${theme.accentColor} mb-2`}>🎯 Efficiency & Elevation</h2>
           <p className="text-gray-600 mb-4">Analyze your running efficiency and elevation profile</p>
@@ -222,4 +241,3 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
     </div>
   );
 }
-
