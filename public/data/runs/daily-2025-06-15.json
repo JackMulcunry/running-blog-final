@@ -1,0 +1,105 @@
+{
+  "id": "daily-2025-06-15",
+  "title": "Saturday Recovery Effort",
+  "date": "2025-06-15",
+  "description": "Recovery run with elevated heart rate and moderate efficiency; aim for easier effort next time.",
+  "detailedDescription": "This Saturday recovery run showed a high average heart rate of 180.6 bpm and a maximum of 193 bpm, which is quite elevated for a recovery day. Ideally, recovery runs should be at a lower intensity to promote better recovery. The efficiency score of 1.69 suggests moderate running economy, which is decent but has room for improvement. The elevation gain was minimal at 21.7 meters with a narrow elevation range, indicating a relatively flat course that is appropriate for easy recovery efforts. Overall, the pace was a bit faster than expected for a recovery run, which may have caused the elevated heart rates and impacted true recovery. The goal for future recovery runs should be to keep heart rate lower and pace more relaxed to maximize recovery benefits.",
+  "type": "daily",
+  "stats": {
+    "distance": 4,
+    "duration": "19:27",
+    "pace": "4:52",
+    "elevation": 21.7,
+    "climb_per_km": 5.4,
+    "avg_speed_kph": 3.45,
+    "max_speed_kph": 7.417,
+    "avg_cadence_rpm": 88.5,
+    "avg_heartrate_bpm": 180.6,
+    "max_heartrate_bpm": 193,
+    "efficiency_score": 1.69,
+    "elevation_low_m": 83,
+    "elevation_high_m": 85.9
+  },
+  "chartData": {
+    "speed_cadence": {
+      "labels": [
+        "Average Speed",
+        "Max Speed",
+        "Cadence"
+      ],
+      "datasets": [
+        {
+          "label": "Speed (km/h) and Cadence (rpm)",
+          "data": [
+            3.45,
+            7.417,
+            88.5
+          ],
+          "backgroundColor": [
+            "rgba(34, 197, 94, 0.6)",
+            "rgba(59, 130, 246, 0.6)",
+            "rgba(251, 191, 36, 0.6)"
+          ]
+        }
+      ]
+    },
+    "heart_rate": {
+      "labels": [
+        "Avg HR",
+        "Max HR"
+      ],
+      "datasets": [
+        {
+          "label": "Heart Rate (bpm)",
+          "data": [
+            180.6,
+            193
+          ],
+          "backgroundColor": [
+            "rgba(239, 68, 68, 0.6)",
+            "rgba(220, 38, 38, 0.6)"
+          ]
+        }
+      ]
+    },
+    "efficiency_score": {
+      "labels": [
+        "2025-06-15"
+      ],
+      "datasets": [
+        {
+          "label": "Efficiency Score",
+          "data": [
+            1.69
+          ],
+          "borderColor": "#6366f1",
+          "backgroundColor": "rgba(99, 102, 241, 0.1)",
+          "fill": true,
+          "tension": 0.4
+        }
+      ]
+    },
+    "elevation_summary": {
+      "labels": [
+        "Low",
+        "High",
+        "Gain"
+      ],
+      "datasets": [
+        {
+          "label": "Elevation (m)",
+          "data": [
+            83,
+            85.9,
+            21.7
+          ],
+          "backgroundColor": [
+            "rgba(148, 163, 184, 0.6)",
+            "rgba(96, 165, 250, 0.6)",
+            "rgba(253, 224, 71, 0.6)"
+          ]
+        }
+      ]
+    }
+  }
+}
