@@ -1,124 +1,34 @@
-import React from "react";
-import { Line, Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-);
+
+import React from "react";
+import { Chart } from "react-chartjs-2";
+import { ChartData, ChartOptions } from "chart.js";
 
 interface DetailedRunChartProps {
-  title: string;
-  type?: "line" | "bar";
-  data: {
-    labels: string[];
-    datasets: {
-      label: string;
-      data: number[];
-      borderColor: string;
-      backgroundColor: string;
-      fill?: boolean;
-      tension?: number;
-      yAxisID?: string;
-    }[];
-  };
-  dualAxis?: boolean;
-  paceFormat?: boolean;
-  height?: number;
+  title?: string;
+  data: ChartData<"bar" | "line">;
 }
 
-const formatToMMSS = (value: number): string => {
-  const min = Math.floor(value);
-  const sec = Math.round((value - min) * 60);
-  return `${min}:${sec.toString().padStart(2, "0")}`;
-};
+const DetailedRunChart: React.FC<DetailedRunChartProps> = ({ title, data }) => {
+  const chartType = ["heart_rate", "efficiency_score"].includes(title?.toLowerCase() || "")
+    ? "bar"
+    : "line";
 
-const DetailedRunChart = ({
-  title,
-  type = "line",
-  data,
-  dualAxis = false,
-  paceFormat = false,
-  height = 400,
-}: DetailedRunChartProps) => {
-  const chartOptions = {
+  const chartOptions: ChartOptions<"bar" | "line"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: title,
-        font: { size: 16, weight: "bold" as const },
-        padding: { top: 10, bottom: 20 },
-      },
-      tooltip: {
-        callbacks: {
-          label: (context: any) => {
-            const val = context.parsed.y;
-            if (paceFormat)
-              return `${context.dataset.label}: ${formatToMMSS(val)} /km`;
-            return `${context.dataset.label}: ${val}`;
-          },
-        },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: false,
-        ticks: paceFormat
-          ? {
-              callback: (value: any) =>
-                typeof value === "number" ? formatToMMSS(value) : value,
-            }
-          : {},
-        grid: { color: "rgba(0,0,0,0.05)" },
-      },
-      ...(dualAxis && {
-        y1: {
-          position: "right" as const,
-          grid: { drawOnChartArea: false },
-        },
-      }),
-      x: {
-        grid: { color: "rgba(0,0,0,0.05)" },
-      },
-    },
-    elements: {
-      point: {
-        radius: 4,
-        borderWidth: 2,
-        hoverRadius: 6,
-      },
-      line: {
-        tension: 0.3,
-      },
+      legend: { display: true },
+      title: { display: false },
     },
   };
 
-  const ChartComponent = type === "bar" ? Bar : Line;
-
   return (
-    <div className="w-full" style={{ height: `${height}px` }}>
-      <ChartComponent data={data} options={chartOptions} />
+    <div className="bg-white rounded-lg shadow-md p-4 min-h-[300px]">
+      <h3 className="text-md font-semibold text-gray-700 mb-2">{title}</h3>
+      <div className="h-[250px]">
+        <Chart type={chartType} data={data} options={chartOptions} />
+      </div>
     </div>
   );
 };
