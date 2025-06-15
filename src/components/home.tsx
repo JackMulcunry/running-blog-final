@@ -18,52 +18,32 @@ interface HomeProps {
 
 function Home({ onNavigateToAnalytics }: HomeProps) {
   const [runs, setRuns] = useState<RunData[]>([]);
-  const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
     const loadRuns = async () => {
       try {
-        const indexRes = await fetch(`${import.meta.env.BASE_URL}data/runs/index.json`);
+        const indexRes = await fetch(
+          `${import.meta.env.BASE_URL}data/runs/index.json`
+        );
         const filenames: string[] = await indexRes.json();
 
-        console.log(`📁 Found ${filenames.length} run files in index.json`);
-
-        const errors: string[] = [];
-
-        const results = await Promise.allSettled(
+        const runs = await Promise.all(
           filenames.map(async (filename) => {
-            const fileUrl = `${import.meta.env.BASE_URL}data/runs/${filename}`;
-            try {
-              const res = await fetch(fileUrl);
-              if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
-
-              const json = await res.json();
-              console.log(`📄 Loaded ${filename}`, json);
-
-              // Sanity checks
-              if (!json.chartData || typeof json.chartData !== "object") {
-                throw new Error(`Missing or invalid chartData`);
-              }
-
-              return json;
-            } catch (err: any) {
-              const msg = `❌ Error loading ${filename}: ${err.message}`;
-              console.error(msg);
-              errors.push(msg);
-              return null;
-            }
+            const res = await fetch(
+              `${import.meta.env.BASE_URL}data/runs/${filename}`
+            );
+            return await res.json();
           })
         );
 
-        const validRuns = results
-          .filter((r): r is PromiseFulfilledResult<RunData> => r.status === "fulfilled" && r.value !== null)
-          .map((r) => r.value);
+        // Sort by date descending
+        runs.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
 
-        setRuns(validRuns);
-        setErrors(errors);
-      } catch (err: any) {
-        console.error("❌ Failed to load index.json:", err.message);
-        setErrors([`Failed to load index.json: ${err.message}`]);
+        setRuns(runs);
+      } catch (error) {
+        console.error("Error loading runs:", error);
       }
     };
 
@@ -73,18 +53,7 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
   return (
     <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {errors.length > 0 && (
-          <div className="bg-red-100 text-red-800 p-4 rounded mb-6">
-            <p className="font-bold mb-2">Some runs failed to load:</p>
-            <ul className="list-disc pl-5 text-sm space-y-1">
-              {errors.map((e, i) => (
-                <li key={i}>{e}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12 max-w-7xl mx-auto">
           {runs.map((run) => (
             <div key={run.id} className="w-full">
               <RunSummaryCard
