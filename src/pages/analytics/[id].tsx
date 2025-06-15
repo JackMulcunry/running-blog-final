@@ -178,7 +178,7 @@ export default function RunAnalyticsPage({
           <CardHeader>
             <CardTitle className={`text-2xl font-bold ${theme.accentColor} flex items-center`}>
               <BarChart3 className={`mr-3 h-6 w-6 ${theme.iconColor}`} />
-               Performance Summary
+              📊 Performance Summary
             </CardTitle>
             <CardDescription className="text-gray-600 mt-2">
               Essential metrics from your run
