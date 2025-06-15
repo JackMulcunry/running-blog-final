@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useRouter } from "next/router";
 import DetailedRunChart from "../../components/DetailedRunChart";
@@ -17,16 +16,18 @@ const RunDetailsPage = () => {
   const isDaily = runData.type === "daily";
 
   return (
-    <div className="max-w-6xl mx-auto mt-40 px-6 pb-20">
-      <h1 className="text-2xl font-bold mb-6">{runData.title}</h1>
-      <p className="mb-4 text-gray-600">{runData.date}</p>
-      <p className="mb-10">{runData.description}</p>
+    <div className="pt-44 sm:pt-52 pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mb-10">
+        <h1 className="text-3xl font-extrabold text-gray-900">{runData.title}</h1>
+        <p className="text-gray-500">{runData.date}</p>
+        <p className="mt-4 text-gray-700">{runData.description}</p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Object.entries(runData.chartData).map(([key, chart]: [string, any]) => {
+        {Object.entries(runData.chartData).map(([key, chart]) => {
           if (isDaily && key === "efficiency_score") return null;
           return (
-            <DetailedRunChart key={key} title={chart.label || key} data={chart} />
+            <DetailedRunChart key={key} title={key} data={chart} />
           );
         })}
       </div>
