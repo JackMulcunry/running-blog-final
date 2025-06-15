@@ -13,6 +13,12 @@ import {
   ArrowLeft,
   Calendar,
   BarChart3,
+  MapPin,
+  Clock,
+  Heart,
+  TrendingUp,
+  Mountain,
+  Activity,
 } from "lucide-react";
 
 interface RunData {
@@ -98,13 +104,8 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
     cardBg: "bg-white",
   };
 
-  if (loading) {
-    return <div className="text-center p-6">Loading run data...</div>;
-  }
-
-  if (!runData) {
-    return <div className="text-center p-6">Run data not found.</div>;
-  }
+  if (loading) return <div className="text-center p-6">Loading run data...</div>;
+  if (!runData) return <div className="text-center p-6">Run data not found.</div>;
 
   return (
     <div className={`min-h-screen ${theme.bgClass} py-8 px-4 sm:px-6 lg:px-8`}>
@@ -142,24 +143,41 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-                {/* Example metrics - ensure all values exist in stats */}
-                <div className="text-center">
-                  <p className="text-sm text-gray-500">Distance</p>
-                  <p className="text-xl font-semibold">{runData.stats.distance} km</p>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                  <MapPin className="h-5 w-5 text-orange-500 mb-1" />
+                  <span className="text-sm text-gray-500">Distance</span>
+                  <span className="text-lg font-semibold">{runData.stats.distance} km</span>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-500">Duration</p>
-                  <p className="text-xl font-semibold">{runData.stats.duration}</p>
+                <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                  <Clock className="h-5 w-5 text-blue-500 mb-1" />
+                  <span className="text-sm text-gray-500">Duration</span>
+                  <span className="text-lg font-semibold">{runData.stats.duration}</span>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-500">Pace</p>
-                  <p className="text-xl font-semibold">{runData.stats.pace}</p>
+                <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                  <TrendingUp className="h-5 w-5 text-green-500 mb-1" />
+                  <span className="text-sm text-gray-500">Pace</span>
+                  <span className="text-lg font-semibold">{runData.stats.pace}</span>
                 </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-500">Elevation</p>
-                  <p className="text-xl font-semibold">{runData.stats.elevation} m</p>
+                <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                  <Mountain className="h-5 w-5 text-purple-500 mb-1" />
+                  <span className="text-sm text-gray-500">Elevation Gain</span>
+                  <span className="text-lg font-semibold">{runData.stats.elevation} m</span>
                 </div>
+                {runData.stats.heartRate && (
+                  <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                    <Heart className="h-5 w-5 text-red-500 mb-1" />
+                    <span className="text-sm text-gray-500">Avg Heart Rate</span>
+                    <span className="text-lg font-semibold">{runData.stats.heartRate} bpm</span>
+                  </div>
+                )}
+                {runData.stats.climbPerKm && (
+                  <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm">
+                    <Activity className="h-5 w-5 text-teal-500 mb-1" />
+                    <span className="text-sm text-gray-500">Climb / km</span>
+                    <span className="text-lg font-semibold">{runData.stats.climbPerKm}</span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -171,20 +189,12 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card className={`${theme.cardBg} shadow-md`}>
               <CardContent className="pt-6">
-                <DetailedRunChart
-                  title="Speed & Cadence Overview"
-                  data={runData.chartData.speed_cadence}
-                  dualAxis
-                />
+                <DetailedRunChart title="Speed & Cadence Overview" data={runData.chartData.speed_cadence} dualAxis />
               </CardContent>
             </Card>
             <Card className={`${theme.cardBg} shadow-md`}>
               <CardContent className="pt-6">
-                <DetailedRunChart
-                  title="Heart Rate Analysis"
-                  type="bar"
-                  data={runData.chartData.heart_rate}
-                />
+                <DetailedRunChart title="Heart Rate Analysis" type="bar" data={runData.chartData.heart_rate} />
               </CardContent>
             </Card>
           </div>
@@ -197,20 +207,13 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
             {runData.type !== "daily" && (
               <Card className={`${theme.cardBg} shadow-md`}>
                 <CardContent className="pt-6">
-                  <DetailedRunChart
-                    title="Running Efficiency Score"
-                    data={runData.chartData.efficiency_score}
-                  />
+                  <DetailedRunChart title="Running Efficiency Score" data={runData.chartData.efficiency_score} />
                 </CardContent>
               </Card>
             )}
             <Card className={`${theme.cardBg} shadow-md`}>
               <CardContent className="pt-6">
-                <DetailedRunChart
-                  title="Elevation Summary"
-                  type="bar"
-                  data={runData.chartData.elevation_summary}
-                />
+                <DetailedRunChart title="Elevation Summary" type="bar" data={runData.chartData.elevation_summary} />
               </CardContent>
             </Card>
           </div>
@@ -219,3 +222,4 @@ export default function RunAnalyticsPage({ runId, onNavigateHome }: RunAnalytics
     </div>
   );
 }
+
