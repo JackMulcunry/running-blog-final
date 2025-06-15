@@ -129,17 +129,16 @@ const RunSummaryCard = ({
   const typeConfig = getTypeConfig(type);
 
   const updatedChartData = {
-    ...paceChart,
-    datasets: paceChart?.datasets?.map((dataset: any) => ({
-      ...dataset,
-      borderColor: paceAnalysis.color,
-      backgroundColor: `${paceAnalysis.color}20`,
-      borderWidth: 2,
-      fill: true,
-      tension: 0.2,
-    })) || [],
-  };
-
+  ...paceChart,
+  datasets: paceChart?.datasets?.map((dataset: any) => ({
+    ...dataset,
+    borderColor: paceAnalysis.color,
+    backgroundColor: `${paceAnalysis.color}20`,
+    borderWidth: 2,
+    fill: true,
+    tension: dataset.tension ?? 0.2, // preserve original if set
+  })) || [],
+};
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
