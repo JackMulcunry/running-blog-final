@@ -63,66 +63,55 @@ const RunSummaryCard = ({
   includedDates = [],
   onNavigateToAnalytics,
 }: RunSummaryCardProps) => {
-  const paceChartData = chartData?.pace_per_km;
+  const paceChartData = chartData?.speed_cadence;
 
-  const analyzePaceTrend = () => {
-    if (
-      !paceChartData ||
-      !paceChartData.datasets ||
-      !paceChartData.datasets[0] ||
-      paceChartData.datasets[0].data.length < 2
-    ) {
-      return {
-        trend: "even",
-        caption: "No pace data",
-        color: "#6b7280",
-        startPace: "--:--",
-        endPace: "--:--",
-      };
-    }
-
-    const paceData = paceChartData.datasets[0].data;
-    const labels = paceChartData.datasets[0].customTooltipLabels;
-    const startPace = paceData[0];
-    const endPace = paceData[paceData.length - 1];
-
-    const formatPace = (val: number, index: number) => {
-      if (labels && labels[index]) return labels[index];
-      const min = Math.floor(val);
-      const sec = Math.round((val - min) * 60);
-      return `${min}:${sec.toString().padStart(2, "0")}`;
-    };
-
-    const diff = endPace - startPace;
-    const trend =
-      Math.abs(diff) <= 0.017
-        ? "even"
-        : diff < 0
-        ? "faster"
-        : "slower";
-    const caption =
-      trend === "faster"
-        ? "Strong finish"
-        : trend === "slower"
-        ? "Started fast"
-        : "Paced evenly";
-    const color =
-      trend === "faster"
-        ? "#22c55e"
-        : trend === "slower"
-        ? "#ef4444"
-        : "#6b7280";
-
+const analyzeSpeedTrend = () => {
+  if (
+    !paceChartData ||
+    !paceChartData.datasets ||
+    !paceChartData.datasets[0] ||
+    paceChartData.datasets[0].data.length < 2
+  ) {
     return {
-      trend,
-      caption,
-      color,
-      startPace: formatPace(startPace, 0),
-      endPace: formatPace(endPace, paceData.length - 1),
+      trend: "even",
+      caption: "No speed data",
+      color: "#6b7280",
+      startSpeed: "--",
+      endSpeed: "--",
     };
-  };
+  }
 
-  const paceAnalysis = analyzePaceTrend();
+  const data = paceChartData.datasets[0].data;
+  const start = data[0];
+  const end = data[data.length - 1];
+
+  const diff = end - start;
+  const trend = Math.abs(diff) <= 0.2 ? "even" : diff > 0 ? "faster" : "slower";
+
+  const caption =
+    trend === "faster"
+      ? "Accelerated"
+      : trend === "slower"
+      ? "Slowed down"
+      : "Maintained speed";
+
+  const color =
+    trend === "faster"
+      ? "#22c55e"
+      : trend === "slower"
+      ? "#ef4444"
+      : "#6b7280";
+
+  return {
+    trend,
+    caption,
+    color,
+    startSpeed: `${start.toFixed(2)} km/h`,
+    endSpeed: `${end.toFixed(2)} km/h`,
+  };
+};
+
+const paceAnalysis = analyzeSpeedTrend();
 
   const typeConfig = {
     daily: {
@@ -211,8 +200,8 @@ const RunSummaryCard = ({
             )}
           </div>
           <div className="text-center text-xs text-gray-500 mt-2 font-mono">
-            Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
-          </div>
+              Start: {paceAnalysis.startSpeed} • End: {paceAnalysis.endSpeed}
+        </div>
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-4 mt-auto">
