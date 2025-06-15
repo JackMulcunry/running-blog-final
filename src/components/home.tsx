@@ -18,63 +18,54 @@ interface HomeProps {
 
 function Home({ onNavigateToAnalytics }: HomeProps) {
   const [runs, setRuns] = useState<RunData[]>([]);
-  const [errorLog, setErrorLog] = useState<string[]>([]);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
   useEffect(() => {
     const loadRuns = async () => {
-      const errorMessages: string[] = [];
-
       try {
-        const indexUrl = `${import.meta.env.BASE_URL}data/runs/index.json`;
-        const indexRes = await fetch(indexUrl);
-
-        if (!indexRes.ok) {
-          throw new Error(`Failed to fetch index.json (${indexRes.status})`);
-        }
-
+        const indexRes = await fetch(`${import.meta.env.BASE_URL}data/runs/index.json`);
         const filenames: string[] = await indexRes.json();
-        console.log(`📁 Found ${filenames.length} run files in index.json`);
+        console.log(`📁 Found ${filenames.length} run files in index.json`, filenames);
+
+        const errors: string[] = [];
 
         const results = await Promise.allSettled(
           filenames.map(async (filename) => {
             const fileUrl = `${import.meta.env.BASE_URL}data/runs/${filename}`;
             try {
               const res = await fetch(fileUrl);
-
-              if (!res.ok) {
-                throw new Error(`File not found (${res.status})`);
-              }
+              if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
 
               const data = await res.json();
+              console.log(`📄 Loaded file: ${filename}`, data);
 
               if (
                 !data.chartData ||
                 !data.chartData.pace_per_km ||
-                !data.chartData.pace_per_km.datasets?.[0]?.data
+                !Array.isArray(data.chartData.pace_per_km.datasets)
               ) {
-                throw new Error("Missing or malformed chartData");
+                throw new Error("Missing or malformed chartData.pace_per_km.datasets");
               }
 
               return data;
             } catch (err: any) {
               const msg = `❌ Error loading ${filename}: ${err.message}`;
               console.error(msg);
-              errorMessages.push(msg);
+              errors.push(msg);
               return null;
             }
           })
         );
 
         const validRuns = results
-          .filter((r) => r.status === "fulfilled" && r.value)
-          .map((r: any) => r.value);
+          .filter((r) => r.status === "fulfilled" && r.value !== null)
+          .map((r) => (r as PromiseFulfilledResult<RunData>).value);
 
         setRuns(validRuns);
-        setErrorLog(errorMessages);
+        setErrorMessages(errors);
       } catch (err: any) {
-        const generalError = `🔥 Unexpected failure loading runs: ${err.message}`;
-        console.error(generalError);
-        setErrorLog((prev) => [...prev, generalError]);
+        console.error("🚨 Failed to load index.json:", err);
+        setErrorMessages([`Failed to load index.json: ${err.message}`]);
       }
     };
 
@@ -84,18 +75,18 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
   return (
     <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {errorLog.length > 0 && (
-          <div className="bg-red-100 border border-red-300 text-red-800 p-4 rounded mb-6">
-            <h2 className="font-semibold mb-2">Errors while loading data:</h2>
-            <ul className="text-sm list-disc pl-5 space-y-1">
-              {errorLog.map((err, idx) => (
-                <li key={idx}>{err}</li>
+        {errorMessages.length > 0 && (
+          <div className="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded-md text-sm">
+            <strong>Some files failed to load:</strong>
+            <ul className="mt-2 list-disc list-inside">
+              {errorMessages.map((msg, i) => (
+                <li key={i}>{msg}</li>
               ))}
             </ul>
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {runs.map((run) => (
             <div key={run.id} className="w-full">
               <RunSummaryCard
