@@ -236,7 +236,7 @@ export default function RunAnalyticsPage({
 
         {/* Charts Section */}
         <div className="space-y-12 mb-24">
-          {Object.entries(runData.chartData).map(([key, chart]) => (
+          {Object.entries(runData.chartData).map(([key, chart]: [string, any]) => (
             <DetailedRunChart key={key} title={chart.label || key} data={chart} />
           ))}
         </div>
