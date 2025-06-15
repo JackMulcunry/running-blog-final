@@ -49,25 +49,24 @@ const DynamicChart = ({
   paceFormat = false,
   dualAxis = false,
 }: ChartProps) => {
-  // Safeguard against undefined data
-  const safeData = data?.datasets?.[0]?.data;
-  if (!safeData || !Array.isArray(safeData)) {
-    return (
-      <div className="bg-white rounded-xl shadow-md p-6 w-full text-center text-gray-500" style={{ height, maxWidth: width }}>
-        <p>No data available for this chart.</p>
-      </div>
-    );
-  }
-
   const chartOptions: ChartOptions<"line" | "bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: { top: 10, right: 15, bottom: 10, left: 15 },
+    },
     plugins: {
-      legend: { position: "top" },
+      legend: {
+        position: "top",
+        labels: {
+          boxWidth: 12,
+          font: { size: 10 },
+        },
+      },
       title: {
         display: true,
         text: title,
-        font: { size: 16, weight: "bold" as const },
+        font: { size: 16, weight: "bold" },
         padding: { top: 10, bottom: 20 },
       },
       tooltip: {
@@ -93,18 +92,24 @@ const DynamicChart = ({
       },
       ...(dualAxis && {
         y1: {
-          position: "right" as const,
+          position: "right",
           grid: { drawOnChartArea: false },
         },
       }),
       x: {
         grid: { color: "rgba(0,0,0,0.05)" },
+        ticks: {
+          font: { size: 10 },
+        },
       },
     },
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 w-full" style={{ height, maxWidth: width }}>
+    <div
+      className="bg-white rounded-xl shadow-md p-4 w-full h-full"
+      style={{ height: `${height}px`, maxWidth: `${width}px` }}
+    >
       {type === "line" ? (
         <Line data={data} options={chartOptions as ChartOptions<"line">} />
       ) : (
