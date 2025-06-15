@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import {
   Card,
@@ -18,6 +18,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 
 ChartJS.register(
@@ -44,7 +45,6 @@ interface RunSummaryCardProps {
       data: number[];
       borderColor: string;
       backgroundColor: string;
-      tension?: number;
     }[];
   };
   includedDates?: string[];
@@ -110,30 +110,68 @@ const RunSummaryCard = ({
 
   const paceAnalysis = analyzePaceTrend();
 
-  const chartOptions = {
+  const typeConfig = {
+    daily: {
+      accentColor: "bg-orange-500 hover:bg-orange-600",
+      badgeColor: "bg-orange-50 text-orange-700",
+      chartColor: paceAnalysis.color,
+      chartBg: `${paceAnalysis.color}20`,
+    },
+    weekly: {
+      accentColor: "bg-teal-500 hover:bg-teal-600",
+      badgeColor: "bg-teal-50 text-teal-700",
+      chartColor: paceAnalysis.color,
+      chartBg: `${paceAnalysis.color}20`,
+    },
+    monthly: {
+      accentColor: "bg-indigo-500 hover:bg-indigo-600",
+      badgeColor: "bg-indigo-50 text-indigo-700",
+      chartColor: paceAnalysis.color,
+      chartBg: `${paceAnalysis.color}20`,
+    },
+    yearly: {
+      accentColor: "bg-red-600 hover:bg-red-700",
+      badgeColor: "bg-red-50 text-red-700",
+      chartColor: paceAnalysis.color,
+      chartBg: `${paceAnalysis.color}20`,
+    },
+  }[type];
+
+  const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-    elements: {
-      point: {
-        radius: 0,
-      },
+    animation: {
+      duration: 0,
     },
+    layout: { padding: 0 },
     plugins: {
       legend: { display: false },
       tooltip: { enabled: false },
     },
     scales: {
-      x: { display: false, grid: { display: false } },
       y: { display: false, grid: { display: false } },
+      x: { display: false, grid: { display: false } },
     },
-    animation: false,
+    elements: { point: { radius: 0 } },
+    interaction: { intersect: false, mode: "index" },
+  };
+
+  const miniChartData = {
+    labels: chartData.labels,
+    datasets: chartData.datasets.map((ds) => ({
+      ...ds,
+      borderColor: typeConfig.chartColor,
+      backgroundColor: typeConfig.chartBg,
+      fill: true,
+      tension: 0.2,
+    })),
   };
 
   return (
     <Card className="w-full bg-white shadow-sm rounded-xl transition-all flex flex-col h-[420px]">
       <CardHeader className="pb-3 p-6 bg-white">
         <div className="flex items-center justify-between mb-3">
-          <Badge className="bg-orange-50 text-orange-700 font-medium px-3 py-1 rounded-full text-sm">
+          <Badge className={`${typeConfig.badgeColor} font-medium px-3 py-1 rounded-full text-sm hover:bg-transparent`}>
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
         </div>
@@ -147,47 +185,20 @@ const RunSummaryCard = ({
         </p>
         <div className="mb-4">
           <div className="h-20 w-full bg-gray-50 rounded-lg border border-gray-100 mb-2 overflow-hidden">
-            <Line
-              options={chartOptions}
-              data={{
-                labels: chartData.labels,
-                datasets: chartData.datasets.map((d) => ({
-                  ...d,
-                  borderColor: paceAnalysis.color,
-                  backgroundColor: `${paceAnalysis.color}20`,
-                  borderWidth: 2,
-                  fill: true,
-                  tension: 0.2,
-                })),
-              }}
-            />
+            <Line data={miniChartData} options={chartOptions} />
           </div>
           <div className="text-center text-xs font-mono text-gray-500">
-            Start: {paceAnalysis.startPace || "-"} • End: {paceAnalysis.endPace || "-"}
+            Start: {paceAnalysis.startPace} • End: {paceAnalysis.endPace}
           </div>
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-4 mt-auto">
         <Button
           variant="default"
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center gap-2"
+          className={`w-full ${typeConfig.accentColor} text-white flex items-center justify-center gap-2`}
           onClick={() => onNavigateToAnalytics(id)}
         >
           View Analytics
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-            />
-          </svg>
         </Button>
       </CardFooter>
     </Card>
