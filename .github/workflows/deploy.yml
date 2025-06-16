@@ -1,4 +1,3 @@
-
 name: Build and Deploy Astro Blog
 
 on:
@@ -6,17 +5,22 @@ on:
     branches:
       - main
     paths:
-      - 'public/data/runs/**.json'  # corrected path here
+      - 'public/data/runs/**.json'
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.*'
+      - 'package.json'
+      - 'tsconfig.json'
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout latest commit
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -24,8 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Clean previous builds
+        run: rm -rf dist
+
       - name: Build the site
         run: npm run build
+
+      - name: List contents of /dist (debug)
+        run: find dist/ -type f
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
