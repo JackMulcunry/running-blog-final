@@ -1,4 +1,3 @@
-
 import React from "react";
 
 interface WebsiteHeaderProps {
@@ -21,13 +20,13 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
               <div className="flex-shrink-0">
                 <img
                   src="/running-blog-final/6AMKICK.png"
-                  alt="The 6AM Kick Logo"
+                  alt="6AMKICK Logo"
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
                 />
               </div>
               <div className="flex flex-col items-center sm:items-start justify-center">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-wider leading-none drop-shadow-md text-center sm:text-left">
-                  THE 6AM KICK
+                  6AMKICK
                 </h1>
                 <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 rounded-full mt-2 shadow-sm"></div>
               </div>
@@ -39,7 +38,8 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
       <div className="fixed top-[7.5rem] sm:top-[8.5rem] left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
         <div className="max-w-4xl mx-auto px-4 py-5 sm:py-6">
           <p className="text-center text-amber-700/80 text-xs sm:text-sm font-normal tracking-wide leading-relaxed">
-            Posted before sunrise. Built while you sleep. One real run, one real reason to move.
+            Posted before sunrise. Built while you sleep. One real run, one real
+            reason to move.
           </p>
         </div>
       </div>
