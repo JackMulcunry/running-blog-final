@@ -1,9 +1,4 @@
 
-And paste this inside:
-
-yaml
-Copy
-Edit
 name: Build and Deploy Astro Blog
 
 on:
@@ -11,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'public/data/runs/**.json'  # Adjust if your JSON goes elsewhere
+      - 'public/data/runs/**.json'  # corrected path here
 
 jobs:
   build:
