@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'public/data/runs/**.json'
-      - 'src/**'
       - 'public/**'
+      - 'src/**'
       - 'astro.config.*'
+      - 'vite.config.*'
       - 'package.json'
       - 'tsconfig.json'
 
@@ -25,17 +25,22 @@ jobs:
         with:
           node-version: 18
 
+      - name: Clean dist
+        run: rm -rf dist
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Clean previous builds
-        run: rm -rf dist
-
-      - name: Build the site
+      - name: Build site
         run: npm run build
 
-      - name: List contents of /dist (debug)
-        run: find dist/ -type f
+      - name: Wait before deployment
+        run: sleep 5
+
+      - name: Debug output
+        run: |
+          echo "✅ Showing all files in /dist:"
+          find dist/ -type f
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
