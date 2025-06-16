@@ -19,7 +19,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
               <div className="flex-shrink-0">
                 <img
-                  src="/running-blog-final/favicon.png"
+                  src="/running-blog-final/6AMKICK.png"
                   alt="6AMKICK Logo"
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
                 />
