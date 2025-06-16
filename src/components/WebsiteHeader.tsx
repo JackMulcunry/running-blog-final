@@ -19,10 +19,11 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
               <div className="flex-shrink-0">
                 <img
-                  src="/running-blog-final/6AMKICK.png"
+                  src={`${import.meta.env.BASE_URL}6AMKICK.png`}
                   alt="6AMKICK Logo"
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
                 />
+
               </div>
               <div className="flex flex-col items-center sm:items-start justify-center">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-wider leading-none drop-shadow-md text-center sm:text-left">
