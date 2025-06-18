@@ -129,9 +129,7 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
               Goal Focus
             </h2>
             <p className="text-gray-700 italic leading-relaxed">
-              Focus on improving running efficiency during interval sessions.
-              Fine-tuning form and pacing could help maintain speed with lower
-              effort, leading to better overall performance.
+              {runData.goal}
             </p>
           </div>
         </div>
