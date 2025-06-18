@@ -120,6 +120,22 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
           </div>
         </div>
 
+        {/* Goal Focus Section */}
+        <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-amber-200 rounded-lg shadow-md p-6 mb-8 mt-8 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-lg"></div>
+          <div className="relative z-10">
+            <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center">
+              <Target className="w-5 h-5 text-amber-600 mr-2" />
+              Goal Focus
+            </h2>
+            <p className="text-gray-700 italic leading-relaxed">
+              Focus on improving running efficiency during interval sessions.
+              Fine-tuning form and pacing could help maintain speed with lower
+              effort, leading to better overall performance.
+            </p>
+          </div>
+        </div>
+
         {/* Performance Summary */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 mt-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">
