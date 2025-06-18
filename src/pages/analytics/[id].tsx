@@ -23,6 +23,7 @@ interface RunData {
   description: string;
   detailedDescription: string;
   type: string;
+  goal: string;
   stats: {
     distance: number;
     duration: string;
