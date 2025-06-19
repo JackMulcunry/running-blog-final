@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import {
   Card,
   CardContent,
@@ -139,77 +139,201 @@ const RunSummaryCard = ({
     };
   };
 
+  const selectBestChart = () => {
+    // Check elevation first (highest priority)
+    if (chartData?.elevation_summary?.datasets?.[0]?.data) {
+      const elevationData = chartData.elevation_summary.datasets[0].data;
+      const maxElevation = Math.max(...elevationData);
+      if (maxElevation > 150) {
+        return {
+          type: "elevation",
+          data: chartData.elevation_summary,
+          label: `Peak: ${maxElevation.toFixed(0)}m`,
+          color: "#8b5cf6", // purple
+          bgColor: "#8b5cf620",
+        };
+      }
+    }
+
+    // Check heart rate second
+    if (chartData?.heart_rate?.datasets?.[0]?.data) {
+      const hrData = chartData.heart_rate.datasets[0].data;
+      const avgHr = hrData.reduce((a, b) => a + b, 0) / hrData.length;
+      const maxHr = Math.max(...hrData);
+      if (avgHr > 165 || maxHr > 180) {
+        return {
+          type: "heart_rate",
+          data: chartData.heart_rate,
+          label: `Avg: ${avgHr.toFixed(0)} • Max: ${maxHr.toFixed(0)} bpm`,
+          color: "#ef4444", // red
+          bgColor: "#ef444420",
+        };
+      }
+    }
+
+    // Check speed third
+    if (chartData?.speed_cadence?.datasets?.[0]?.data) {
+      const speedData = chartData.speed_cadence.datasets[0].data;
+      const maxSpeed = Math.max(...speedData);
+      if (maxSpeed > 18) {
+        return {
+          type: "speed",
+          data: chartData.speed_cadence,
+          label: `Max: ${maxSpeed.toFixed(1)} km/h`,
+          color: "#22c55e", // green
+          bgColor: "#22c55e20",
+        };
+      }
+    }
+
+    // Check efficiency last
+    if (chartData?.efficiency_score?.datasets?.[0]?.data) {
+      const efficiencyData = chartData.efficiency_score.datasets[0].data;
+      const maxEfficiency = Math.max(...efficiencyData);
+      if (maxEfficiency > 1.7) {
+        return {
+          type: "efficiency",
+          data: chartData.efficiency_score,
+          label: `Peak: ${maxEfficiency.toFixed(2)}`,
+          color: "#f59e0b", // amber
+          bgColor: "#f59e0b20",
+        };
+      }
+    }
+
+    // Fallback to speed chart if available
+    if (chartData?.speed_cadence) {
+      const paceAnalysis = analyzeSpeedTrend();
+      return {
+        type: "speed",
+        data: chartData.speed_cadence,
+        label: `${paceAnalysis.startSpeed} → ${paceAnalysis.endSpeed}`,
+        color: paceAnalysis.color,
+        bgColor: `${paceAnalysis.color}20`,
+      };
+    }
+
+    return null;
+  };
+
+  const selectedChart = selectBestChart();
   const paceAnalysis = analyzeSpeedTrend();
 
   const typeConfig = {
     daily: {
       accentColor: "bg-orange-500 hover:bg-orange-600",
       badgeColor: "bg-orange-50 text-orange-700",
-      chartColor: paceAnalysis.color,
-      chartBg: `${paceAnalysis.color}20`,
     },
     weekly: {
       accentColor: "bg-teal-500 hover:bg-teal-600",
       badgeColor: "bg-teal-50 text-teal-700",
-      chartColor: paceAnalysis.color,
-      chartBg: `${paceAnalysis.color}20`,
     },
     monthly: {
       accentColor: "bg-indigo-500 hover:bg-indigo-600",
       badgeColor: "bg-indigo-50 text-indigo-700",
-      chartColor: paceAnalysis.color,
-      chartBg: `${paceAnalysis.color}20`,
     },
     yearly: {
       accentColor: "bg-red-600 hover:bg-red-700",
       badgeColor: "bg-red-50 text-red-700",
-      chartColor: paceAnalysis.color,
-      chartBg: `${paceAnalysis.color}20`,
     },
   }[type];
 
-  const chartOptions: ChartOptions<"bar"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: false },
-    },
-    scales: {
-      y: { display: false },
-      x: { display: false },
-    },
-    elements: {
-      bar: {
-        borderRadius: 2,
+  const getChartOptions = (chartType: string): ChartOptions<any> => {
+    const baseOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
       },
-    },
+      scales: {
+        y: { display: false },
+        x: { display: false },
+      },
+    };
+
+    if (chartType === "efficiency") {
+      return {
+        ...baseOptions,
+        elements: {
+          line: {
+            borderWidth: 2,
+            tension: 0.4,
+          },
+          point: {
+            radius: 0,
+          },
+        },
+      };
+    }
+
+    return {
+      ...baseOptions,
+      elements: {
+        bar: {
+          borderRadius: 2,
+        },
+      },
+    };
   };
 
-  const miniChartData = {
-    labels: paceChartData?.labels || [],
-    datasets:
-      paceChartData?.datasets?.length > 0
-        ? paceChartData.datasets.map((ds, index) => ({
-            ...ds,
-            borderColor: typeConfig.chartColor,
-            backgroundColor: [
-              "#f59e0b", // amber-500
-              "#f97316", // orange-500
-              "#ea580c", // orange-600
-              "#d97706", // amber-600
-              "#fb923c", // orange-400
-              "#fbbf24", // amber-400
-              "#fed7aa", // orange-200
-              "#fde68a", // amber-200
-            ],
-            fill: true,
-          }))
-        : [],
+  const getMiniChartData = () => {
+    if (!selectedChart) {
+      return {
+        labels: [],
+        datasets: [],
+      };
+    }
+
+    const { data, color, bgColor } = selectedChart;
+
+    return {
+      labels: data.labels || [],
+      datasets:
+        data.datasets?.map((ds: any) => ({
+          ...ds,
+          borderColor: color,
+          backgroundColor:
+            selectedChart.type === "efficiency"
+              ? bgColor
+              : Array.isArray(ds.backgroundColor)
+                ? ds.backgroundColor
+                : color,
+          fill: selectedChart.type === "efficiency" ? true : ds.fill,
+          tension: selectedChart.type === "efficiency" ? 0.4 : ds.tension,
+        })) || [],
+    };
+  };
+
+  const miniChartData = getMiniChartData();
+
+  const renderChart = () => {
+    if (!selectedChart || miniChartData.datasets.length === 0) {
+      return (
+        <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
+          No data available
+        </div>
+      );
+    }
+
+    const ChartComponent = selectedChart.type === "efficiency" ? Line : Bar;
+    const chartOptions = getChartOptions(selectedChart.type);
+
+    return <ChartComponent data={miniChartData} options={chartOptions} />;
   };
 
   return (
-    <Card className="w-full bg-white shadow rounded-xl flex flex-col h-[420px]">
+    <Card
+      className={`w-full bg-white rounded-xl flex flex-col h-[420px] ${
+        selectedChart ? "shadow-lg ring-2 ring-opacity-20" : "shadow"
+      }`}
+      style={{
+        ringColor: selectedChart?.color || "transparent",
+        boxShadow: selectedChart
+          ? `0 10px 25px -3px ${selectedChart.color}20, 0 4px 6px -2px ${selectedChart.color}10`
+          : undefined,
+      }}
+    >
       <CardHeader className="pb-3 p-6">
         <div className="flex justify-between items-center mb-3">
           <Badge
@@ -217,6 +341,19 @@ const RunSummaryCard = ({
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
+          {selectedChart && (
+            <Badge
+              className="px-2 py-1 rounded-full text-xs font-medium"
+              style={{
+                backgroundColor: selectedChart.bgColor,
+                color: selectedChart.color,
+                border: `1px solid ${selectedChart.color}30`,
+              }}
+            >
+              {selectedChart.type.charAt(0).toUpperCase() +
+                selectedChart.type.slice(1).replace("_", " ")}
+            </Badge>
+          )}
         </div>
         <CardTitle className="text-xl font-bold text-gray-900">
           {title}
@@ -225,17 +362,20 @@ const RunSummaryCard = ({
       <CardContent className="px-6 pb-4 flex-1 overflow-hidden">
         <p className="text-sm text-gray-600 mb-4">{description}</p>
         <div className="mb-4">
-          <div className="relative h-[120px] w-full overflow-hidden">
-            {miniChartData.datasets.length > 0 ? (
-              <Bar data={miniChartData} options={chartOptions} />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
-                No speed data available
-              </div>
-            )}
+          <div
+            className="relative h-[120px] w-full overflow-hidden rounded-lg"
+            style={{
+              backgroundColor: selectedChart?.bgColor || "#f9fafb",
+              border: selectedChart
+                ? `2px solid ${selectedChart.color}30`
+                : "1px solid #e5e7eb",
+            }}
+          >
+            {renderChart()}
           </div>
-          <div className="text-center text-xs text-gray-500 mt-2 font-mono">
-            Start: {paceAnalysis.startSpeed} • End: {paceAnalysis.endSpeed}
+          <div className="text-center text-xs text-gray-600 mt-2 font-mono">
+            {selectedChart?.label ||
+              `Start: ${paceAnalysis.startSpeed} • End: ${paceAnalysis.endSpeed}`}
           </div>
         </div>
       </CardContent>

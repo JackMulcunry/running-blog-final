@@ -100,6 +100,57 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
 
   const isDaily = runData.type === "daily";
 
+  // Determine which chart should be highlighted based on the same logic as RunSummaryCard
+  const getHighlightedChartType = () => {
+    const chartData = runData.chartData;
+
+    // Check elevation first (highest priority)
+    if (chartData?.elevation_summary?.datasets?.[0]?.data) {
+      const elevationData = chartData.elevation_summary.datasets[0].data;
+      const maxElevation = Math.max(...elevationData);
+      if (maxElevation > 150) {
+        return "elevation_summary";
+      }
+    }
+
+    // Check heart rate second
+    if (chartData?.heart_rate?.datasets?.[0]?.data) {
+      const hrData = chartData.heart_rate.datasets[0].data;
+      const avgHr = hrData.reduce((a, b) => a + b, 0) / hrData.length;
+      const maxHr = Math.max(...hrData);
+      if (avgHr > 165 || maxHr > 180) {
+        return "heart_rate";
+      }
+    }
+
+    // Check speed third
+    if (chartData?.speed_cadence?.datasets?.[0]?.data) {
+      const speedData = chartData.speed_cadence.datasets[0].data;
+      const maxSpeed = Math.max(...speedData);
+      if (maxSpeed > 18) {
+        return "speed_cadence";
+      }
+    }
+
+    // Check efficiency last
+    if (chartData?.efficiency_score?.datasets?.[0]?.data) {
+      const efficiencyData = chartData.efficiency_score.datasets[0].data;
+      const maxEfficiency = Math.max(...efficiencyData);
+      if (maxEfficiency > 1.7) {
+        return "efficiency_score";
+      }
+    }
+
+    // Fallback to speed chart if available
+    if (chartData?.speed_cadence) {
+      return "speed_cadence";
+    }
+
+    return null;
+  };
+
+  const highlightedChartType = getHighlightedChartType();
+
   return (
     <div className="min-h-screen bg-yellow-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -202,13 +253,18 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {Object.entries(runData.chartData).map(([key, chart]) => {
             if (isDaily && key === "efficiency_score") return null;
+            const isHighlighted = key === highlightedChartType;
             return (
-              <div key={key} className="bg-white rounded-lg shadow-sm">
+              <div
+                key={key}
+                className={isHighlighted ? "" : "bg-white rounded-lg shadow-sm"}
+              >
                 <DetailedRunChart
                   title={key
                     .replace(/_/g, " ")
                     .replace(/\b\w/g, (l) => l.toUpperCase())}
                   data={chart}
+                  isHighlighted={isHighlighted}
                 />
               </div>
             );
