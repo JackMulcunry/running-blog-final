@@ -47,6 +47,22 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Weekly graph sections for analytics page
+  const weeklyGraphSections = [
+    {
+      title: "Heart Rate Trends",
+      subtitle: "Average and max heart rate for each day (Mon–Sat)",
+    },
+    { title: "Distance Over the Week", subtitle: "Distance (km) per day" },
+    { title: "Climb Rate Analysis", subtitle: "Climb per km for each day" },
+    {
+      title: "Efficiency Score",
+      subtitle: "Daily efficiency score progression",
+    },
+    { title: "Cadence Comparison", subtitle: "Avg cadence vs. max speed" },
+    { title: "Pace Consistency", subtitle: "Pace per km per day" },
+  ];
+
   useEffect(() => {
     const fetchRunData = async () => {
       try {
@@ -151,8 +167,10 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
 
   const highlightedChartType = getHighlightedChartType();
 
+  const isWeekly = runData?.type === "weekly";
+
   return (
-    <div className="min-h-screen bg-yellow-50">
+    <div className={`min-h-screen ${isWeekly ? "bg-teal-50" : "bg-yellow-50"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -173,11 +191,17 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
         </div>
 
         {/* Goal Focus Section */}
-        <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-amber-200 rounded-lg shadow-md p-6 mb-8 mt-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-100/20 to-orange-100/20 rounded-lg"></div>
+        <div
+          className={`bg-gradient-to-br ${isWeekly ? "from-teal-50 to-cyan-50 border-2 border-teal-200" : "from-yellow-50 to-amber-50 border-2 border-amber-200"} rounded-lg shadow-md p-6 mb-8 mt-8 relative overflow-hidden`}
+        >
+          <div
+            className={`absolute inset-0 bg-gradient-to-r ${isWeekly ? "from-teal-100/20 to-cyan-100/20" : "from-amber-100/20 to-orange-100/20"} rounded-lg`}
+          ></div>
           <div className="relative z-10">
             <h2 className="text-xl font-bold text-gray-900 mb-3 flex items-center">
-              <Target className="w-5 h-5 text-amber-600 mr-2" />
+              <Target
+                className={`w-5 h-5 ${isWeekly ? "text-teal-600" : "text-amber-600"} mr-2`}
+              />
               Goal Focus
             </h2>
             <p className="text-gray-700 italic leading-relaxed">
@@ -250,26 +274,54 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {Object.entries(runData.chartData).map(([key, chart]) => {
-            if (isDaily && key === "efficiency_score") return null;
-            const isHighlighted = key === highlightedChartType;
-            return (
+        {isWeekly ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {weeklyGraphSections.map((section, index) => (
               <div
-                key={key}
-                className={isHighlighted ? "" : "bg-white rounded-lg shadow-sm"}
+                key={index}
+                className="bg-white rounded-lg shadow-lg p-6 border-2 border-teal-100 hover:border-teal-200 hover:shadow-xl transition-all duration-300 group"
               >
-                <DetailedRunChart
-                  title={key
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (l) => l.toUpperCase())}
-                  data={chart}
-                  isHighlighted={isHighlighted}
-                />
+                <h3 className="text-lg font-bold text-teal-800 mb-2">
+                  {section.title}
+                </h3>
+                <p className="text-sm text-teal-600 mb-4">{section.subtitle}</p>
+                <div className="h-48 bg-teal-50 rounded-lg border-2 border-teal-200 flex items-center justify-center group-hover:border-teal-300 transition-colors">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <div className="w-6 h-6 bg-teal-400 rounded-full animate-pulse"></div>
+                    </div>
+                    <p className="text-teal-600 text-sm font-medium">
+                      Chart Loading...
+                    </p>
+                  </div>
+                </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {Object.entries(runData.chartData).map(([key, chart]) => {
+              if (isDaily && key === "efficiency_score") return null;
+              const isHighlighted = key === highlightedChartType;
+              return (
+                <div
+                  key={key}
+                  className={
+                    isHighlighted ? "" : "bg-white rounded-lg shadow-sm"
+                  }
+                >
+                  <DetailedRunChart
+                    title={key
+                      .replace(/_/g, " ")
+                      .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    data={chart}
+                    isHighlighted={isHighlighted}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

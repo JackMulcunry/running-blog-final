@@ -92,6 +92,22 @@ const RunSummaryCard = ({
 }: RunSummaryCardProps) => {
   const paceChartData = chartData?.speed_cadence;
 
+  // Weekly card placeholder graph sections
+  const weeklyGraphSections = [
+    {
+      title: "Heart Rate Trends",
+      subtitle: "Average and max heart rate for each day (Mon–Sat)",
+    },
+    { title: "Distance Over the Week", subtitle: "Distance (km) per day" },
+    { title: "Climb Rate Analysis", subtitle: "Climb per km for each day" },
+    {
+      title: "Efficiency Score",
+      subtitle: "Daily efficiency score progression",
+    },
+    { title: "Cadence Comparison", subtitle: "Avg cadence vs. max speed" },
+    { title: "Pace Consistency", subtitle: "Pace per km per day" },
+  ];
+
   const analyzeSpeedTrend = () => {
     if (
       !paceChartData ||
@@ -223,18 +239,34 @@ const RunSummaryCard = ({
     daily: {
       accentColor: "bg-orange-500 hover:bg-orange-600",
       badgeColor: "bg-orange-50 text-orange-700",
+      borderColor: "#f97316",
+      glowColor: "#f9731620",
+      cardBg: "bg-white",
+      titleColor: "text-gray-900",
     },
     weekly: {
-      accentColor: "bg-teal-500 hover:bg-teal-600",
-      badgeColor: "bg-teal-50 text-teal-700",
+      accentColor: "bg-teal-600 hover:bg-teal-700",
+      badgeColor: "bg-teal-100 text-teal-800 font-bold border border-teal-200",
+      borderColor: "#0d9488",
+      glowColor: "#0d948830",
+      cardBg: "bg-gradient-to-br from-teal-50 to-cyan-50",
+      titleColor: "text-teal-900",
     },
     monthly: {
       accentColor: "bg-indigo-500 hover:bg-indigo-600",
       badgeColor: "bg-indigo-50 text-indigo-700",
+      borderColor: "#6366f1",
+      glowColor: "#6366f120",
+      cardBg: "bg-white",
+      titleColor: "text-gray-900",
     },
     yearly: {
       accentColor: "bg-red-600 hover:bg-red-700",
       badgeColor: "bg-red-50 text-red-700",
+      borderColor: "#dc2626",
+      glowColor: "#dc262620",
+      cardBg: "bg-white",
+      titleColor: "text-gray-900",
     },
   }[type];
 
@@ -322,27 +354,32 @@ const RunSummaryCard = ({
     return <ChartComponent data={miniChartData} options={chartOptions} />;
   };
 
+  // Render regular daily/monthly/yearly cards
   return (
     <Card
-      className={`w-full bg-white rounded-xl flex flex-col h-[420px] ${
+      className={`w-full ${typeConfig.cardBg} rounded-xl flex flex-col h-[420px] ${
         selectedChart ? "shadow-lg" : "shadow"
+      } hover:shadow-xl transition-all duration-300 ${
+        type === "weekly" ? "ring-2 ring-teal-200 border-teal-100" : ""
       }`}
       style={{
         boxShadow: selectedChart
           ? `0 10px 25px -3px ${selectedChart.color}20, 0 4px 6px -2px ${selectedChart.color}10, 0 0 0 2px ${selectedChart.color}20`
-          : undefined,
+          : type === "weekly"
+            ? `0 8px 25px -5px ${typeConfig.glowColor}, 0 8px 10px -6px ${typeConfig.glowColor}`
+            : `0 4px 6px -1px ${typeConfig.glowColor}, 0 2px 4px -1px ${typeConfig.glowColor}`,
       }}
     >
       <CardHeader className="pb-3 p-6">
         <div className="flex justify-between items-center mb-3">
           <Badge
-            className={`${typeConfig.badgeColor} px-3 py-1 rounded-full text-sm`}
+            className={`${typeConfig.badgeColor} px-3 py-1 rounded-full text-sm hover:bg-transparent hover:text-inherit`}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
           {selectedChart && (
             <Badge
-              className="px-2 py-1 rounded-full text-xs font-medium"
+              className="px-2 py-1 rounded-full text-xs font-medium hover:bg-transparent hover:text-inherit"
               style={{
                 backgroundColor: selectedChart.bgColor,
                 color: selectedChart.color,
@@ -354,7 +391,7 @@ const RunSummaryCard = ({
             </Badge>
           )}
         </div>
-        <CardTitle className="text-xl font-bold text-gray-900">
+        <CardTitle className={`text-xl font-bold ${typeConfig.titleColor}`}>
           {title}
         </CardTitle>
       </CardHeader>
@@ -380,7 +417,7 @@ const RunSummaryCard = ({
       </CardContent>
       <CardFooter className="p-6 pt-4 mt-auto">
         <Button
-          className={`w-full ${typeConfig.accentColor} text-white`}
+          className={`w-full ${typeConfig.accentColor} text-white hover:shadow-lg transition-all duration-200`}
           onClick={() => onNavigateToAnalytics(id)}
         >
           View Analytics

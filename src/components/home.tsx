@@ -23,23 +23,28 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
     const loadRuns = async () => {
       try {
         const indexRes = await fetch(
-          `${import.meta.env.BASE_URL}data/runs/index.json`
+          `${import.meta.env.BASE_URL}data/runs/index.json`,
         );
         const filenames: string[] = await indexRes.json();
 
         const runs = await Promise.all(
           filenames.map(async (filename) => {
             const res = await fetch(
-              `${import.meta.env.BASE_URL}data/runs/${filename}`
+              `${import.meta.env.BASE_URL}data/runs/${filename}`,
             );
             return await res.json();
-          })
+          }),
         );
 
-        // Sort by date descending
-        runs.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
+        // Sort with weekly cards first, then by date descending (newest first)
+        runs.sort((a, b) => {
+          // Weekly cards always come first
+          if (a.type === "weekly" && b.type !== "weekly") return -1;
+          if (b.type === "weekly" && a.type !== "weekly") return 1;
+
+          // If both are weekly or both are not weekly, sort by date
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
 
         setRuns(runs);
       } catch (error) {
