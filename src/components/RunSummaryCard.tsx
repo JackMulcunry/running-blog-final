@@ -325,12 +325,11 @@ const RunSummaryCard = ({
   return (
     <Card
       className={`w-full bg-white rounded-xl flex flex-col h-[420px] ${
-        selectedChart ? "shadow-lg ring-2 ring-opacity-20" : "shadow"
+        selectedChart ? "shadow-lg" : "shadow"
       }`}
       style={{
-        ringColor: selectedChart?.color || "transparent",
         boxShadow: selectedChart
-          ? `0 10px 25px -3px ${selectedChart.color}20, 0 4px 6px -2px ${selectedChart.color}10`
+          ? `0 10px 25px -3px ${selectedChart.color}20, 0 4px 6px -2px ${selectedChart.color}10, 0 0 0 2px ${selectedChart.color}20`
           : undefined,
       }}
     >
