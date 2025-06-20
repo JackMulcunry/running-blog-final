@@ -275,28 +275,109 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
 
         {/* Charts */}
         {isWeekly ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {weeklyGraphSections.map((section, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-lg p-6 border-2 border-teal-100 hover:border-teal-200 hover:shadow-xl transition-all duration-300 group"
-              >
-                <h3 className="text-lg font-bold text-teal-800 mb-2">
-                  {section.title}
-                </h3>
-                <p className="text-sm text-teal-600 mb-4">{section.subtitle}</p>
-                <div className="h-48 bg-teal-50 rounded-lg border-2 border-teal-200 flex items-center justify-center group-hover:border-teal-300 transition-colors">
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <div className="w-6 h-6 bg-teal-400 rounded-full animate-pulse"></div>
-                    </div>
-                    <p className="text-teal-600 text-sm font-medium">
-                      Chart Loading...
-                    </p>
+          <div className="space-y-8">
+            {/* Performance Metrics Section */}
+            <div className="bg-white rounded-xl shadow p-6 mt-6">
+              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
+                Performance Metrics
+              </h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Distance Per Day */}
+                <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
+                  <h3 className="text-lg font-bold text-teal-800 mb-2">
+                    Distance Over the Week
+                  </h3>
+                  <p className="text-sm text-teal-600 mb-4">
+                    Distance (km) per day
+                  </p>
+                  <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
+                    <canvas
+                      id="distance_per_day"
+                      className="max-w-full max-h-full"
+                    ></canvas>
+                  </div>
+                </div>
+
+                {/* Efficiency Score */}
+                <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
+                  <h3 className="text-lg font-bold text-teal-800 mb-2">
+                    Efficiency Score
+                  </h3>
+                  <p className="text-sm text-teal-600 mb-4">
+                    Daily efficiency score progression
+                  </p>
+                  <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
+                    <canvas
+                      id="efficiency_score_trend"
+                      className="max-w-full max-h-full"
+                    ></canvas>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Heart Rate Section */}
+            <div className="bg-white rounded-xl shadow p-6 mt-6">
+              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
+                Heart Rate Analysis
+              </h2>
+              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
+                <h3 className="text-lg font-bold text-teal-800 mb-2">
+                  Heart Rate Trends
+                </h3>
+                <p className="text-sm text-teal-600 mb-4">
+                  Average and max heart rate for each day (Mon–Sat)
+                </p>
+                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
+                  <canvas
+                    id="heart_rate_trend"
+                    className="max-w-full max-h-full"
+                  ></canvas>
+                </div>
+              </div>
+            </div>
+
+            {/* Elevation Section */}
+            <div className="bg-white rounded-xl shadow p-6 mt-6">
+              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
+                Elevation Analysis
+              </h2>
+              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
+                <h3 className="text-lg font-bold text-teal-800 mb-2">
+                  Climb Rate Analysis
+                </h3>
+                <p className="text-sm text-teal-600 mb-4">
+                  Climb per km for each day
+                </p>
+                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
+                  <canvas
+                    id="climb_rate"
+                    className="max-w-full max-h-full"
+                  ></canvas>
+                </div>
+              </div>
+            </div>
+
+            {/* Speed & Cadence Section */}
+            <div className="bg-white rounded-xl shadow p-6 mt-6">
+              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
+                Speed & Cadence
+              </h2>
+              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
+                <h3 className="text-lg font-bold text-teal-800 mb-2">
+                  Cadence vs Speed Analysis
+                </h3>
+                <p className="text-sm text-teal-600 mb-4">
+                  Avg cadence vs. max speed correlation
+                </p>
+                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
+                  <canvas
+                    id="cadence_speed"
+                    className="max-w-full max-h-full"
+                  ></canvas>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
