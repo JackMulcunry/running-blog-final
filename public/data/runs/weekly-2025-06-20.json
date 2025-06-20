@@ -1,0 +1,209 @@
+{
+  "id": "weekly-2025-06-20",
+  "title": "Week of 2025-06-16T06:00:07.016-04:00 to 2025-06-19T05:45:36.014-04:00",
+  "description": "High heart rate intensity marked interval and hill runs, but recovery runs showed elevated effort and moderate efficiency, with elevation impacting pace and energy use.",
+  "detailedDescription": "This week's running sessions showed a strong cardiovascular effort, with consistently high average heart rates, especially during interval and hill workouts. The interval sessions on Monday and Tuesday had average heart rates exceeding 170 bpm, demonstrating intense training. However, the recovery runs still had relatively high heart rates and lower efficiency scores, indicating that true recovery effort might have been compromised by residual fatigue. Elevation gain was a significant factor during the hill workout and recovery run, impacting pace and efficiency negatively. Overall, running efficiency hovered around a moderate range but did not reach the higher levels desirable for optimized performance, particularly on days with challenging elevation profiles.",
+  "type": "weekly",
+  "goal": "Focus on improving running efficiency, especially during recovery runs. Emphasizing relaxed pacing and better energy utilization on easy days will help maximize recovery and enhance overall weekly training gains.",
+  "stats": {
+    "distance": "23.18",
+    "duration": [
+      "18:42",
+      "23:09",
+      "55:03:00",
+      "22:44"
+    ],
+    "pace": [
+      "4:34",
+      "4:55",
+      "5:16",
+      "5:47"
+    ],
+    "elevation": "332.5",
+    "climb_per_km": [
+      5.5,
+      5.2,
+      17.6,
+      25.8
+    ],
+    "avg_speed_kph": [
+      3.65,
+      3.994,
+      3.162,
+      3.004
+    ],
+    "max_speed_kph": [
+      7.06,
+      5.94,
+      4.443,
+      6
+    ],
+    "avg_cadence_rpm": [
+      86.3,
+      84.2,
+      82.5,
+      83.2
+    ],
+    "avg_heartrate_bpm": [
+      171.5,
+      173.5,
+      168.6,
+      162.4
+    ],
+    "max_heartrate_bpm": [
+      189,
+      188,
+      183,
+      200
+    ],
+    "efficiency_score": [
+      1.84,
+      1.94,
+      1.55,
+      1.54
+    ],
+    "elevation_low_m": [
+      83.3,
+      83.2,
+      128.5,
+      142.6
+    ],
+    "elevation_high_m": [
+      85.8,
+      85.9,
+      168,
+      168
+    ]
+  },
+  "chartData": {
+    "distance_per_day": {
+      "labels": [
+        "2025-06-16T06:00:07.016-04:00",
+        "2025-06-17T06:00:31.011-04:00",
+        "2025-06-18T17:47:05.652-04:00",
+        "2025-06-19T05:45:36.014-04:00"
+      ],
+      "datasets": [
+        {
+          "label": "Distance (km)",
+          "data": [
+            4.1,
+            4.71,
+            10.44,
+            3.93
+          ],
+          "backgroundColor": "rgba(20, 184, 166, 0.6)"
+        }
+      ]
+    },
+    "heart_rate_trend": {
+      "labels": [
+        "2025-06-16T06:00:07.016-04:00",
+        "2025-06-17T06:00:31.011-04:00",
+        "2025-06-18T17:47:05.652-04:00",
+        "2025-06-19T05:45:36.014-04:00"
+      ],
+      "datasets": [
+        {
+          "label": "Avg HR",
+          "data": [
+            171.5,
+            173.5,
+            168.6,
+            162.4
+          ],
+          "borderColor": "rgba(34, 197, 94, 1)",
+          "fill": false,
+          "tension": 0.4
+        },
+        {
+          "label": "Max HR",
+          "data": [
+            189,
+            188,
+            183,
+            200
+          ],
+          "borderColor": "rgba(239, 68, 68, 1)",
+          "fill": false,
+          "tension": 0.4
+        }
+      ]
+    },
+    "climb_rate": {
+      "labels": [
+        "2025-06-16T06:00:07.016-04:00",
+        "2025-06-17T06:00:31.011-04:00",
+        "2025-06-18T17:47:05.652-04:00",
+        "2025-06-19T05:45:36.014-04:00"
+      ],
+      "datasets": [
+        {
+          "label": "Climb per km",
+          "data": [
+            5.5,
+            5.2,
+            17.6,
+            25.8
+          ],
+          "backgroundColor": "rgba(16, 185, 129, 0.6)"
+        }
+      ]
+    },
+    "efficiency_score_trend": {
+      "labels": [
+        "2025-06-16T06:00:07.016-04:00",
+        "2025-06-17T06:00:31.011-04:00",
+        "2025-06-18T17:47:05.652-04:00",
+        "2025-06-19T05:45:36.014-04:00"
+      ],
+      "datasets": [
+        {
+          "label": "Efficiency",
+          "data": [
+            1.84,
+            1.94,
+            1.55,
+            1.54
+          ],
+          "borderColor": "#6366f1",
+          "backgroundColor": "rgba(99, 102, 241, 0.1)",
+          "fill": true,
+          "tension": 0.4
+        }
+      ]
+    },
+    "cadence_speed": {
+      "labels": [
+        "2025-06-16T06:00:07.016-04:00",
+        "2025-06-17T06:00:31.011-04:00",
+        "2025-06-18T17:47:05.652-04:00",
+        "2025-06-19T05:45:36.014-04:00"
+      ],
+      "datasets": [
+        {
+          "label": "Avg Cadence",
+          "data": [
+            86.3,
+            84.2,
+            82.5,
+            83.2
+          ],
+          "borderColor": "rgba(251, 191, 36, 1)",
+          "tension": 0.4
+        },
+        {
+          "label": "Max Speed (kph)",
+          "data": [
+            7.06,
+            5.94,
+            4.443,
+            6
+          ],
+          "borderColor": "rgba(59, 130, 246, 1)",
+          "tension": 0.4
+        }
+      ]
+    }
+  }
+}
