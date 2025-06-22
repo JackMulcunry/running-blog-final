@@ -6,15 +6,23 @@ import WebsiteHeader from "./components/WebsiteHeader";
 function App() {
   const [currentView, setCurrentView] = useState<"home" | "analytics">("home");
   const [selectedRunId, setSelectedRunId] = useState<string>("");
+  const [highlightedChart, setHighlightedChart] = useState<string | undefined>(
+    undefined,
+  );
 
-  const handleNavigateToAnalytics = (runId: string) => {
+  const handleNavigateToAnalytics = (
+    runId: string,
+    highlightedChart?: string,
+  ) => {
     setSelectedRunId(runId);
+    setHighlightedChart(highlightedChart);
     setCurrentView("analytics");
   };
 
   const handleNavigateHome = () => {
     setCurrentView("home");
     setSelectedRunId("");
+    setHighlightedChart(undefined);
   };
 
   return (
@@ -29,6 +37,7 @@ function App() {
             <RunAnalyticsPage
               runId={selectedRunId}
               onNavigateHome={handleNavigateHome}
+              highlightedChart={highlightedChart}
             />
           )}
         </div>

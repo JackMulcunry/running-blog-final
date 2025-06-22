@@ -14,6 +14,7 @@ import {
 interface RunAnalyticsPageProps {
   runId: string;
   onNavigateHome: () => void;
+  highlightedChart?: string;
 }
 
 interface RunData {
@@ -42,7 +43,11 @@ interface RunData {
   chartData: Record<string, any>;
 }
 
-const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
+const RunAnalyticsPage = ({
+  runId,
+  onNavigateHome,
+  highlightedChart,
+}: RunAnalyticsPageProps) => {
   const [runData, setRunData] = useState<RunData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -275,109 +280,114 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
 
         {/* Charts */}
         {isWeekly ? (
-          <div className="space-y-8">
-            {/* Performance Metrics Section */}
-            <div className="bg-white rounded-xl shadow p-6 mt-6">
-              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
-                Performance Metrics
-              </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Distance Per Day */}
-                <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
-                  <h3 className="text-lg font-bold text-teal-800 mb-2">
-                    Distance Over the Week
-                  </h3>
-                  <p className="text-sm text-teal-600 mb-4">
-                    Distance (km) per day
-                  </p>
-                  <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
-                    <canvas
-                      id="distance_per_day"
-                      className="max-w-full max-h-full"
-                    ></canvas>
-                  </div>
-                </div>
-
-                {/* Efficiency Score */}
-                <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
-                  <h3 className="text-lg font-bold text-teal-800 mb-2">
-                    Efficiency Score
-                  </h3>
-                  <p className="text-sm text-teal-600 mb-4">
-                    Daily efficiency score progression
-                  </p>
-                  <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
-                    <canvas
-                      id="efficiency_score_trend"
-                      className="max-w-full max-h-full"
-                    ></canvas>
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Distance Per Day */}
+            {runData.chartData.distance_per_day && (
+              <div
+                className={
+                  highlightedChart === "distance_per_day"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Distance Over the Week - Distance (km) per day"
+                  data={runData.chartData.distance_per_day}
+                  isHighlighted={highlightedChart === "distance_per_day"}
+                  isWeekly={true}
+                />
               </div>
-            </div>
+            )}
 
-            {/* Heart Rate Section */}
-            <div className="bg-white rounded-xl shadow p-6 mt-6">
-              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
-                Heart Rate Analysis
-              </h2>
-              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
-                <h3 className="text-lg font-bold text-teal-800 mb-2">
-                  Heart Rate Trends
-                </h3>
-                <p className="text-sm text-teal-600 mb-4">
-                  Average and max heart rate for each day (Mon–Sat)
-                </p>
-                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
-                  <canvas
-                    id="heart_rate_trend"
-                    className="max-w-full max-h-full"
-                  ></canvas>
-                </div>
+            {/* Efficiency Score */}
+            {runData.chartData.efficiency_score_trend && (
+              <div
+                className={
+                  highlightedChart === "efficiency_score_trend"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Efficiency Score - Daily efficiency score progression"
+                  data={runData.chartData.efficiency_score_trend}
+                  isHighlighted={highlightedChart === "efficiency_score_trend"}
+                  isWeekly={true}
+                />
               </div>
-            </div>
+            )}
 
-            {/* Elevation Section */}
-            <div className="bg-white rounded-xl shadow p-6 mt-6">
-              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
-                Elevation Analysis
-              </h2>
-              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
-                <h3 className="text-lg font-bold text-teal-800 mb-2">
-                  Climb Rate Analysis
-                </h3>
-                <p className="text-sm text-teal-600 mb-4">
-                  Climb per km for each day
-                </p>
-                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
-                  <canvas
-                    id="climb_rate"
-                    className="max-w-full max-h-full"
-                  ></canvas>
-                </div>
+            {/* Heart Rate Trends */}
+            {runData.chartData.heart_rate_trend && (
+              <div
+                className={
+                  highlightedChart === "heart_rate_trend"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Heart Rate Trends - Average and max heart rate for each day (Mon–Sat)"
+                  data={runData.chartData.heart_rate_trend}
+                  isHighlighted={highlightedChart === "heart_rate_trend"}
+                  isWeekly={true}
+                />
               </div>
-            </div>
+            )}
 
-            {/* Speed & Cadence Section */}
-            <div className="bg-white rounded-xl shadow p-6 mt-6">
-              <h2 className="text-2xl font-bold text-teal-800 mb-6 border-b border-teal-100 pb-3">
-                Speed & Cadence
-              </h2>
-              <div className="bg-teal-50 rounded-xl p-4 shadow border border-teal-100">
-                <h3 className="text-lg font-bold text-teal-800 mb-2">
-                  Cadence vs Speed Analysis
-                </h3>
-                <p className="text-sm text-teal-600 mb-4">
-                  Avg cadence vs. max speed correlation
-                </p>
-                <div className="h-64 bg-white rounded-lg border border-teal-200 flex items-center justify-center">
-                  <canvas
-                    id="cadence_speed"
-                    className="max-w-full max-h-full"
-                  ></canvas>
-                </div>
+            {/* Climb Rate Analysis */}
+            {runData.chartData.climb_rate && (
+              <div
+                className={
+                  highlightedChart === "climb_rate"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Climb Rate Analysis - Climb per km for each day"
+                  data={runData.chartData.climb_rate}
+                  isHighlighted={highlightedChart === "climb_rate"}
+                  isWeekly={true}
+                />
               </div>
-            </div>
+            )}
+
+            {/* Cadence vs Speed Analysis */}
+            {runData.chartData.cadence_speed && (
+              <div
+                className={
+                  highlightedChart === "cadence_speed"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Cadence vs Speed Analysis - Avg cadence vs. max speed correlation"
+                  data={runData.chartData.cadence_speed}
+                  isHighlighted={highlightedChart === "cadence_speed"}
+                  isWeekly={true}
+                />
+              </div>
+            )}
+
+            {/* Pace Consistency */}
+            {runData.chartData.pace_consistency && (
+              <div
+                className={
+                  highlightedChart === "pace_consistency"
+                    ? ""
+                    : "bg-white rounded-lg shadow-sm"
+                }
+              >
+                <DetailedRunChart
+                  title="Pace Consistency - Pace per km per day"
+                  data={runData.chartData.pace_consistency}
+                  isHighlighted={highlightedChart === "pace_consistency"}
+                  isWeekly={true}
+                />
+              </div>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -397,6 +407,7 @@ const RunAnalyticsPage = ({ runId, onNavigateHome }: RunAnalyticsPageProps) => {
                       .replace(/\b\w/g, (l) => l.toUpperCase())}
                     data={chart}
                     isHighlighted={isHighlighted}
+                    isWeekly={false}
                   />
                 </div>
               );

@@ -78,7 +78,7 @@ interface RunSummaryCardProps {
     };
   };
   includedDates?: string[];
-  onNavigateToAnalytics: (runId: string) => void;
+  onNavigateToAnalytics: (runId: string, highlightedChart?: string) => void;
 }
 
 const RunSummaryCard = ({
@@ -107,6 +107,59 @@ const RunSummaryCard = ({
     { title: "Cadence Comparison", subtitle: "Avg cadence vs. max speed" },
     { title: "Pace Consistency", subtitle: "Pace per km per day" },
   ];
+
+  // For weekly summaries, select a random chart to display and highlight
+  const getRandomWeeklyChart = () => {
+    if (type !== "weekly" || !chartData) return null;
+
+    const availableCharts = [];
+    if (chartData.distance_per_day)
+      availableCharts.push({
+        key: "distance_per_day",
+        data: chartData.distance_per_day,
+        label: "Distance per Day",
+      });
+    if (chartData.heart_rate_trend)
+      availableCharts.push({
+        key: "heart_rate_trend",
+        data: chartData.heart_rate_trend,
+        label: "Heart Rate Trends",
+      });
+    if (chartData.efficiency_score_trend)
+      availableCharts.push({
+        key: "efficiency_score_trend",
+        data: chartData.efficiency_score_trend,
+        label: "Efficiency Score",
+      });
+    if (chartData.climb_rate)
+      availableCharts.push({
+        key: "climb_rate",
+        data: chartData.climb_rate,
+        label: "Climb Rate",
+      });
+    if (chartData.cadence_speed)
+      availableCharts.push({
+        key: "cadence_speed",
+        data: chartData.cadence_speed,
+        label: "Cadence vs Speed",
+      });
+    if (chartData.pace_consistency)
+      availableCharts.push({
+        key: "pace_consistency",
+        data: chartData.pace_consistency,
+        label: "Pace Consistency",
+      });
+
+    if (availableCharts.length === 0) return null;
+
+    // Use the run ID as seed for consistent random selection
+    const seed = id.split("").reduce((a, b) => a + b.charCodeAt(0), 0);
+    const randomIndex = seed % availableCharts.length;
+
+    return availableCharts[randomIndex];
+  };
+
+  const randomWeeklyChart = getRandomWeeklyChart();
 
   const analyzeSpeedTrend = () => {
     if (
@@ -156,6 +209,18 @@ const RunSummaryCard = ({
   };
 
   const selectBestChart = () => {
+    // For weekly summaries, use the random chart
+    if (type === "weekly" && randomWeeklyChart) {
+      return {
+        type: randomWeeklyChart.key,
+        data: randomWeeklyChart.data,
+        label: randomWeeklyChart.label,
+        color: "#0d9488", // teal
+        bgColor: "#0d948820",
+      };
+    }
+
+    // For daily summaries, use the existing logic
     // Check elevation first (highest priority)
     if (chartData?.elevation_summary?.datasets?.[0]?.data) {
       const elevationData = chartData.elevation_summary.datasets[0].data;
@@ -318,6 +383,7 @@ const RunSummaryCard = ({
     }
 
     const { data, color, bgColor } = selectedChart;
+    const isWeeklyChart = type === "weekly";
 
     return {
       labels: data.labels || [],
@@ -326,13 +392,19 @@ const RunSummaryCard = ({
           ...ds,
           borderColor: color,
           backgroundColor:
-            selectedChart.type === "efficiency"
+            selectedChart.type === "efficiency" || isWeeklyChart
               ? bgColor
               : Array.isArray(ds.backgroundColor)
                 ? ds.backgroundColor
                 : color,
-          fill: selectedChart.type === "efficiency" ? true : ds.fill,
-          tension: selectedChart.type === "efficiency" ? 0.4 : ds.tension,
+          fill:
+            selectedChart.type === "efficiency" || isWeeklyChart
+              ? true
+              : ds.fill,
+          tension:
+            selectedChart.type === "efficiency" || isWeeklyChart
+              ? 0.4
+              : ds.tension,
         })) || [],
     };
   };
@@ -348,7 +420,8 @@ const RunSummaryCard = ({
       );
     }
 
-    const ChartComponent = selectedChart.type === "efficiency" ? Line : Bar;
+    const ChartComponent =
+      selectedChart.type === "efficiency" || type === "weekly" ? Line : Bar;
     const chartOptions = getChartOptions(selectedChart.type);
 
     return <ChartComponent data={miniChartData} options={chartOptions} />;
@@ -357,7 +430,7 @@ const RunSummaryCard = ({
   // Render regular daily/monthly/yearly cards
   return (
     <Card
-      className={`w-full ${typeConfig.cardBg} rounded-xl flex flex-col h-[420px] ${
+      className={`w-full ${typeConfig.cardBg} rounded-xl flex flex-col h-[450px] ${
         selectedChart ? "shadow-lg" : "shadow"
       } hover:shadow-xl transition-all duration-300 ${
         type === "weekly" ? "ring-2 ring-teal-200 border-teal-100" : ""
@@ -373,33 +446,37 @@ const RunSummaryCard = ({
       <CardHeader className="pb-3 p-6">
         <div className="flex justify-between items-center mb-3">
           <Badge
-            className={`${typeConfig.badgeColor} px-3 py-1 rounded-full text-sm hover:bg-transparent hover:text-inherit`}
+            className={`${typeConfig.badgeColor} px-3 py-1 text-sm rounded-full hover:bg-transparent hover:text-inherit`}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
           </Badge>
           {selectedChart && (
             <Badge
-              className="px-2 py-1 rounded-full text-xs font-medium hover:bg-transparent hover:text-inherit"
+              className="px-2 py-1 text-xs rounded-full font-medium hover:bg-transparent hover:text-inherit"
               style={{
                 backgroundColor: selectedChart.bgColor,
                 color: selectedChart.color,
                 border: `1px solid ${selectedChart.color}30`,
               }}
             >
-              {selectedChart.type.charAt(0).toUpperCase() +
-                selectedChart.type.slice(1).replace("_", " ")}
+              {selectedChart.type
+                .split("_")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
             </Badge>
           )}
         </div>
-        <CardTitle className={`text-xl font-bold ${typeConfig.titleColor}`}>
+        <CardTitle className="text-xl font-bold ${typeConfig.titleColor}">
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="px-6 pb-4 flex-1 overflow-hidden">
-        <p className="text-sm text-gray-600 mb-4">{description}</p>
+        <div className="mb-4">
+          <p className="text-sm leading-relaxed text-gray-600">{description}</p>
+        </div>
         <div className="mb-4">
           <div
-            className="relative h-[120px] w-full overflow-hidden rounded-lg"
+            className="relative w-full overflow-hidden rounded-lg h-[120px]"
             style={{
               backgroundColor: selectedChart?.bgColor || "#f9fafb",
               border: selectedChart
@@ -409,7 +486,7 @@ const RunSummaryCard = ({
           >
             {renderChart()}
           </div>
-          <div className="text-center text-xs text-gray-600 mt-2 font-mono">
+          <div className="text-center text-xs mt-2 text-gray-600 font-mono">
             {selectedChart?.label ||
               `Start: ${paceAnalysis.startSpeed} • End: ${paceAnalysis.endSpeed}`}
           </div>
@@ -418,7 +495,7 @@ const RunSummaryCard = ({
       <CardFooter className="p-6 pt-4 mt-auto">
         <Button
           className={`w-full ${typeConfig.accentColor} text-white hover:shadow-lg transition-all duration-200`}
-          onClick={() => onNavigateToAnalytics(id)}
+          onClick={() => onNavigateToAnalytics(id, randomWeeklyChart?.key)}
         >
           View Analytics
         </Button>

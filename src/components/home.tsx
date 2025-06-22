@@ -13,7 +13,7 @@ interface RunData {
 }
 
 interface HomeProps {
-  onNavigateToAnalytics: (runId: string) => void;
+  onNavigateToAnalytics: (runId: string, highlightedChart?: string) => void;
 }
 
 function Home({ onNavigateToAnalytics }: HomeProps) {
