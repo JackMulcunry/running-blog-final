@@ -1,11 +1,11 @@
 {
-  "id": "daily-2025-06-22",
-  "title": "Monday Intervals Effort",
-  "date": "2025-06-22",
-  "description": "Hard interval run with strong heart rate and moderate efficiency on rolling hills",
-  "detailedDescription": "The interval training session showed a fairly high average heart rate of 174.1 bpm, indicating strong cardiovascular effort consistent with high-intensity workouts. The efficiency score of 1.53 suggests some room for improvement in running economy, possibly affected by the elevation gain of 130.8 meters over the course, which may have challenged pace consistency. Maintaining a cadence of 83.3 rpm was solid, but improving turnover could further enhance efficiency on hilly terrain. Overall, the workout demonstrated good effort, but focusing on making runs smoother despite elevation changes would be beneficial.",
+  "id": "daily-2025-06-21",
+  "title": "Saturday Recovery Run",
+  "date": "2025-06-21",
+  "description": "Moderate effort recovery run with elevated heart rate and average efficiency on rolling terrain.",
+  "detailedDescription": "The recovery run today showed a moderately elevated average heart rate of 174 bpm, which is somewhat higher than expected for a recovery day, suggesting the body might still be adapting to recent interval and hill workouts. The efficiency score of 1.53 indicates room for improvement in maintaining an economical running form, especially when considering the moderate elevation gain of 130.8 meters that added some challenge to the session. The elevation changes were steady but not extreme, which should aid in active recovery if heart rate can be better managed. Overall, the pace and cadence were consistent with a recovery effort, but heart rate and efficiency suggest the need for a bit more relaxation and form focus.",
   "type": "daily",
-  "goal": "Focus on improving running efficiency during intervals, specifically working to maintain smoother, more consistent strides on varied terrain to better manage elevation changes.",
+  "goal": "Focus on lowering heart rate during recovery runs to maximize recuperation benefits. Emphasize relaxed breathing and efficient form to aid in better recovery.",
   "stats": {
     "distance": 11.53,
     "duration": "67:24",
