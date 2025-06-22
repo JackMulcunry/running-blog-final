@@ -76,6 +76,72 @@ interface RunSummaryCardProps {
         backgroundColor: string[];
       }[];
     };
+    distance_per_day?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
+    heart_rate_trend?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
+    efficiency_score_trend?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
+    climb_rate?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
+    cadence_speed?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
+    pace_consistency?: {
+      labels: string[];
+      datasets: {
+        label: string;
+        data: number[];
+        backgroundColor: string | string[];
+        borderColor?: string;
+        fill?: boolean;
+        tension?: number;
+      }[];
+    };
   };
   includedDates?: string[];
   onNavigateToAnalytics: (runId: string, highlightedChart?: string) => void;
