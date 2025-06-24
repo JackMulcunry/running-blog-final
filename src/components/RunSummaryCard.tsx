@@ -384,12 +384,13 @@ const RunSummaryCard = ({
       titleColor: "text-teal-900",
     },
     monthly: {
-      accentColor: "bg-indigo-500 hover:bg-indigo-600",
-      badgeColor: "bg-indigo-50 text-indigo-700",
+      accentColor: "bg-indigo-600 hover:bg-indigo-700",
+      badgeColor:
+        "bg-indigo-100 text-indigo-800 font-bold border border-indigo-200",
       borderColor: "#6366f1",
-      glowColor: "#6366f120",
-      cardBg: "bg-white",
-      titleColor: "text-gray-900",
+      glowColor: "#6366f130",
+      cardBg: "bg-gradient-to-br from-indigo-50 to-purple-50",
+      titleColor: "text-indigo-900",
     },
     yearly: {
       accentColor: "bg-red-600 hover:bg-red-700",
@@ -499,14 +500,20 @@ const RunSummaryCard = ({
       className={`w-full ${typeConfig.cardBg} rounded-xl flex flex-col h-[450px] ${
         selectedChart ? "shadow-lg" : "shadow"
       } hover:shadow-xl transition-all duration-300 ${
-        type === "weekly" ? "ring-2 ring-teal-200 border-teal-100" : ""
+        type === "weekly"
+          ? "ring-2 ring-teal-200 border-teal-100"
+          : type === "monthly"
+            ? "ring-2 ring-indigo-200 border-indigo-100"
+            : ""
       }`}
       style={{
         boxShadow: selectedChart
           ? `0 10px 25px -3px ${selectedChart.color}20, 0 4px 6px -2px ${selectedChart.color}10, 0 0 0 2px ${selectedChart.color}20`
           : type === "weekly"
             ? `0 8px 25px -5px ${typeConfig.glowColor}, 0 8px 10px -6px ${typeConfig.glowColor}`
-            : `0 4px 6px -1px ${typeConfig.glowColor}, 0 2px 4px -1px ${typeConfig.glowColor}`,
+            : type === "monthly"
+              ? `0 8px 25px -5px ${typeConfig.glowColor}, 0 8px 10px -6px ${typeConfig.glowColor}`
+              : `0 4px 6px -1px ${typeConfig.glowColor}, 0 2px 4px -1px ${typeConfig.glowColor}`,
       }}
     >
       <CardHeader className="pb-3 p-6">

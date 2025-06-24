@@ -36,14 +36,22 @@ function Home({ onNavigateToAnalytics }: HomeProps) {
           }),
         );
 
-        // Sort with weekly cards first, then by date descending (newest first)
+        // Sort by date descending (newest first) - most recent post appears in top left
         runs.sort((a, b) => {
-          // Weekly cards always come first
-          if (a.type === "weekly" && b.type !== "weekly") return -1;
-          if (b.type === "weekly" && a.type !== "weekly") return 1;
+          // Extract date from either the date field or the ID
+          const getDate = (run: any) => {
+            if (run.date) {
+              return run.date;
+            }
+            // Extract date from ID format like "weekly-2025-06-22" or "daily-2025-06-24"
+            const match = run.id.match(/(\d{4}-\d{2}-\d{2})/);
+            return match ? match[1] : run.id;
+          };
 
-          // If both are weekly or both are not weekly, sort by date
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
+          const dateA = getDate(a);
+          const dateB = getDate(b);
+
+          return new Date(dateB).getTime() - new Date(dateA).getTime();
         });
 
         setRuns(runs);
