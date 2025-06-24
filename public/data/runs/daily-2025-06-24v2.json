@@ -1,0 +1,106 @@
+{
+  "id": "daily-2025-06-24",
+  "title": "Saturday Easy Recovery",
+  "date": "2025-06-24",
+  "description": "Saturday recovery run with steady heart rate and low efficiency on flat terrain.",
+  "detailedDescription": "The average heart rate remained moderately elevated at 161 bpm during the recovery run, indicating a steady cardiovascular effort appropriate for this type of low-intensity workout. The efficiency score was quite low at 0.7, suggesting room for improvement in running form or economy, especially on the treadmill. Elevation gain was zero, as expected, providing a flat surface ideal for this active recovery session. The very low average and max speeds align with the goal of recovery rather than pace or intensity.",
+  "type": "daily",
+  "goal": "Focus on improving running efficiency during easy runs to enhance overall form and reduce energy expenditure. Even on recovery days, subtle adjustments can lead to better performance in subsequent harder workouts.",
+  "stats": {
+    "distance": 6.5,
+    "duration": "55:12",
+    "pace": "8:30",
+    "elevation": 0,
+    "climb_per_km": 0,
+    "avg_speed_kph": 1.421,
+    "max_speed_kph": 1.923,
+    "avg_cadence_rpm": 79.8,
+    "avg_heartrate_bpm": 161,
+    "max_heartrate_bpm": 177,
+    "efficiency_score": 0.7,
+    "elevation_low_m": 0,
+    "elevation_high_m": 0
+  },
+  "chartData": {
+    "speed_cadence": {
+      "labels": [
+        "Average Speed",
+        "Max Speed",
+        "Cadence"
+      ],
+      "datasets": [
+        {
+          "label": "Speed (km/h) and Cadence (rpm)",
+          "data": [
+            1.421,
+            1.923,
+            79.8
+          ],
+          "backgroundColor": [
+            "rgba(34, 197, 94, 0.6)",
+            "rgba(59, 130, 246, 0.6)",
+            "rgba(251, 191, 36, 0.6)"
+          ]
+        }
+      ]
+    },
+    "heart_rate": {
+      "labels": [
+        "Avg HR",
+        "Max HR"
+      ],
+      "datasets": [
+        {
+          "label": "Heart Rate (bpm)",
+          "data": [
+            161,
+            177
+          ],
+          "backgroundColor": [
+            "rgba(239, 68, 68, 0.6)",
+            "rgba(220, 38, 38, 0.6)"
+          ]
+        }
+      ]
+    },
+    "efficiency_score": {
+      "labels": [
+        "2025-06-24"
+      ],
+      "datasets": [
+        {
+          "label": "Efficiency Score",
+          "data": [
+            0.7
+          ],
+          "borderColor": "#6366f1",
+          "backgroundColor": "rgba(99, 102, 241, 0.1)",
+          "fill": true,
+          "tension": 0.4
+        }
+      ]
+    },
+    "elevation_summary": {
+      "labels": [
+        "Low",
+        "High",
+        "Gain"
+      ],
+      "datasets": [
+        {
+          "label": "Elevation (m)",
+          "data": [
+            0,
+            0,
+            0
+          ],
+          "backgroundColor": [
+            "rgba(148, 163, 184, 0.6)",
+            "rgba(96, 165, 250, 0.6)",
+            "rgba(253, 224, 71, 0.6)"
+          ]
+        }
+      ]
+    }
+  }
+}
