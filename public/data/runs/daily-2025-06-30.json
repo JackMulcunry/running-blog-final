@@ -1,0 +1,106 @@
+{
+  "id": "daily-2025-06-30",
+  "title": "Monday Treadmill Effort",
+  "date": "2025-06-30",
+  "description": "Moderate intensity treadmill run with steady pace and moderate efficiency under heat constraints.",
+  "detailedDescription": "The Monday treadmill run shows a high average heart rate of 175.9 bpm with a maximum of 188 bpm, indicating a fairly intense effort despite the short distance. The efficiency score of 1.36 is moderate, suggesting some room for improvement in running economy. Elevation gain is minimal at 24.2 meters, appropriate for a treadmill setting with limited elevation variation. Given the extreme heat outside, opting for the treadmill was a smart choice to maintain safety while keeping the workout consistent. The pacing was steady, though the average speed was relatively low, likely reflecting the focus on maintaining effort under challenging environmental conditions.",
+  "type": "daily",
+  "goal": "Focus on improving running efficiency today. Incorporating drills that enhance form and cadence could help increase economy, especially when treadmill conditions limit natural elevation changes.",
+  "stats": {
+    "distance": 4.77,
+    "duration": "27:59",
+    "pace": "5:52",
+    "elevation": 24.2,
+    "climb_per_km": 5.1,
+    "avg_speed_kph": 2.887,
+    "max_speed_kph": 7.02,
+    "avg_cadence_rpm": 83.1,
+    "avg_heartrate_bpm": 175.9,
+    "max_heartrate_bpm": 188,
+    "efficiency_score": 1.36,
+    "elevation_low_m": 82.1,
+    "elevation_high_m": 85
+  },
+  "chartData": {
+    "speed_cadence": {
+      "labels": [
+        "Average Speed",
+        "Max Speed",
+        "Cadence"
+      ],
+      "datasets": [
+        {
+          "label": "Speed (km/h) and Cadence (rpm)",
+          "data": [
+            2.887,
+            7.02,
+            83.1
+          ],
+          "backgroundColor": [
+            "rgba(34, 197, 94, 0.6)",
+            "rgba(59, 130, 246, 0.6)",
+            "rgba(251, 191, 36, 0.6)"
+          ]
+        }
+      ]
+    },
+    "heart_rate": {
+      "labels": [
+        "Avg HR",
+        "Max HR"
+      ],
+      "datasets": [
+        {
+          "label": "Heart Rate (bpm)",
+          "data": [
+            175.9,
+            188
+          ],
+          "backgroundColor": [
+            "rgba(239, 68, 68, 0.6)",
+            "rgba(220, 38, 38, 0.6)"
+          ]
+        }
+      ]
+    },
+    "efficiency_score": {
+      "labels": [
+        "2025-06-30"
+      ],
+      "datasets": [
+        {
+          "label": "Efficiency Score",
+          "data": [
+            1.36
+          ],
+          "borderColor": "#6366f1",
+          "backgroundColor": "rgba(99, 102, 241, 0.1)",
+          "fill": true,
+          "tension": 0.4
+        }
+      ]
+    },
+    "elevation_summary": {
+      "labels": [
+        "Low",
+        "High",
+        "Gain"
+      ],
+      "datasets": [
+        {
+          "label": "Elevation (m)",
+          "data": [
+            82.1,
+            85,
+            24.2
+          ],
+          "backgroundColor": [
+            "rgba(148, 163, 184, 0.6)",
+            "rgba(96, 165, 250, 0.6)",
+            "rgba(253, 224, 71, 0.6)"
+          ]
+        }
+      ]
+    }
+  }
+}
