@@ -73,7 +73,7 @@ const RunAnalyticsPage = ({
       try {
         setLoading(true);
         const response = await fetch(
-          `/running-blog-final/data/runs/${runId}.json`,
+          `${import.meta.env.BASE_URL}data/runs/${runId}.json`,
         );
         if (!response.ok) {
           throw new Error("Run data not found");

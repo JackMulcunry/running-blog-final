@@ -39,8 +39,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
       <div className="fixed top-[7.5rem] sm:top-[8.5rem] left-0 right-0 z-40 bg-gradient-to-b from-amber-50/90 to-orange-50/80 backdrop-blur-sm border-b border-amber-100/50">
         <div className="max-w-4xl mx-auto px-4 py-5 sm:py-6">
           <p className="text-center text-amber-700/80 text-xs sm:text-sm font-normal tracking-wide leading-relaxed">
-            Posted before sunrise. Built while you sleep. One real run, one real
-            reason to move.
+            Your 6AM running briefing. One story. One lesson. One thing to try today.
           </p>
         </div>
       </div>

@@ -539,7 +539,7 @@ const RunSummaryCard = ({
             </Badge>
           )}
         </div>
-        <CardTitle className="text-xl font-bold ${typeConfig.titleColor}">
+        <CardTitle className={`text-xl font-bold ${typeConfig.titleColor}`}>
           {title}
         </CardTitle>
       </CardHeader>

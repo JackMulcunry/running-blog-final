@@ -1,28 +1,20 @@
 import { Suspense, useState } from "react";
 import Home from "./components/home";
-import RunAnalyticsPage from "./pages/analytics/[id]";
+import BriefingPage from "./pages/briefing/[slug]";
 import WebsiteHeader from "./components/WebsiteHeader";
 
 function App() {
-  const [currentView, setCurrentView] = useState<"home" | "analytics">("home");
-  const [selectedRunId, setSelectedRunId] = useState<string>("");
-  const [highlightedChart, setHighlightedChart] = useState<string | undefined>(
-    undefined,
-  );
+  const [currentView, setCurrentView] = useState<"home" | "post">("home");
+  const [selectedSlug, setSelectedSlug] = useState<string>("");
 
-  const handleNavigateToAnalytics = (
-    runId: string,
-    highlightedChart?: string,
-  ) => {
-    setSelectedRunId(runId);
-    setHighlightedChart(highlightedChart);
-    setCurrentView("analytics");
+  const handleNavigateToPost = (slug: string) => {
+    setSelectedSlug(slug);
+    setCurrentView("post");
   };
 
   const handleNavigateHome = () => {
     setCurrentView("home");
-    setSelectedRunId("");
-    setHighlightedChart(undefined);
+    setSelectedSlug("");
   };
 
   return (
@@ -31,13 +23,12 @@ function App() {
         <WebsiteHeader />
         <div className="pt-40 sm:pt-44">
           {currentView === "home" && (
-            <Home onNavigateToAnalytics={handleNavigateToAnalytics} />
+            <Home onNavigateToPost={handleNavigateToPost} />
           )}
-          {currentView === "analytics" && (
-            <RunAnalyticsPage
-              runId={selectedRunId}
+          {currentView === "post" && (
+            <BriefingPage
+              slug={selectedSlug}
               onNavigateHome={handleNavigateHome}
-              highlightedChart={highlightedChart}
             />
           )}
         </div>
