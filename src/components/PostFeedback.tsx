@@ -7,8 +7,8 @@ interface PostFeedbackProps {
 }
 
 const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
-  const [stats, setStats] = useState({ upvotes: 0, downvotes: 0 });
-  const [userVote, setUserVote] = useState<'up' | 'down' | null>(null);
+  const [stats, setStats] = useState({ helpful: 0, notHelpful: 0 });
+  const [userVote, setUserVote] = useState<'helpful' | 'not_helpful' | null>(null);
   const [isVoting, setIsVoting] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
 
     // Check if user has already voted (from localStorage)
     const savedVote = localStorage.getItem(`vote-${postId}`);
-    if (savedVote === 'up' || savedVote === 'down') {
+    if (savedVote === 'helpful' || savedVote === 'not_helpful') {
       setUserVote(savedVote);
     }
   }, [postId]);
@@ -27,14 +27,14 @@ const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
       const response = await fetch(`/api/stats?postId=${postId}`);
       if (response.ok) {
         const data = await response.json();
-        setStats({ upvotes: data.upvotes, downvotes: data.downvotes });
+        setStats({ helpful: data.helpful, notHelpful: data.notHelpful });
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
   };
 
-  const handleVote = async (vote: 'up' | 'down') => {
+  const handleVote = async (vote: 'helpful' | 'not_helpful') => {
     // Prevent multiple votes
     if (userVote || isVoting) return;
 
@@ -49,11 +49,14 @@ const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setStats({ upvotes: data.upvotes, downvotes: data.downvotes });
-        setUserVote(vote);
+        setStats({ helpful: data.helpful, notHelpful: data.notHelpful });
 
-        // Save vote to localStorage
-        localStorage.setItem(`vote-${postId}`, vote);
+        // Check if vote was deduped (already voted)
+        if (!data.deduped) {
+          setUserVote(vote);
+          // Save vote to localStorage
+          localStorage.setItem(`vote-${postId}`, vote);
+        }
       }
     } catch (error) {
       console.error('Error voting:', error);
@@ -62,9 +65,9 @@ const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
     }
   };
 
-  const totalVotes = stats.upvotes + stats.downvotes;
+  const totalVotes = stats.helpful + stats.notHelpful;
   const helpfulPercentage = totalVotes > 0
-    ? Math.round((stats.upvotes / totalVotes) * 100)
+    ? Math.round((stats.helpful / totalVotes) * 100)
     : 0;
 
   return (
@@ -76,36 +79,36 @@ const PostFeedback: React.FC<PostFeedbackProps> = ({ postId }) => {
 
         <div className="flex items-center gap-3">
           <Button
-            onClick={() => handleVote('up')}
+            onClick={() => handleVote('helpful')}
             disabled={!!userVote || isVoting}
-            variant={userVote === 'up' ? 'default' : 'outline'}
+            variant={userVote === 'helpful' ? 'default' : 'outline'}
             className={`flex items-center gap-2 ${
-              userVote === 'up'
+              userVote === 'helpful'
                 ? 'bg-green-600 hover:bg-green-700 text-white'
                 : 'hover:bg-green-50 hover:border-green-300'
             }`}
           >
             <ThumbsUp className="w-4 h-4" />
             <span>Helpful</span>
-            {stats.upvotes > 0 && (
-              <span className="ml-1 text-xs">({stats.upvotes})</span>
+            {stats.helpful > 0 && (
+              <span className="ml-1 text-xs">({stats.helpful})</span>
             )}
           </Button>
 
           <Button
-            onClick={() => handleVote('down')}
+            onClick={() => handleVote('not_helpful')}
             disabled={!!userVote || isVoting}
-            variant={userVote === 'down' ? 'default' : 'outline'}
+            variant={userVote === 'not_helpful' ? 'default' : 'outline'}
             className={`flex items-center gap-2 ${
-              userVote === 'down'
+              userVote === 'not_helpful'
                 ? 'bg-red-600 hover:bg-red-700 text-white'
                 : 'hover:bg-red-50 hover:border-red-300'
             }`}
           >
             <ThumbsDown className="w-4 h-4" />
             <span>Not helpful</span>
-            {stats.downvotes > 0 && (
-              <span className="ml-1 text-xs">({stats.downvotes})</span>
+            {stats.notHelpful > 0 && (
+              <span className="ml-1 text-xs">({stats.notHelpful})</span>
             )}
           </Button>
         </div>

@@ -1,23 +1,10 @@
-import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { getRedis } from './_redis';
 
 // Validate postId format (only allow briefing-YYYY-MM-DD)
 function isValidPostId(postId: string): boolean {
   const pattern = /^briefing-\d{4}-\d{2}-\d{2}$/;
   return pattern.test(postId) && postId.length < 100;
-}
-
-// Rate limiting: max 10 votes per IP per hour
-async function checkRateLimit(ip: string): Promise<boolean> {
-  const key = `ratelimit:vote:${ip}`;
-  const count = await kv.incr(key);
-
-  if (count === 1) {
-    // Set expiry of 1 hour on first request
-    await kv.expire(key, 3600);
-  }
-
-  return count <= 10;
 }
 
 export default async function handler(
@@ -40,15 +27,6 @@ export default async function handler(
   }
 
   try {
-    // Rate limiting by IP
-    const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown';
-    const ipString = Array.isArray(ip) ? ip[0] : ip;
-
-    const withinLimit = await checkRateLimit(ipString);
-    if (!withinLimit) {
-      return res.status(429).json({ error: 'Too many votes. Please try again later.' });
-    }
-
     const { postId, vote } = req.body;
 
     // Validate inputs
@@ -60,21 +38,49 @@ export default async function handler(
       return res.status(400).json({ error: 'Invalid post ID format' });
     }
 
-    if (vote !== 'up' && vote !== 'down') {
-      return res.status(400).json({ error: 'Vote must be "up" or "down"' });
+    if (vote !== 'helpful' && vote !== 'not_helpful') {
+      return res.status(400).json({ error: 'Vote must be "helpful" or "not_helpful"' });
     }
 
-    // Increment vote count
-    const field = vote === 'up' ? 'upvotes' : 'downvotes';
-    await kv.hincrby(`post:${postId}`, field, 1);
+    // Get IP address for deduplication
+    const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown';
+    const ipString = Array.isArray(ip) ? ip[0] : ip;
+
+    const redis = await getRedis();
+
+    // Check if user already voted (dedupe: 1 vote per IP per post per 24h)
+    const dedupeKey = `vote:${postId}:${ipString}`;
+    const alreadyVoted = await redis.get(dedupeKey);
+
+    if (alreadyVoted) {
+      // Already voted, return current stats without incrementing
+      const statsKey = `stats:${postId}`;
+      const helpful = await redis.hGet(statsKey, 'helpful') || '0';
+      const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
+
+      return res.status(200).json({
+        ok: true,
+        deduped: true,
+        helpful: parseInt(helpful, 10),
+        notHelpful: parseInt(notHelpful, 10)
+      });
+    }
+
+    // Set dedupe key with 24h expiry
+    await redis.set(dedupeKey, '1', { EX: 86400 });
+
+    // Increment vote count in stats hash
+    const statsKey = `stats:${postId}`;
+    await redis.hIncrBy(statsKey, vote, 1);
 
     // Get current counts
-    const stats = await kv.hgetall(`post:${postId}`);
+    const helpful = await redis.hGet(statsKey, 'helpful') || '0';
+    const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
 
     return res.status(200).json({
-      success: true,
-      upvotes: stats?.upvotes || 0,
-      downvotes: stats?.downvotes || 0
+      ok: true,
+      helpful: parseInt(helpful, 10),
+      notHelpful: parseInt(notHelpful, 10)
     });
   } catch (error) {
     console.error('Error recording vote:', error);

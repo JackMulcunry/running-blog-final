@@ -1,5 +1,5 @@
-import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { getRedis } from './_redis';
 
 // Validate postId format (only allow briefing-YYYY-MM-DD)
 function isValidPostId(postId: string): boolean {
@@ -38,8 +38,11 @@ export default async function handler(
       return res.status(400).json({ error: 'Invalid post ID format' });
     }
 
-    // Increment view count
-    const views = await kv.hincrby(`post:${postId}`, 'views', 1);
+    const redis = await getRedis();
+
+    // Increment view count in stats hash
+    const statsKey = `stats:${postId}`;
+    const views = await redis.hIncrBy(statsKey, 'views', 1);
 
     return res.status(200).json({ success: true, views });
   } catch (error) {

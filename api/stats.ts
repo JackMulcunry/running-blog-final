@@ -1,5 +1,5 @@
-import { kv } from '@vercel/kv';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { getRedis } from './_redis';
 
 // Validate postId format (only allow briefing-YYYY-MM-DD)
 function isValidPostId(postId: string): boolean {
@@ -38,13 +38,19 @@ export default async function handler(
       return res.status(400).json({ error: 'Invalid post ID format' });
     }
 
+    const redis = await getRedis();
+
     // Get stats for the post
-    const stats = await kv.hgetall(`post:${postId}`);
+    const statsKey = `stats:${postId}`;
+    const helpful = await redis.hGet(statsKey, 'helpful') || '0';
+    const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
+    const views = await redis.hGet(statsKey, 'views') || '0';
 
     return res.status(200).json({
-      views: stats?.views || 0,
-      upvotes: stats?.upvotes || 0,
-      downvotes: stats?.downvotes || 0
+      postId,
+      helpful: parseInt(helpful, 10),
+      notHelpful: parseInt(notHelpful, 10),
+      views: parseInt(views, 10)
     });
   } catch (error) {
     console.error('Error fetching stats:', error);
