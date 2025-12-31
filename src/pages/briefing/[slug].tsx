@@ -41,7 +41,9 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
   }, [slug]);
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    // Parse the date string as UTC to avoid timezone offset issues
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     return date.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
@@ -121,21 +123,43 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
             </div>
           </div>
 
-          {/* Excerpt / Lede */}
-          <div className="mb-8 p-6 bg-amber-50 border-l-4 border-amber-400 rounded-r">
-            <p className="text-lg leading-relaxed text-gray-700 font-medium">
-              {post.excerpt}
-            </p>
-          </div>
-
           {/* Body */}
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none mb-8">
             {post.body.split("\n\n").map((paragraph, index) => (
               <p key={index} className="mb-4 text-gray-700 leading-relaxed">
                 {paragraph}
               </p>
             ))}
           </div>
+
+          {/* Key Takeaway */}
+          {post.keyTakeaway && (
+            <div className="mb-8 p-6 bg-amber-50 border-l-4 border-amber-400 rounded-r">
+              <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wide mb-2">
+                Key Takeaway
+              </h3>
+              <p className="text-base leading-relaxed text-gray-800">
+                {post.keyTakeaway}
+              </p>
+            </div>
+          )}
+
+          {/* Source Attribution */}
+          {post.sourceUrl && (
+            <div className="mb-8 pb-8 border-b border-gray-200">
+              <p className="text-sm text-gray-600">
+                Source:{" "}
+                <a
+                  href={post.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  {post.sourceUrl}
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* Tags */}
           {post.tags.length > 0 && (

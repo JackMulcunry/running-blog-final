@@ -10,4 +10,6 @@ export interface BriefingPost {
   tags: string[];
   readTimeMinutes: number;
   body: string;
+  keyTakeaway?: string; // Optional key takeaway to highlight
+  sourceUrl?: string; // Optional source URL for attribution
 }
