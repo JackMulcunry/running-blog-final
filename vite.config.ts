@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react-swc";
 import { tempo } from "tempo-devtools/dist/vite";
 
 export default defineConfig({
-  base: "/running-blog-final/", // ✅ This is the key!
+  base: "/", // ✅ This is the key!
   optimizeDeps: {
     entries: ["src/main.tsx", "src/tempobook/**/*"],
   },
