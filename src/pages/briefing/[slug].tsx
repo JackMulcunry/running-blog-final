@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
+import PostFeedback from "../../components/PostFeedback";
 
 interface BriefingPageProps {
   slug: string;
@@ -28,6 +29,9 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
         }
         const data = await response.json();
         setPost(data);
+
+        // Track view after successfully loading the post
+        trackView(data.id);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load post");
       } finally {
@@ -39,6 +43,19 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
       fetchPost();
     }
   }, [slug]);
+
+  const trackView = async (postId: string) => {
+    try {
+      await fetch('/api/track-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postId })
+      });
+    } catch (error) {
+      // Silently fail - don't block user experience
+      console.error('Error tracking view:', error);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     // Parse the date string as UTC to avoid timezone offset issues
@@ -179,6 +196,9 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
               </div>
             </div>
           )}
+
+          {/* Feedback Component */}
+          <PostFeedback postId={post.id} />
         </article>
 
         {/* Bottom Navigation */}
