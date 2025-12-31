@@ -42,9 +42,9 @@ export default async function handler(
 
     // Get stats for the post
     const statsKey = `stats:${postId}`;
-    const helpful = await redis.hGet(statsKey, 'helpful') || '0';
-    const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
-    const views = await redis.hGet(statsKey, 'views') || '0';
+    const helpful = (await redis.hGet(statsKey, 'helpful')) ?? '0';
+    const notHelpful = (await redis.hGet(statsKey, 'not_helpful')) ?? '0';
+    const views = (await redis.hGet(statsKey, 'views')) ?? '0';
 
     return res.status(200).json({
       postId,

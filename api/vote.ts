@@ -55,8 +55,8 @@ export default async function handler(
     if (alreadyVoted) {
       // Already voted, return current stats without incrementing
       const statsKey = `stats:${postId}`;
-      const helpful = await redis.hGet(statsKey, 'helpful') || '0';
-      const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
+      const helpful = (await redis.hGet(statsKey, 'helpful')) ?? '0';
+      const notHelpful = (await redis.hGet(statsKey, 'not_helpful')) ?? '0';
 
       return res.status(200).json({
         ok: true,
@@ -74,8 +74,8 @@ export default async function handler(
     await redis.hIncrBy(statsKey, vote, 1);
 
     // Get current counts
-    const helpful = await redis.hGet(statsKey, 'helpful') || '0';
-    const notHelpful = await redis.hGet(statsKey, 'not_helpful') || '0';
+    const helpful = (await redis.hGet(statsKey, 'helpful')) ?? '0';
+    const notHelpful = (await redis.hGet(statsKey, 'not_helpful')) ?? '0';
 
     return res.status(200).json({
       ok: true,
