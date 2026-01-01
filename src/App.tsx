@@ -1,50 +1,26 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import BriefingPage from "./pages/briefing/[slug]";
 import Admin from "./pages/Admin";
 import WebsiteHeader from "./components/WebsiteHeader";
 
 function App() {
-  const [currentView, setCurrentView] = useState<"home" | "post" | "admin">("home");
-  const [selectedSlug, setSelectedSlug] = useState<string>("");
-
-  const handleNavigateToPost = (slug: string) => {
-    setSelectedSlug(slug);
-    setCurrentView("post");
-  };
-
-  const handleNavigateHome = () => {
-    setCurrentView("home");
-    setSelectedSlug("");
-  };
-
-  const handleNavigateToAdmin = () => {
-    setCurrentView("admin");
-  };
-
   return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <>
-        <WebsiteHeader onNavigateToAdmin={handleNavigateToAdmin} />
-        <div className="pt-40 sm:pt-44">
-          {currentView === "home" && (
-            <Home onNavigateToPost={handleNavigateToPost} />
-          )}
-          {currentView === "post" && (
-            <BriefingPage
-              slug={selectedSlug}
-              onNavigateHome={handleNavigateHome}
-            />
-          )}
-          {currentView === "admin" && (
-            <Admin
-              onNavigateToPost={handleNavigateToPost}
-              onNavigateHome={handleNavigateHome}
-            />
-          )}
-        </div>
-      </>
-    </Suspense>
+    <BrowserRouter>
+      <Suspense fallback={<p>Loading...</p>}>
+        <>
+          <WebsiteHeader />
+          <div className="pt-40 sm:pt-44">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/posts/:slug" element={<BriefingPage />} />
+              <Route path="/admin" element={<Admin />} />
+            </Routes>
+          </div>
+        </>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BriefingPost } from "@/types/briefing";
 
@@ -14,12 +15,8 @@ interface PostWithStats extends BriefingPost {
   helpfulRatio: number;
 }
 
-interface AdminProps {
-  onNavigateToPost: (slug: string) => void;
-  onNavigateHome: () => void;
-}
-
-function Admin({ onNavigateToPost, onNavigateHome }: AdminProps) {
+function Admin() {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
@@ -200,7 +197,7 @@ function Admin({ onNavigateToPost, onNavigateHome }: AdminProps) {
           </form>
           <div className="mt-4 text-center">
             <button
-              onClick={onNavigateHome}
+              onClick={() => navigate('/')}
               className="text-sm text-gray-600 hover:text-gray-900"
             >
               ← Back to Home
@@ -220,7 +217,7 @@ function Admin({ onNavigateToPost, onNavigateHome }: AdminProps) {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
           <div className="flex gap-4">
-            <Button variant="outline" onClick={onNavigateHome}>
+            <Button variant="outline" onClick={() => navigate('/')}>
               View Site
             </Button>
             <Button variant="outline" onClick={handleLogout}>
@@ -285,7 +282,7 @@ function Admin({ onNavigateToPost, onNavigateHome }: AdminProps) {
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900">
                         <button
-                          onClick={() => onNavigateToPost(post.slug)}
+                          onClick={() => navigate(`/posts/${post.slug}`)}
                           className="text-blue-600 hover:text-blue-800 hover:underline text-left"
                         >
                           {post.title}

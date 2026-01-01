@@ -1,14 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface WebsiteHeaderProps {
   className?: string;
-  onNavigateToAdmin?: () => void;
 }
 
-const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({
-  className = "",
-  onNavigateToAdmin
-}) => {
+const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
+  const navigate = useNavigate();
   return (
     <>
       <header
@@ -26,8 +24,8 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({
                   src={`${import.meta.env.BASE_URL}6AMKICK.png`}
                   alt="6AMKICK Logo"
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
-                  onDoubleClick={onNavigateToAdmin}
-                  style={{ cursor: onNavigateToAdmin ? 'pointer' : 'default' }}
+                  onDoubleClick={() => navigate('/admin')}
+                  style={{ cursor: 'pointer' }}
                 />
 
               </div>
@@ -38,15 +36,13 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({
                 <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 rounded-full mt-2 shadow-sm"></div>
               </div>
             </div>
-            {onNavigateToAdmin && (
-              <button
-                onClick={onNavigateToAdmin}
-                className="hidden sm:block text-xs text-amber-200/40 hover:text-amber-200/80 transition-colors"
-                title="Admin"
-              >
-                •
-              </button>
-            )}
+            <button
+              onClick={() => navigate('/admin')}
+              className="hidden sm:block text-xs text-amber-200/40 hover:text-amber-200/80 transition-colors"
+              title="Admin"
+            >
+              •
+            </button>
           </div>
         </div>
       </header>

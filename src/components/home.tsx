@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import BriefingCard from "./BriefingCard";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BriefingPost } from "@/types/briefing";
 
-interface HomeProps {
-  onNavigateToPost: (slug: string) => void;
-}
-
 const POSTS_PER_PAGE = 9;
 
-function Home({ onNavigateToPost }: HomeProps) {
+function Home() {
   const [posts, setPosts] = useState<BriefingPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,13 +105,20 @@ function Home({ onNavigateToPost }: HomeProps) {
   }
 
   return (
-    <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Posts Grid */}
+    <>
+      <Helmet>
+        <title>6AMKICK - Your Morning Running Briefing</title>
+        <meta name="description" content="Your 6AM running briefing. One story. One lesson. One thing to try today." />
+        <link rel="canonical" href="https://6amkick.vercel.app/" />
+      </Helmet>
+
+      <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Posts Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {currentPosts.map((post) => (
             <div key={post.id} className="w-full">
-              <BriefingCard post={post} onNavigateToPost={onNavigateToPost} />
+              <BriefingCard post={post} />
             </div>
           ))}
         </div>
@@ -166,6 +170,7 @@ function Home({ onNavigateToPost }: HomeProps) {
         )}
       </div>
     </div>
+    </>
   );
 }
 

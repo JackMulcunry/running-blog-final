@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Button } from "../../components/ui/button";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 
-interface BriefingPageProps {
-  slug: string;
-  onNavigateHome: () => void;
-}
-
-const BriefingPage: React.FC<BriefingPageProps> = ({
-  slug,
-  onNavigateHome,
-}) => {
+const BriefingPage: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [post, setPost] = useState<BriefingPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +80,7 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
       <div className="min-h-screen bg-yellow-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || "Post not found"}</p>
-          <Button onClick={onNavigateHome} variant="outline">
+          <Button onClick={() => navigate('/')} variant="outline">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
@@ -102,18 +98,36 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-yellow-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back Button */}
-        <div className="mb-8">
-          <Button onClick={onNavigateHome} variant="outline" className="mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
-        </div>
+    <>
+      <Helmet>
+        <title>{post.title} | 6AMKICK</title>
+        <meta name="description" content={post.excerpt} />
+        <link rel="canonical" href={`https://6amkick.vercel.app/posts/${post.slug}`} />
 
-        {/* Article Header */}
-        <article className="bg-white rounded-lg shadow-sm p-8 sm:p-12">
+        {/* OpenGraph tags */}
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:url" content={`https://6amkick.vercel.app/posts/${post.slug}`} />
+        <meta property="og:type" content="article" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt} />
+      </Helmet>
+
+      <div className="min-h-screen bg-yellow-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Back Button */}
+          <div className="mb-8">
+            <Button onClick={() => navigate('/')} variant="outline" className="mb-6">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </div>
+
+          {/* Article Header */}
+          <article className="bg-white rounded-lg shadow-sm p-8 sm:p-12">
           {/* Category Badge */}
           <div className="mb-4">
             <span
@@ -203,13 +217,14 @@ const BriefingPage: React.FC<BriefingPageProps> = ({
 
         {/* Bottom Navigation */}
         <div className="mt-8">
-          <Button onClick={onNavigateHome} variant="outline" size="lg">
+          <Button onClick={() => navigate('/')} variant="outline" size="lg">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to All Briefings
           </Button>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

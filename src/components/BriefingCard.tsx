@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -13,13 +14,9 @@ import { BriefingPost } from "@/types/briefing";
 
 interface BriefingCardProps {
   post: BriefingPost;
-  onNavigateToPost: (slug: string) => void;
 }
 
-const BriefingCard: React.FC<BriefingCardProps> = ({
-  post,
-  onNavigateToPost,
-}) => {
+const BriefingCard: React.FC<BriefingCardProps> = ({ post }) => {
   const categoryColors = {
     Race: "bg-blue-50 text-blue-700 border-blue-200",
     Training: "bg-green-50 text-green-700 border-green-200",
@@ -79,12 +76,11 @@ const BriefingCard: React.FC<BriefingCardProps> = ({
         )}
       </CardContent>
       <CardFooter className="p-6 pt-4 mt-auto">
-        <Button
-          className="w-full bg-slate-900 hover:bg-slate-800 text-white transition-all duration-200"
-          onClick={() => onNavigateToPost(post.slug)}
-        >
-          Read
-        </Button>
+        <Link to={`/posts/${post.slug}`} className="w-full">
+          <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white transition-all duration-200">
+            Read
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
