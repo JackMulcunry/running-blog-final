@@ -2,9 +2,13 @@ import React from "react";
 
 interface WebsiteHeaderProps {
   className?: string;
+  onNavigateToAdmin?: () => void;
 }
 
-const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
+const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({
+  className = "",
+  onNavigateToAdmin
+}) => {
   return (
     <>
       <header
@@ -15,13 +19,15 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start h-28 sm:h-32 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between h-28 sm:h-32 py-4">
             <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-8">
               <div className="flex-shrink-0">
                 <img
                   src={`${import.meta.env.BASE_URL}6AMKICK.png`}
                   alt="6AMKICK Logo"
                   className="h-20 w-auto sm:h-22 lg:h-24 drop-shadow-lg filter brightness-110"
+                  onDoubleClick={onNavigateToAdmin}
+                  style={{ cursor: onNavigateToAdmin ? 'pointer' : 'default' }}
                 />
 
               </div>
@@ -32,6 +38,15 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
                 <div className="h-1 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 rounded-full mt-2 shadow-sm"></div>
               </div>
             </div>
+            {onNavigateToAdmin && (
+              <button
+                onClick={onNavigateToAdmin}
+                className="hidden sm:block text-xs text-amber-200/40 hover:text-amber-200/80 transition-colors"
+                title="Admin"
+              >
+                •
+              </button>
+            )}
           </div>
         </div>
       </header>
