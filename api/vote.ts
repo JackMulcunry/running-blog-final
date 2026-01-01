@@ -1,6 +1,6 @@
 // api/vote.ts
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getRedis } from "./_redis";
+import { getRedis } from "./_redis.js";
 
 // Validate postId format (only allow briefing-YYYY-MM-DD)
 function isValidPostId(postId: string): boolean {
