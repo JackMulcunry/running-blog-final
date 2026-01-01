@@ -52,18 +52,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Authentication successful, fetch stats
     const redis = await getRedis();
 
-    // Scan for all stats keys matching pattern "stats:briefing-*"
-    const keys: string[] = [];
-    let cursor = 0;
-
-    do {
-      const result = await redis.scan(cursor, {
-        MATCH: "stats:briefing-*",
-        COUNT: 100
-      });
-      cursor = result.cursor;
-      keys.push(...result.keys);
-    } while (cursor !== 0);
+    // Use KEYS command to get all stats keys
+    // Note: KEYS is acceptable here since this is an admin-only endpoint
+    // and we expect a small number of posts
+    const keys = await redis.keys("stats:briefing-*");
 
     // Fetch stats for each key
     const stats: PostStats[] = await Promise.all(
