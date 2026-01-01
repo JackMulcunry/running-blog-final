@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getRedis } from "./_redis";
+import { getRedis } from "./_redis.js";
 
 function isValidPostId(postId: string): boolean {
   const pattern = /^briefing-\d{4}-\d{2}-\d{2}$/;
