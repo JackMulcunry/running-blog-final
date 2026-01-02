@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import BriefingCard from "./BriefingCard";
+import Footer from "./Footer";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BriefingPost } from "@/types/briefing";
@@ -107,13 +108,38 @@ function Home() {
   return (
     <>
       <Helmet>
-        <title>6AMKICK - Your Morning Running Briefing</title>
-        <meta name="description" content="Your 6AM running briefing. One story. One lesson. One thing to try today." />
+        <title>6AMKICK | A Performance-Focused Running Blog</title>
+        <meta name="description" content="6AMKICK is a performance-focused running blog covering racing mindset, training insights, and competition at all levels." />
         <link rel="canonical" href="https://6amkick.vercel.app/" />
+
+        {/* Structured Data for Brand */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "name": "6AMKICK",
+            "url": "https://6amkick.vercel.app/",
+            "description": "A performance-focused running blog covering racing mindset and training.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "6AMKICK"
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
+          {/* Brand Hero Section */}
+          <div className="mb-12 text-center">
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+              6AMKICK — A Performance-Focused Running Blog
+            </h1>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+              6AMKICK is a daily running blog focused on racing mindset, training discipline, and competing regardless of conditions.
+            </p>
+          </div>
+
           {/* Posts Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {currentPosts.map((post) => (
@@ -169,6 +195,8 @@ function Home() {
           </div>
         )}
       </div>
+
+      <Footer />
     </div>
     </>
   );

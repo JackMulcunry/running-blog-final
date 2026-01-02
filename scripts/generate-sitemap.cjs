@@ -16,6 +16,11 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://6amkick.vercel.app/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 ${slugs.map(slug => `  <url>
     <loc>https://6amkick.vercel.app/posts/${slug}</loc>
     <changefreq>weekly</changefreq>
