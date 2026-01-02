@@ -1,12 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "gh-pages": false
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml" }
+      ]
     }
-  }
+  ]
 }
