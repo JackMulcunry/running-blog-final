@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "generate-sitemap": "node scripts/generate-sitemap.cjs",
+    "generate-post-pages": "node scripts/generate-post-pages.cjs",
     "prebuild": "npm run generate-sitemap",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && npm run generate-post-pages",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",

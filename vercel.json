@@ -1,4 +1,14 @@
 {
+  "rewrites": [
+    {
+      "source": "/posts/:slug",
+      "destination": "/posts/:slug.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/sitemap.xml",
