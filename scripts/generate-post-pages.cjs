@@ -139,6 +139,17 @@ postFilenames.forEach(filename => {
 ${JSON.stringify(articleSchema, null, 6)}
     </script>
 
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6R18TR07S3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6R18TR07S3', {
+        send_page_view: false
+      });
+    </script>
+
     <!-- Assets -->
     <script type="module" crossorigin src="${jsPath}"></script>
     <link rel="stylesheet" crossorigin href="${cssPath}">
