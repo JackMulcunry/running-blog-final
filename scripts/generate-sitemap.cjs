@@ -1,12 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read index.json to get all posts
+// Read index.json to get all post filenames
 const indexPath = path.join(__dirname, '../public/data/posts/index.json');
 const filenames = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
-// Extract slugs from filenames (remove .json extension and leading slashes)
-const slugs = filenames.map(filename => filename.replace('.json', '').replace(/^\/+/, ''));
+const postsDir = path.join(__dirname, '../public/data/posts');
+
+// Read each post to get its slug field
+// Supports both legacy (briefing-YYYY-MM-DD) and descriptive slugs
+const slugs = filenames.map(filename => {
+  const cleanFilename = filename.replace('.json', '').replace(/^\/+/, '');
+  const postPath = path.join(postsDir, `${cleanFilename}.json`);
+  const post = JSON.parse(fs.readFileSync(postPath, 'utf-8'));
+
+  // Use the slug field from the post JSON
+  // This supports both legacy and descriptive formats
+  return post.slug;
+});
 
 // Build sitemap XML
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

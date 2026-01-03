@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import BriefingCard from "./BriefingCard";
 import Footer from "./Footer";
@@ -111,21 +111,6 @@ function Home() {
         <title>6AMKICK | A Performance-Focused Running Blog</title>
         <meta name="description" content="6AMKICK is a performance-focused running blog covering racing mindset, training insights, and competition at all levels." />
         <link rel="canonical" href="https://6amkick.vercel.app/" />
-
-        {/* Structured Data for Brand */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Blog",
-            "name": "6AMKICK",
-            "url": "https://6amkick.vercel.app/",
-            "description": "A performance-focused running blog covering racing mindset and training.",
-            "publisher": {
-              "@type": "Organization",
-              "name": "6AMKICK"
-            }
-          })}
-        </script>
       </Helmet>
 
       <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">

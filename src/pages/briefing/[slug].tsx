@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "../../components/ui/button";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
@@ -10,6 +10,7 @@ const BriefingPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<BriefingPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BriefingPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,6 +29,9 @@ const BriefingPage: React.FC = () => {
 
         // Track view after successfully loading the post
         trackView(data.id);
+
+        // Load related posts
+        await loadRelatedPosts(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load post");
       } finally {
@@ -39,6 +43,54 @@ const BriefingPage: React.FC = () => {
       fetchPost();
     }
   }, [slug]);
+
+  const loadRelatedPosts = async (currentPost: BriefingPost) => {
+    try {
+      // Load all posts
+      const indexRes = await fetch(`${import.meta.env.BASE_URL}data/posts/index.json`);
+      const filenames: string[] = await indexRes.json();
+
+      const allPosts = await Promise.all(
+        filenames.map(async (filename) => {
+          const cleanFilename = filename.replace(/^\/+/, '').replace('.json', '');
+          const res = await fetch(`${import.meta.env.BASE_URL}data/posts/${cleanFilename}.json`);
+          return await res.json();
+        })
+      );
+
+      // Filter out current post
+      const otherPosts = allPosts.filter(p => p.id !== currentPost.id);
+
+      // Find posts with matching tags
+      const postsWithMatchingTags = otherPosts.filter(p =>
+        p.tags.some(tag => currentPost.tags.includes(tag))
+      );
+
+      // Select 2 related posts
+      let related: BriefingPost[] = [];
+      if (postsWithMatchingTags.length >= 2) {
+        related = postsWithMatchingTags.slice(0, 2);
+      } else if (postsWithMatchingTags.length === 1) {
+        // 1 matching tag post + 1 most recent
+        related = [postsWithMatchingTags[0]];
+        const remaining = otherPosts.filter(p => p.id !== related[0].id);
+        if (remaining.length > 0) {
+          // Sort by date descending
+          remaining.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          related.push(remaining[0]);
+        }
+      } else {
+        // No matching tags, use 2 most recent
+        otherPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        related = otherPosts.slice(0, 2);
+      }
+
+      setRelatedPosts(related);
+    } catch (error) {
+      console.error('Error loading related posts:', error);
+      setRelatedPosts([]);
+    }
+  };
 
   const trackView = async (postId: string) => {
     try {
@@ -214,6 +266,39 @@ const BriefingPage: React.FC = () => {
           {/* Feedback Component */}
           <PostFeedback postId={post.id} />
         </article>
+
+        {/* Related Briefings */}
+        {relatedPosts.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Briefings</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {relatedPosts.map((relatedPost) => (
+                <Link
+                  key={relatedPost.id}
+                  to={`/posts/${relatedPost.slug}`}
+                  className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6"
+                >
+                  <div className="mb-3">
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium border ${categoryColors[relatedPost.category]}`}>
+                      {relatedPost.category}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 hover:text-amber-600 transition-colors">
+                    {relatedPost.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    {relatedPost.excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <span>{formatDate(relatedPost.date)}</span>
+                    <span>•</span>
+                    <span>{relatedPost.readTimeMinutes} min read</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Bottom Navigation */}
         <div className="mt-8">

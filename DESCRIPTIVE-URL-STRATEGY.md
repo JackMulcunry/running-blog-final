@@ -10,85 +10,106 @@ This document defines the URL naming strategy for all future blog posts on 6AMKI
 
 ## URL Format for New Posts
 
-### Standard Format
+### Standard Format (Descriptive)
 ```
-/posts/briefing-YYYY-MM-DD-keyword-keyword-keyword
+/posts/keyword-keyword-keyword
 ```
 
-### Components
-1. **Prefix**: `briefing-` (required)
-2. **Date**: `YYYY-MM-DD` (required)
-3. **Keywords**: 2-4 topic keywords (recommended)
+**OR Legacy Format (Still Supported)**
+```
+/posts/briefing-YYYY-MM-DD
+```
 
-### Rules
+### Rules for Descriptive Slugs
 - **Lowercase only**
 - **Hyphen-separated** (no underscores or spaces)
-- **Max length**: ~75 characters total
-- **Keywords**: Derive from title, main topic, or key lesson
-- **Fallback**: If keywords unavailable, use `briefing-YYYY-MM-DD`
+- **Max length**: ~60 characters total
+- **Keywords**: Derive from title, main topic, or key lesson (2-5 words)
+- **No dates required**: Dates are metadata, not part of URL
+
+### How Slugs Work
+Each post JSON file has a `slug` field that defines its URL path. The build system uses this field to:
+1. Generate the static HTML file
+2. Add the post to the sitemap
+3. Create the canonical URL
 
 ## Examples
 
-### Good Examples
+### Good Examples (Descriptive Slugs)
 
 #### Race Report Post
 - **Title**: "When the Clock Doesn't Matter: Racing Through Bad Conditions"
-- **Current URL**: `/posts/briefing-2025-12-31`
-- **New URL**: `/posts/briefing-2025-12-31-honolulu-marathon-rain`
-- **Keywords**: honolulu, marathon, rain
+- **Slug**: `honolulu-marathon-rain-conditions`
+- **URL**: `/posts/honolulu-marathon-rain-conditions`
 
 #### Athlete/Event Post
 - **Title**: "When the Rules Matter More Than the Results"
-- **Current URL**: `/posts/briefing-2026-01-01`
-- **New URL**: `/posts/briefing-2026-01-01-world-xc-seb-coe`
-- **Keywords**: world-xc, seb-coe
+- **Slug**: `world-xc-seb-coe-voting`
+- **URL**: `/posts/world-xc-seb-coe-voting`
 
 #### Gear Review Post
 - **Title**: "Topo Athletic Phantom 4 WP: What you need to know"
-- **Current URL**: `/posts/briefing-2025-12-30`
-- **New URL**: `/posts/briefing-2025-12-30-topo-phantom-4-waterproof`
-- **Keywords**: topo, phantom-4, waterproof
+- **Slug**: `topo-phantom-4-waterproof-review`
+- **URL**: `/posts/topo-phantom-4-waterproof-review`
 
 #### Training Insight Post
 - **Title**: "The Science Behind Tempo Runs"
-- **URL**: `/posts/briefing-2026-01-15-tempo-runs-lactate-threshold`
-- **Keywords**: tempo-runs, lactate-threshold
+- **Slug**: `tempo-runs-lactate-threshold-science`
+- **URL**: `/posts/tempo-runs-lactate-threshold-science`
+
+### Legacy Format (Existing Posts - Do NOT Change)
+
+#### Examples of Current Posts
+- **Title**: "Topo Athletic Phantom 4 WP"
+- **Slug**: `briefing-2025-12-30`
+- **URL**: `/posts/briefing-2025-12-30` ✅ Kept as-is
 
 ### Bad Examples
 
-❌ `/posts/2026-01-01-world-xc` (missing "briefing-" prefix)
-❌ `/posts/briefing-world-xc-2026-01-01` (date not at start)
-❌ `/posts/briefing-2026-01-01-World-XC-Seb-Coe` (not lowercase)
-❌ `/posts/briefing-2026-01-01_world_xc` (underscores instead of hyphens)
-❌ `/posts/briefing-2026-01-01-world-cross-country-championships-sebastian-coe-voting-transparency` (too long, >75 chars)
+❌ `/posts/World-XC-Seb-Coe` (not lowercase)
+❌ `/posts/world_xc_seb_coe` (underscores instead of hyphens)
+❌ `/posts/world-cross-country-championships-sebastian-coe-voting-transparency-debate` (too long, >60 chars)
+❌ `/posts/xc` (too short, not descriptive enough)
 
 ## Implementation Guide
+
+### Using the Slug Generator Script
+Generate SEO-friendly slugs from titles:
+
+```bash
+node scripts/generate-slug.cjs "Your Post Title Here"
+# Output: your-post-title-here
+```
 
 ### For n8n Automation
 When creating new posts via your automation:
 
-1. Extract 2-4 keywords from the post title or content
-2. Convert keywords to lowercase
-3. Replace spaces with hyphens
-4. Remove special characters (keep only a-z, 0-9, hyphens)
-5. Construct slug: `briefing-YYYY-MM-DD-keyword1-keyword2-keyword3`
-6. Set both `id` and `slug` fields to this value in the JSON file
+1. Use the slug generator script or implement the same logic:
+   - Convert title to lowercase
+   - Replace spaces and special chars with hyphens
+   - Max 60 characters
+2. Set the `slug` field in the JSON to the generated slug
+3. Keep `id` as the legacy format for backward compatibility: `briefing-YYYY-MM-DD`
+4. Name the JSON file using the `id` field (legacy format)
 
 ### Manual Post Creation
 When creating posts manually:
 
 ```json
 {
-  "id": "briefing-2026-01-15-tempo-runs-lactate-threshold",
-  "slug": "briefing-2026-01-15-tempo-runs-lactate-threshold",
+  "id": "briefing-2026-01-15",
+  "slug": "tempo-runs-lactate-threshold-science",
   "title": "The Science Behind Tempo Runs",
+  "excerpt": "Understanding how tempo runs improve your lactate threshold...",
+  "date": "2026-01-15",
   ...
 }
 ```
 
 ### File Naming
-- **JSON filename**: Must match the slug
-- Example: `briefing-2026-01-15-tempo-runs-lactate-threshold.json`
+- **JSON filename**: Use the legacy `id` format for consistency
+- **Example**: `briefing-2026-01-15.json`
+- The `slug` field inside determines the actual URL path
 
 ## SEO Benefits
 
@@ -173,13 +194,13 @@ This prevents duplicate content issues and tells Google which URL is authoritati
 
 Before publishing a new post, verify:
 
-- [ ] Slug starts with `briefing-YYYY-MM-DD`
-- [ ] Keywords are lowercase and hyphen-separated
-- [ ] Total slug length < 75 characters
-- [ ] `id` and `slug` fields match in JSON
-- [ ] JSON filename matches the slug
-- [ ] No special characters except hyphens
-- [ ] Keywords reflect the main topic/lesson
+- [ ] `slug` is lowercase and hyphen-separated
+- [ ] `slug` length is between 10-60 characters
+- [ ] `id` uses legacy format: `briefing-YYYY-MM-DD`
+- [ ] JSON filename matches the `id` field
+- [ ] No special characters in slug except hyphens
+- [ ] Slug keywords reflect the main topic/lesson
+- [ ] Both `id` and `slug` fields present in JSON
 
 ## Questions?
 
