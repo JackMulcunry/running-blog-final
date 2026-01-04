@@ -113,15 +113,15 @@ function Home() {
         <link rel="canonical" href="https://6amkick.vercel.app/" />
       </Helmet>
 
-      <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-yellow-50 py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Brand Hero Section */}
-          <div className="mb-12 text-center">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <div className="mb-8 text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               6AMKICK — A Performance-Focused Running Blog
             </h1>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              6AMKICK is a daily running blog focused on racing mindset, training discipline, and competing regardless of conditions.
+            <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+              Daily running blog focused on racing mindset, training discipline, and competing regardless of conditions.
             </p>
           </div>
 
