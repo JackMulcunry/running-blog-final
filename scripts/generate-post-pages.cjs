@@ -156,7 +156,6 @@ ${JSON.stringify(articleSchema, null, 6)}
   </head>
   <body>
     <div id="root"></div>
-    ${relatedPostsHtml}
   </body>
 </html>`;
 
