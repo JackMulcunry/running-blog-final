@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "../../components/ui/button";
-import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Tag, CalendarDays } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 
@@ -141,12 +141,30 @@ const BriefingPage: React.FC = () => {
     );
   }
 
-  const categoryColors = {
+  const isWeekly = post.postType === "weekly";
+
+  const categoryColors: Record<string, string> = {
     Race: "bg-blue-50 text-blue-700 border-blue-200",
     Training: "bg-green-50 text-green-700 border-green-200",
     Science: "bg-purple-50 text-purple-700 border-purple-200",
     Shoes: "bg-orange-50 text-orange-700 border-orange-200",
     Opinion: "bg-gray-50 text-gray-700 border-gray-200",
+    Weekly: "bg-indigo-100 text-indigo-800 border-indigo-300",
+  };
+
+  // Calculate week range from the post date
+  const getWeekRange = (dateString: string) => {
+    if (post.weekRange) return post.weekRange;
+
+    const [year, month, day] = dateString.split('-').map(Number);
+    const endDate = new Date(year, month - 1, day);
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - 6);
+
+    const formatShort = (d: Date) => d.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+    const endYear = endDate.getFullYear();
+
+    return `${formatShort(startDate)} - ${formatShort(endDate)}, ${endYear}`;
   };
 
   return (
@@ -179,27 +197,48 @@ const BriefingPage: React.FC = () => {
           </div>
 
           {/* Article Header */}
-          <article className="bg-white rounded-lg shadow-sm p-8 sm:p-12">
+          <article className={`rounded-lg shadow-sm p-8 sm:p-12 ${
+            isWeekly
+              ? "bg-gradient-to-br from-indigo-50 via-white to-purple-50 border-2 border-indigo-200"
+              : "bg-white"
+          }`}>
           {/* Category Badge */}
           <div className="mb-4">
             <span
-              className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium border ${categoryColors[post.category]}`}
+              className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium border ${
+                isWeekly
+                  ? "bg-indigo-600 text-white border-0 shadow-sm"
+                  : categoryColors[post.category]
+              }`}
             >
-              {post.category}
+              {isWeekly ? "Weekly Recap" : post.category}
             </span>
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className={`font-bold text-gray-900 mb-6 leading-tight ${
+            isWeekly ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl"
+          }`}>
             {post.title}
           </h1>
 
           {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-600 pb-6 border-b border-gray-200">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              <span>{formatDate(post.date)}</span>
-            </div>
+          <div className={`flex flex-wrap items-center gap-4 mb-6 text-sm pb-6 border-b ${
+            isWeekly
+              ? "text-indigo-700 border-indigo-200"
+              : "text-gray-600 border-gray-200"
+          }`}>
+            {isWeekly ? (
+              <div className="flex items-center gap-2 bg-indigo-100/60 rounded-lg px-3 py-1.5">
+                <CalendarDays className="w-4 h-4" />
+                <span className="font-medium">{getWeekRange(post.date)}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                <span>{formatDate(post.date)}</span>
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>{post.readTimeMinutes} min read</span>
@@ -209,7 +248,9 @@ const BriefingPage: React.FC = () => {
           {/* Body */}
           <div className="prose prose-lg max-w-none mb-8">
             {post.body.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+              <p key={index} className={`mb-4 leading-relaxed ${
+                isWeekly ? "text-gray-800" : "text-gray-700"
+              }`}>
                 {paragraph}
               </p>
             ))}
@@ -217,9 +258,15 @@ const BriefingPage: React.FC = () => {
 
           {/* Key Takeaway */}
           {post.keyTakeaway && (
-            <div className="mb-8 p-6 bg-amber-50 border-l-4 border-amber-400 rounded-r">
-              <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wide mb-2">
-                Key Takeaway
+            <div className={`mb-8 p-6 border-l-4 rounded-r ${
+              isWeekly
+                ? "bg-indigo-50 border-indigo-500"
+                : "bg-amber-50 border-amber-400"
+            }`}>
+              <h3 className={`text-sm font-bold uppercase tracking-wide mb-2 ${
+                isWeekly ? "text-indigo-900" : "text-amber-900"
+              }`}>
+                {isWeekly ? "This Week's Takeaway" : "Key Takeaway"}
               </h3>
               <p className="text-base leading-relaxed text-gray-800">
                 {post.keyTakeaway}
@@ -246,14 +293,18 @@ const BriefingPage: React.FC = () => {
 
           {/* Tags */}
           {post.tags.length > 0 && (
-            <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className={`mt-8 pt-6 border-t ${isWeekly ? "border-indigo-200" : "border-gray-200"}`}>
               <div className="flex items-start gap-2">
-                <Tag className="w-4 h-4 text-gray-500 mt-1" />
+                <Tag className={`w-4 h-4 mt-1 ${isWeekly ? "text-indigo-500" : "text-gray-500"}`} />
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
+                  {post.tags.filter(tag => tag !== "weekly").map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                      className={`px-3 py-1 text-sm rounded-full ${
+                        isWeekly
+                          ? "bg-indigo-100 text-indigo-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
                     >
                       {tag}
                     </span>
