@@ -12,7 +12,7 @@ const About: React.FC = () => {
       <Helmet>
         <title>About 6AMKICK | Performance-Focused Running Blog</title>
         <meta name="description" content="Learn about 6AMKICK, a running blog dedicated to racing, training, and competitive mindset with daily briefings focused on real racing conditions." />
-        <link rel="canonical" href="https://6amkick.vercel.app/about" />
+        <link rel="canonical" href="https://6amkick.com/about" />
       </Helmet>
 
       <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">

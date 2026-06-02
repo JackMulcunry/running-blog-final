@@ -172,12 +172,12 @@ const BriefingPage: React.FC = () => {
       <Helmet>
         <title>{post.title} | 6AMKICK</title>
         <meta name="description" content={post.excerpt} />
-        <link rel="canonical" href={`https://6amkick.vercel.app/posts/${post.slug}`} />
+        <link rel="canonical" href={`https://6amkick.com/posts/${post.slug}`} />
 
         {/* OpenGraph tags */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta property="og:url" content={`https://6amkick.vercel.app/posts/${post.slug}`} />
+        <meta property="og:url" content={`https://6amkick.com/posts/${post.slug}`} />
         <meta property="og:type" content="article" />
 
         {/* Twitter Card */}

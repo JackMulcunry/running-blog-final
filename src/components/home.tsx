@@ -110,7 +110,7 @@ function Home() {
       <Helmet>
         <title>6AMKICK | A Performance-Focused Running Blog</title>
         <meta name="description" content="6AMKICK is a performance-focused running blog covering racing mindset, training insights, and competition at all levels." />
-        <link rel="canonical" href="https://6amkick.vercel.app/" />
+        <link rel="canonical" href="https://6amkick.com/" />
       </Helmet>
 
       <div className="min-h-screen bg-yellow-50 py-6 px-4 sm:px-6 lg:px-8">

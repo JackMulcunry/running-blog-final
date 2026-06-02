@@ -106,7 +106,7 @@ postFilenames.forEach(filename => {
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://6amkick.vercel.app/posts/${post.slug}`
+      "@id": `https://6amkick.com/posts/${post.slug}`
     }
   };
 
@@ -121,12 +121,12 @@ postFilenames.forEach(filename => {
     <!-- SEO Meta Tags -->
     <title>${escapeHtml(post.title)} | 6AMKICK</title>
     <meta name="description" content="${escapeHtml(post.excerpt)}" />
-    <link rel="canonical" href="https://6amkick.vercel.app/posts/${post.slug}" />
+    <link rel="canonical" href="https://6amkick.com/posts/${post.slug}" />
 
     <!-- OpenGraph Tags -->
     <meta property="og:title" content="${escapeHtml(post.title)}" />
     <meta property="og:description" content="${escapeHtml(post.excerpt)}" />
-    <meta property="og:url" content="https://6amkick.vercel.app/posts/${post.slug}" />
+    <meta property="og:url" content="https://6amkick.com/posts/${post.slug}" />
     <meta property="og:type" content="article" />
 
     <!-- Twitter Card -->
