@@ -246,15 +246,10 @@ const BriefingPage: React.FC = () => {
           </div>
 
           {/* Body */}
-          <div className="prose prose-lg max-w-none mb-8">
-            {post.body.split("\n\n").map((paragraph, index) => (
-              <p key={index} className={`mb-4 leading-relaxed ${
-                isWeekly ? "text-gray-800" : "text-gray-700"
-              }`}>
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <div
+            className={`prose prose-lg max-w-none mb-8 ${isWeekly ? "text-gray-800" : "text-gray-700"}`}
+            dangerouslySetInnerHTML={{ __html: post.body }}
+          />
 
           {/* Key Takeaway */}
           {post.keyTakeaway && (
