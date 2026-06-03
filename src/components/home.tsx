@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useSearchParams } from "react-router-dom";
 import BriefingCard from "./BriefingCard";
 import Footer from "./Footer";
 import { Button } from "./ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Clock } from "lucide-react";
-import { BriefingPost } from "@/types/briefing";
+import { BriefingPost, PostCategory } from "@/types/briefing";
 
 const POSTS_PER_PAGE = 9;
 
-const CATEGORIES = ["All", "Race", "Training", "Science", "Shoes", "Opinion", "Weekly"];
+// Preferred display order for categories that exist in the data
+const CATEGORY_ORDER: PostCategory[] = ["Race", "Training", "Science", "Shoes", "Opinion", "Weekly"];
 
 function formatDate(dateString: string) {
   const [year, month, day] = dateString.split("-").map(Number);
@@ -58,6 +59,16 @@ function Home() {
 
     loadPosts();
   }, []);
+
+  // Derive available categories from loaded posts, in preferred display order
+  const availableCategories = useMemo(() => {
+    const inData = new Set(posts.map((p) => p.category));
+    const ordered = CATEGORY_ORDER.filter((c) => inData.has(c));
+    const extras = Array.from(inData)
+      .filter((c) => !CATEGORY_ORDER.includes(c))
+      .sort();
+    return ["All", ...ordered, ...extras];
+  }, [posts]);
 
   // Reset to page 1 when category filter changes
   useEffect(() => {
@@ -213,7 +224,7 @@ function Home() {
               {isFiltered ? `${selectedCategory} Briefings` : "All Briefings"}
             </h2>
             <div className="flex items-center gap-2 flex-wrap">
-              {CATEGORIES.map((cat) => (
+              {availableCategories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => handleCategoryChange(cat)}

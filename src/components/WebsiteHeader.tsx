@@ -30,30 +30,24 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
               className="h-10 w-auto sm:h-11 drop-shadow-lg filter brightness-110 flex-shrink-0"
             />
             <div className="flex flex-col items-start justify-center">
-              <h1 className="text-lg sm:text-xl font-black text-white tracking-wider leading-none drop-shadow-md">
+              <h1
+                className="text-lg sm:text-xl font-black tracking-wider leading-none"
+                style={{ color: "#ffffff" }}
+              >
                 6AMKICK
               </h1>
-              <p className="text-[10px] sm:text-[11px] text-amber-300/60 font-normal tracking-wide mt-0.5 leading-none">
+              <p
+                className="text-[10px] sm:text-[11px] font-normal tracking-wide mt-0.5 leading-none"
+                style={{ color: "rgba(252, 211, 77, 0.65)" }}
+              >
                 Your 6AM running briefing
               </p>
               <div className="h-[2px] w-0 group-hover:w-full bg-brand-orange rounded-full mt-1.5 transition-all duration-300 ease-out" />
             </div>
           </button>
 
-          {/* Nav */}
-          <nav className="flex items-center gap-5 sm:gap-7">
-            <Link
-              to="/?category=Training"
-              className="hidden sm:block text-[11px] uppercase tracking-[0.1em] font-semibold text-gray-400 hover:text-white transition-colors duration-150"
-            >
-              Training
-            </Link>
-            <Link
-              to="/?category=Race"
-              className="hidden sm:block text-[11px] uppercase tracking-[0.1em] font-semibold text-gray-400 hover:text-white transition-colors duration-150"
-            >
-              Racing
-            </Link>
+          {/* Nav — About only */}
+          <nav className="flex items-center">
             <Link
               to="/about"
               className="text-[11px] uppercase tracking-[0.1em] font-semibold text-gray-400 hover:text-white transition-colors duration-150"
