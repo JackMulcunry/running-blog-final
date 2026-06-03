@@ -6,6 +6,12 @@ import { ArrowLeft, Calendar, Clock, Tag, CalendarDays } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 
+function sanitizePostBody(html: string): string {
+  return html
+    .replace(/<h1[^>]*>.*?<\/h1>/i, "")
+    .replace(/<p>---<\/p>/g, "<hr>");
+}
+
 const BriefingPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -248,7 +254,7 @@ const BriefingPage: React.FC = () => {
           {/* Body */}
           <div
             className={`prose prose-lg max-w-none mb-8 ${isWeekly ? "text-gray-800" : "text-gray-700"}`}
-            dangerouslySetInnerHTML={{ __html: post.body }}
+            dangerouslySetInnerHTML={{ __html: sanitizePostBody(post.body) }}
           />
 
           {/* Key Takeaway */}
