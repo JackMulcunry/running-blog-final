@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://6amkick.com/</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2025-12-30</loc>
+    <loc>https://6amkick.com/about</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+
+  <url>
+    <loc>https://6amkick.com/posts/briefing-2025-12-30</loc>
     <lastmod>2025-12-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -11,7 +26,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/weekly-2026-01-23</loc>
+    <loc>https://6amkick.com/posts/weekly-2026-01-23</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -19,7 +34,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-29</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-29</loc>
     <lastmod>2026-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -27,7 +42,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-28</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-28</loc>
     <lastmod>2026-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -35,7 +50,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-27</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-27</loc>
     <lastmod>2026-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -43,7 +58,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-25</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-25</loc>
     <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -51,7 +66,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-24</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-24</loc>
     <lastmod>2026-01-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -59,7 +74,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-22</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-22</loc>
     <lastmod>2026-01-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -67,7 +82,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-21</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-21</loc>
     <lastmod>2026-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -75,7 +90,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-20</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-20</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -83,7 +98,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-19</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-19</loc>
     <lastmod>2026-01-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -91,7 +106,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-18</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-18</loc>
     <lastmod>2026-01-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -99,7 +114,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-17</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-17</loc>
     <lastmod>2026-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -107,7 +122,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-16</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-16</loc>
     <lastmod>2026-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -115,7 +130,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-15</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-15</loc>
     <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -123,7 +138,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-14</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-14</loc>
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -131,7 +146,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-13</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-13</loc>
     <lastmod>2026-01-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -139,7 +154,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-12</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-12</loc>
     <lastmod>2026-01-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -147,7 +162,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-11</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-11</loc>
     <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -155,7 +170,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-10</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-10</loc>
     <lastmod>2026-01-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -163,7 +178,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-09</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-09</loc>
     <lastmod>2026-01-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -171,7 +186,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-08</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-08</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -179,7 +194,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-07</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-07</loc>
     <lastmod>2026-01-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -187,7 +202,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-06</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-06</loc>
     <lastmod>2026-01-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -195,7 +210,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-05</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-05</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -203,7 +218,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-04</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-04</loc>
     <lastmod>2026-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -211,7 +226,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-03</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-03</loc>
     <lastmod>2026-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -219,7 +234,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-02</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-02</loc>
     <lastmod>2026-01-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -227,7 +242,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2026-01-01</loc>
+    <loc>https://6amkick.com/posts/briefing-2026-01-01</loc>
     <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -235,7 +250,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/briefing-2025-12-31</loc>
+    <loc>https://6amkick.com/posts/briefing-2025-12-31</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -243,7 +258,7 @@
   
 
   <url>
-    <loc>https://6amkick.vercel.app/posts/best-running-shoes-2026-half-marathon</loc>
+    <loc>https://6amkick.com/posts/best-running-shoes-2026-half-marathon</loc>
     <lastmod>2026-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
