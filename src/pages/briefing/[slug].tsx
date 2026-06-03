@@ -292,7 +292,7 @@ const BriefingPage: React.FC = () => {
             </div>
 
             {/* Article body — constrained to optimal reading width */}
-            <div className="max-w-[680px]">
+            <div className="max-w-[780px]">
               {/* Intro section */}
               <div
                 className="prose prose-lg max-w-none"

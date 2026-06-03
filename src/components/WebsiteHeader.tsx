@@ -32,13 +32,13 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
             <div className="flex flex-col items-start justify-center">
               <h1
                 className="text-lg sm:text-xl font-black tracking-wider leading-none"
-                style={{ color: "#ffffff" }}
+                style={{ color: "#1a1a1a" }}
               >
                 6AMKICK
               </h1>
               <p
                 className="text-[10px] sm:text-[11px] font-normal tracking-wide mt-0.5 leading-none"
-                style={{ color: "rgba(252, 211, 77, 0.65)" }}
+                style={{ color: "#E8501A" }}
               >
                 Your 6AM running briefing
               </p>
@@ -50,7 +50,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
           <nav className="flex items-center">
             <Link
               to="/about"
-              className="text-[11px] uppercase tracking-[0.1em] font-semibold text-gray-400 hover:text-white transition-colors duration-150"
+              className="text-[11px] uppercase tracking-[0.1em] font-semibold text-gray-400 hover:text-[#E8501A] transition-colors duration-150"
             >
               About
             </Link>
