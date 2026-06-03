@@ -37,7 +37,7 @@ function App() {
       <Suspense fallback={<p>Loading...</p>}>
         <>
           <WebsiteHeader />
-          <div className="pt-24 sm:pt-28">
+          <div className="pt-[60px] sm:pt-[64px]">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/posts/:slug" element={<BriefingPage />} />

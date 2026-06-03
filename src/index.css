@@ -33,6 +33,7 @@
       --ring: 222.2 84% 4.9%;
 
       --radius: 0.5rem;
+      --orange: #E8501A;
     }
 
     .dark {
@@ -72,5 +73,42 @@
     }
     body {
       @apply bg-background text-foreground;
+      color: #1a1a1a;
     }
+  }
+
+  /* Editorial typography overrides for article prose */
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+  }
+
+  .prose h2 {
+    border-left: 4px solid #E8501A;
+    padding-left: 1rem;
+    margin-left: 0;
+  }
+
+  .prose p {
+    line-height: 1.75;
+    color: #1a1a1a;
+  }
+
+  .prose li {
+    line-height: 1.75;
+    color: #1a1a1a;
+  }
+
+  .prose a {
+    color: #E8501A;
+    text-decoration-color: #E8501A;
+  }
+
+  .prose hr {
+    border-color: #e5e7eb;
+    margin: 2rem 0;
   }
