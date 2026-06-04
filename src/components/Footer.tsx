@@ -10,6 +10,9 @@ const Footer: React.FC = () => {
             <p className="text-sm text-gray-400">
               © {new Date().getFullYear()} 6AMKICK. A performance-focused running blog.
             </p>
+            <p className="text-xs text-gray-600 mt-1 max-w-lg">
+              Content on 6AMKICK is for informational purposes only and does not constitute medical advice. Consult a healthcare professional before starting any new training program.
+            </p>
           </div>
           <nav className="flex gap-6">
             <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors">

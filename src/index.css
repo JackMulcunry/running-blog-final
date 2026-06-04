@@ -138,3 +138,45 @@
     font-weight: 500;
     margin: 0;
   }
+
+  /* References section — citation style, visually distinct from body text */
+  .references {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .references h2 {
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700 !important;
+    color: #9ca3af !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .references ol {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+
+  .references li {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .references a {
+    color: #9ca3af;
+    word-break: break-all;
+  }
+
+  .references a:hover {
+    color: #E8501A;
+  }
