@@ -13,8 +13,158 @@
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/posts/briefing-2025-12-30",
+      "destination": "/posts/topo-athletic-phantom-wp-what-need",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2025-12-31",
+      "destination": "/posts/when-clock-doesnt-matter-racing-bad",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-01",
+      "destination": "/posts/when-rules-matter-results",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-02",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-03",
+      "destination": "/posts/athing-mu-bobby-kersee-part-ways",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-04",
+      "destination": "/posts/jeff-galloways-marathon-perspective-why-running",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-05",
+      "destination": "/posts/rethinking-recovery-time-after-marathon-efforts",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-06",
+      "destination": "/posts/balancing-pace-ambition-strategic-patience-mile",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-07",
+      "destination": "/posts/marathon-pacing-choices-race-day-clarity",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-08",
+      "destination": "/posts/navigating-incentives-high-school-running-decisions",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-09",
+      "destination": "/posts/balancing-race-selection-long-term-progress",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-10",
+      "destination": "/posts/balancing-speed-endurance-start-race",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-11",
+      "destination": "/posts/adapting-unpredictable-terrain-cross-country",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-12",
+      "destination": "/posts/choosing-when-push-during-championship-race",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-13",
+      "destination": "/posts/choosing-right-training-environment-build-confidence",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-14",
+      "destination": "/posts/balancing-high-mileage-full-time-work",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-15",
+      "destination": "/posts/choosing-progress-speed-breakthrough-running-moments",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-16",
+      "destination": "/posts/choosing-right-moment-push-world-cross",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-17",
+      "destination": "/posts/choosing-trail-shoes-amid-new-technologies",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-18",
+      "destination": "/posts/adapting-shifts-cross-country-competition",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-19",
+      "destination": "/posts/quiet-art-smart-race-execution-long",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-20",
+      "destination": "/posts/choosing-consistency-perfection-season",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-21",
+      "destination": "/posts/when-patience-shapes-comeback",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-22",
+      "destination": "/posts/balancing-nutrition-altitude-training-sustained-progress",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-24",
+      "destination": "/posts/facing-unfamiliar-challenges-build-confidence",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-25",
+      "destination": "/posts/moment-precision-defined-record-breaking-race",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-27",
+      "destination": "/posts/moment-defines-race-execution-world-records",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-28",
+      "destination": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "permanent": true
+    },
+    {
+      "source": "/posts/briefing-2026-01-29",
+      "destination": "/posts/when-precision-defines-race",
+      "permanent": true
     }
   ]
 }

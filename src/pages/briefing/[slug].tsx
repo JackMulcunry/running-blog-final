@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Button } from "../../components/ui/button";
-import { ArrowLeft, Calendar, Clock, Tag, CalendarDays } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Tag, CalendarDays, ExternalLink } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
@@ -354,18 +354,26 @@ const BriefingPage: React.FC = () => {
 
             {/* Source */}
             {post.sourceUrl && (
-              <div className="mt-10 pt-6 border-t border-gray-100">
-                <p className="text-xs text-gray-400">
-                  Source:{" "}
-                  <a
-                    href={post.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-brand-orange hover:underline break-all"
-                  >
-                    {post.sourceUrl}
-                  </a>
-                </p>
+              <div className="mt-10 pt-6 border-t border-gray-100 flex items-center gap-2">
+                <span className="text-[10px] uppercase tracking-[0.1em] font-semibold text-gray-400">
+                  Source
+                </span>
+                <span className="text-gray-300 text-xs">—</span>
+                <a
+                  href={post.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 hover:text-brand-orange transition-colors"
+                >
+                  {(() => {
+                    try {
+                      return new URL(post.sourceUrl).hostname.replace(/^www\./, "");
+                    } catch {
+                      return post.sourceUrl;
+                    }
+                  })()}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </div>
             )}
 
