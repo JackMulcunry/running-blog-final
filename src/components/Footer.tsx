@@ -7,10 +7,10 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-white">
               © {new Date().getFullYear()} 6AMKICK. A performance-focused running blog.
             </p>
-            <p className="text-xs text-gray-600 mt-1 max-w-lg">
+            <p className="text-xs text-gray-400 mt-1 max-w-lg">
               Content on 6AMKICK is for informational purposes only and does not constitute medical advice. Consult a healthcare professional before starting any new training program.
             </p>
           </div>

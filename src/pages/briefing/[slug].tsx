@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar, Clock, Tag, CalendarDays, ExternalLink } from "luc
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
+import Footer from "../../components/Footer";
 
 function sanitizePostBody(html: string): string {
   let result = html
@@ -522,6 +523,7 @@ const BriefingPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
