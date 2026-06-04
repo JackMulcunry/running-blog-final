@@ -9,9 +9,57 @@ import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
 
 function sanitizePostBody(html: string): string {
-  return html
+  let result = html
     .replace(/<h1[^>]*>.*?<\/h1>/i, "")
     .replace(/<p>---<\/p>/g, "<hr>");
+
+  // FIX 1: Replace em dashes with commas at render time so pipeline output
+  // can never surface em dash characters regardless of source.
+  result = result
+    .replace(/—/g, ",")
+    .replace(/&mdash;/g, ",")
+    .replace(/&#8212;/g, ",")
+    .replace(/&#x2014;/gi, ",");
+
+  // FIX 2: Wrap bare URLs as proper anchor tags.
+  // Protect existing <a> elements first to prevent double-wrapping.
+  const savedAnchors: string[] = [];
+  result = result.replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, (match) => {
+    savedAnchors.push(match);
+    return `\x02ANCHOR_${savedAnchors.length - 1}\x03`;
+  });
+  result = result.replace(/https?:\/\/[^\s<>"']+/g, (url) =>
+    `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`,
+  );
+  result = result.replace(/\x02ANCHOR_(\d+)\x03/g, (_, i) => savedAnchors[parseInt(i, 10)]);
+
+  // FIX 2 continued: In sections whose heading contains "Reference", reformat
+  // any paragraph that packs multiple numbered items into a single <p> so each
+  // item renders on its own line as an <ol>.
+  result = result.replace(
+    /(<h[23][^>]*>[^<]*[Rr]eference[^<]*<\/h[23]>)([\s\S]*?)(?=<h[1-3]|$)/gi,
+    (_match, heading, content) => {
+      const reformatted = content.replace(/<p>([\s\S]*?)<\/p>/gi, (_p, inner) => {
+        const trimmed = inner.trim();
+        if (/\n\d+\./.test(trimmed)) {
+          const items = trimmed.split(/\n(?=\d+\.)/).filter(Boolean);
+          if (items.length > 1) {
+            return (
+              "<ol>" +
+              items
+                .map((item: string) => `<li>${item.replace(/^\d+\.\s*/, "").trim()}</li>`)
+                .join("") +
+              "</ol>"
+            );
+          }
+        }
+        return `<p>${inner}</p>`;
+      });
+      return heading + reformatted;
+    },
+  );
+
+  return result;
 }
 
 // Split HTML at the first <h2> so the key takeaway can appear between intro and body
