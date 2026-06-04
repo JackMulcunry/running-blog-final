@@ -6,6 +6,7 @@ import { Button } from "../../components/ui/button";
 import { ArrowLeft, Calendar, Clock, Tag, CalendarDays } from "lucide-react";
 import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
+import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
 
 function sanitizePostBody(html: string): string {
   return html
@@ -58,6 +59,7 @@ const BriefingPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [gearMatches, setGearMatches] = useState<AffiliateProduct[]>([]);
 
   // Reading progress bar
   useEffect(() => {
@@ -72,6 +74,26 @@ const BriefingPage: React.FC = () => {
     window.addEventListener("scroll", updateProgress, { passive: true });
     return () => window.removeEventListener("scroll", updateProgress);
   }, []);
+
+  // Match affiliate products against article body text whenever post loads
+  useEffect(() => {
+    if (!post) return;
+    const loadAffiliates = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.BASE_URL}data/affiliates.json`);
+        if (!res.ok) return;
+        const data: { products: AffiliateProduct[] } = await res.json();
+        const bodyText = post.body.replace(/<[^>]+>/g, " ");
+        const matches = data.products.filter(
+          (p) => p.url && bodyText.toLowerCase().includes(p.name.toLowerCase()),
+        );
+        setGearMatches(matches);
+      } catch {
+        // Affiliate system is optional — silently fail
+      }
+    };
+    loadAffiliates();
+  }, [post]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -344,6 +366,20 @@ const BriefingPage: React.FC = () => {
                     {post.sourceUrl}
                   </a>
                 </p>
+              </div>
+            )}
+
+            {/* Gear mentioned in article — only renders when affiliate URLs are set */}
+            {gearMatches.length > 0 && (
+              <div className="mt-10 pt-6 border-t border-gray-100">
+                <h3 className="text-[10px] uppercase tracking-[0.12em] font-bold text-gray-400 mb-4">
+                  Gear Mentioned in This Article
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {gearMatches.map((product) => (
+                    <AffiliateCard key={product.id} product={product} />
+                  ))}
+                </div>
               </div>
             )}
 

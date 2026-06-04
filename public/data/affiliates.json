@@ -1,0 +1,124 @@
+{
+  "products": [
+    {
+      "id": "adidas-adizero-adios-pro-4",
+      "name": "Adidas Adizero Adios Pro 4",
+      "url": "",
+      "image": "",
+      "price": "$255",
+      "category": "Shoes"
+    },
+    {
+      "id": "adidas-adizero-adios-pro-evo-3",
+      "name": "Adidas Adizero Adios Pro Evo 3",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "asics-megablast",
+      "name": "ASICS Megablast",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "asics-metaspeed-edge-tokyo",
+      "name": "ASICS Metaspeed Edge Tokyo",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "asics-metaspeed-sky",
+      "name": "ASICS Metaspeed Sky",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "brooks-ghost-16",
+      "name": "Brooks Ghost 16",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "brooks-glycerin-22",
+      "name": "Brooks Glycerin 22",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "garmin-forerunner-55",
+      "name": "Garmin Forerunner 55",
+      "url": "",
+      "image": "",
+      "price": "$199",
+      "category": "Gear"
+    },
+    {
+      "id": "hoka-arahi-8",
+      "name": "Hoka Arahi 8",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "hoka-bondi-9",
+      "name": "Hoka Bondi 9",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "hoka-mach-x3",
+      "name": "Hoka Mach X3",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "nike-alphafly-3",
+      "name": "Nike Alphafly 3",
+      "url": "",
+      "image": "",
+      "price": "$305",
+      "category": "Shoes"
+    },
+    {
+      "id": "nike-vaporfly-4",
+      "name": "Nike Vaporfly 4",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "nike-vomero-18",
+      "name": "Nike Vomero 18",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    },
+    {
+      "id": "topo-athletic-phantom-4-wp",
+      "name": "Topo Athletic Phantom 4 WP",
+      "url": "",
+      "image": "",
+      "price": "",
+      "category": "Shoes"
+    }
+  ]
+}
