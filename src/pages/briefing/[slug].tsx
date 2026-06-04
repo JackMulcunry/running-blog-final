@@ -13,14 +13,6 @@ function sanitizePostBody(html: string): string {
     .replace(/<h1[^>]*>.*?<\/h1>/i, "")
     .replace(/<p>---<\/p>/g, "<hr>");
 
-  // FIX 1: Replace em dashes with commas at render time so pipeline output
-  // can never surface em dash characters regardless of source.
-  result = result
-    .replace(/—/g, ",")
-    .replace(/&mdash;/g, ",")
-    .replace(/&#8212;/g, ",")
-    .replace(/&#x2014;/gi, ",");
-
   // FIX 2: Wrap bare URLs as proper anchor tags.
   // Protect existing <a> elements first to prevent double-wrapping.
   const savedAnchors: string[] = [];
