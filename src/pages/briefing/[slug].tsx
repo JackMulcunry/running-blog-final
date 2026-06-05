@@ -12,7 +12,8 @@ import Footer from "../../components/Footer";
 function sanitizePostBody(html: string): string {
   let result = html
     .replace(/<h1[^>]*>.*?<\/h1>/i, "")
-    .replace(/<p>---<\/p>/g, "<hr>");
+    .replace(/(<\/[uo]l>)\s*<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "$1<hr>")
+    .replace(/<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "<hr>");
 
   // FIX 2: Wrap bare URLs as proper anchor tags.
   // Protect existing <a> elements first to prevent double-wrapping.
