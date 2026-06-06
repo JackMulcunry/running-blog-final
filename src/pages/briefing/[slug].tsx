@@ -12,6 +12,7 @@ import Footer from "../../components/Footer";
 function sanitizePostBody(html: string): string {
   let result = html
     .replace(/<h1[^>]*>.*?<\/h1>/i, "")
+    .replace(/\n---\n/g, "<hr>")
     .replace(/(<\/[uo]l>)\s*<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "$1<hr>")
     .replace(/<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "<hr>");
 
