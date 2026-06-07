@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./components/home";
 import BriefingPage from "./pages/briefing/[slug]";
 import About from "./pages/About";
-import Admin from "./pages/Admin";
 import WebsiteHeader from "./components/WebsiteHeader";
 
 // Declare gtag function for TypeScript
@@ -42,7 +41,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/posts/:slug" element={<BriefingPage />} />
               <Route path="/about" element={<About />} />
-              <Route path="/admin" element={<Admin />} />
             </Routes>
           </div>
         </>

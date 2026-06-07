@@ -20,7 +20,6 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
           {/* Logo + Brand */}
           <button
             onClick={() => navigate("/")}
-            onDoubleClick={() => navigate("/admin")}
             className="flex items-center space-x-3 group"
             style={{ cursor: "default" }}
           >
