@@ -68,7 +68,7 @@ function sanitizePostBody(html: string): string {
   // so the reference formatter below can detect them.
   result = result.replace(
     /<p>([^<]*(?:reference list|references)[^<]*)<\/p>/gi,
-    "<h3>$1</h3>",
+    '<h3 style="font-size:0.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.12em;margin-top:2rem;margin-bottom:0.5rem;">References:</h3>',
   );
 
   // In sections whose heading contains "Reference", reformat any paragraph
