@@ -9,6 +9,41 @@ import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
 import Footer from "../../components/Footer";
 
+function convertMarkdownTables(html: string): string {
+  return html.replace(/<p>(\|[\s\S]*?)<\/p>/g, (match, content) => {
+    const lines = content.split("\n").map((l: string) => l.trim()).filter(Boolean);
+    const isSep = (l: string) => /^\|[-:\s|]+\|$/.test(l);
+    const sepIdx = lines.findIndex(isSep);
+    if (sepIdx < 1 || lines.length < 3) return match;
+
+    const headerLine = lines[sepIdx - 1];
+    if (!headerLine.startsWith("|")) return match;
+    const dataLines = lines.slice(sepIdx + 1).filter((l: string) => l.startsWith("|"));
+
+    const parseRow = (row: string) =>
+      row.split("|").slice(1, -1).map((c: string) => c.trim());
+
+    const thStyle =
+      "padding:8px 12px;text-align:left;border:1px solid #e5e7eb;font-size:0.8125rem;font-weight:600;color:#374151;background:#f3f4f6;";
+    const tdStyle =
+      "padding:8px 12px;border:1px solid #e5e7eb;font-size:0.8125rem;color:#374151;";
+
+    const thead = `<thead><tr>${parseRow(headerLine)
+      .map((h) => `<th style="${thStyle}">${h}</th>`)
+      .join("")}</tr></thead>`;
+    const tbody = `<tbody>${dataLines
+      .map(
+        (row: string, i: number) =>
+          `<tr style="background:${i % 2 === 0 ? "#ffffff" : "#f9fafb"};">${parseRow(row)
+            .map((c) => `<td style="${tdStyle}">${c}</td>`)
+            .join("")}</tr>`,
+      )
+      .join("")}</tbody>`;
+
+    return `<div style="overflow-x:auto;margin:1.5rem 0;"><table style="width:100%;border-collapse:collapse;">${thead}${tbody}</table></div>`;
+  });
+}
+
 function sanitizePostBody(html: string): string {
   let result = html
     .replace(/<h1[^>]*>.*?<\/h1>/i, "")
@@ -16,8 +51,9 @@ function sanitizePostBody(html: string): string {
     .replace(/(<\/[uo]l>)\s*<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "$1<hr>")
     .replace(/<p>\s*---\s*(?:<br\s*\/?>)?\s*<\/p>/g, "<hr>");
 
-  // FIX 2: Wrap bare URLs as proper anchor tags.
-  // Protect existing <a> elements first to prevent double-wrapping.
+  result = convertMarkdownTables(result);
+
+  // Wrap bare URLs as anchor tags; protect existing <a> elements first.
   const savedAnchors: string[] = [];
   result = result.replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, (match) => {
     savedAnchors.push(match);
@@ -28,27 +64,38 @@ function sanitizePostBody(html: string): string {
   );
   result = result.replace(/\x02ANCHOR_(\d+)\x03/g, (_, i) => savedAnchors[parseInt(i, 10)]);
 
-  // FIX 2 continued: In sections whose heading contains "Reference", reformat
-  // any paragraph that packs multiple numbered items into a single <p> so each
-  // item renders on its own line as an <ol>.
+  // Normalize <p>-based reference labels (e.g. "REFERENCE LIST:") to <h3>
+  // so the reference formatter below can detect them.
   result = result.replace(
-    /(<h[23][^>]*>[^<]*[Rr]eference[^<]*<\/h[23]>)([\s\S]*?)(?=<h[1-3]|$)/gi,
+    /<p>([^<]*(?:reference list|references)[^<]*)<\/p>/gi,
+    "<h3>$1</h3>",
+  );
+
+  // In sections whose heading contains "Reference", reformat any paragraph
+  // that packs multiple numbered items into a styled <ol>.
+  result = result.replace(
+    /(<h[1-6][^>]*>[^<]*[Rr]eference[^<]*<\/h[1-6]>)([\s\S]*?)(?=<h[1-3]|$)/gi,
     (_match, heading, content) => {
-      const reformatted = content.replace(/<p>([\s\S]*?)<\/p>/gi, (_p, inner) => {
+      const reformatted = content.replace(/<p>([\s\S]*?)<\/p>/gi, (_p: string, inner: string) => {
         const trimmed = inner.trim();
-        if (/\n\d+\./.test(trimmed)) {
+        if (/(?:^|\n)\d+\./.test(trimmed)) {
           const items = trimmed.split(/\n(?=\d+\.)/).filter(Boolean);
           if (items.length > 1) {
+            const liStyle =
+              "font-size:0.875rem;color:#6b7280;margin-bottom:0.5rem;line-height:1.6;";
             return (
-              "<ol>" +
+              `<ol style="font-size:0.875rem;color:#6b7280;padding-left:1.5rem;margin:0.75rem 0;">` +
               items
-                .map((item: string) => `<li>${item.replace(/^\d+\.\s*/, "").trim()}</li>`)
+                .map(
+                  (item: string) =>
+                    `<li style="${liStyle}">${item.replace(/^\d+\.\s*/, "").trim()}</li>`,
+                )
                 .join("") +
               "</ol>"
             );
           }
         }
-        return `<p>${inner}</p>`;
+        return `<p style="font-size:0.875rem;color:#6b7280;">${inner}</p>`;
       });
       return heading + reformatted;
     },
