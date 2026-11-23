@@ -69,13 +69,32 @@ function validateRedirects(liveSlugs) {
     if (sources.has(r.destination)) {
       errors.push(`redirect chain: ${r.source} -> ${r.destination} (which redirects again)`);
     }
-    const dest = r.destination.match(/^\/posts\/([^/?#]+)$/);
+    const dest = r.destination.match(/^\/posts\/([^/?#:]+)$/);
     if (dest && !liveSlugs.has(dest[1])) {
       errors.push(`redirect to missing post: ${r.source} -> ${r.destination}`);
     }
     const src = r.source.match(/^\/posts\/([^/?#:]+)$/);
     if (src && liveSlugs.has(src[1])) {
       errors.push(`redirect shadows a live post: ${r.source}`);
+    }
+  }
+  // Trailing slashes are normalised by explicit redirects, not `trailingSlash: false`:
+  // Vercel applies trailingSlash before custom redirects, which turned
+  // /posts/<old>/ into a 2-hop chain. So every fixed /posts/ source needs a "/" twin
+  // with the same destination, and the generic /posts/:slug/ rule must come after them.
+  if (vercel.trailingSlash !== undefined) {
+    errors.push('remove "trailingSlash" (it chains with redirects); use explicit "/" twins');
+  }
+  const bySource = new Map(redirects.map((r, i) => [r.source, { ...r, i }]));
+  const generic = bySource.get('/posts/:slug/');
+  if (!generic) errors.push('missing generic redirect /posts/:slug/ -> /posts/:slug');
+  for (const r of redirects) {
+    if (!/^\/posts\/[^/:]+$/.test(r.source)) continue;
+    const twin = bySource.get(`${r.source}/`);
+    if (!twin || twin.destination !== r.destination) {
+      errors.push(`missing trailing-slash twin: ${r.source}/ -> ${r.destination}`);
+    } else if (generic && twin.i > generic.i) {
+      errors.push(`${twin.source} must come before /posts/:slug/`);
     }
   }
   if (errors.length) {
