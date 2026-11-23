@@ -108,7 +108,7 @@
     },
     {
       "source": "/posts/briefing-2026-01-16",
-      "destination": "/posts/choosing-right-moment-push-world-cross",
+      "destination": "/posts/choosing-when-push-during-championship-race",
       "permanent": true
     },
     {
@@ -148,7 +148,7 @@
     },
     {
       "source": "/posts/briefing-2026-01-25",
-      "destination": "/posts/moment-precision-defined-record-breaking-race",
+      "destination": "/posts/moment-defines-race-execution-world-records",
       "permanent": true
     },
     {
@@ -163,7 +163,52 @@
     },
     {
       "source": "/posts/briefing-2026-01-29",
-      "destination": "/posts/when-precision-defines-race",
+      "destination": "/posts/moment-defines-race-execution-world-records",
+      "permanent": true
+    },
+    {
+      "source": "/posts/best-running-shoes-2026-half-marathon-aqma",
+      "destination": "/posts/best-running-shoes-2026-half-marathon",
+      "permanent": true
+    },
+    {
+      "source": "/posts/best-running-shoes-2026-long-distance-u7xu",
+      "destination": "/posts/best-running-shoes-2026-marathon-4a4e",
+      "permanent": true
+    },
+    {
+      "source": "/posts/gps-watch-for-running-without-phone",
+      "destination": "/posts/gps-watch-for-running-with-music",
+      "permanent": true
+    },
+    {
+      "source": "/posts/gps-watch-for-running-and-cycling-ze4b",
+      "destination": "/posts/gps-watch-for-running-and-swimming-u1qm",
+      "permanent": true
+    },
+    {
+      "source": "/posts/trail-running-gear-for-beginners",
+      "destination": "/posts/what-gear-is-essential-for-trail-running-kn8y",
+      "permanent": true
+    },
+    {
+      "source": "/posts/half-marathon-training-plan-pdf-89z5",
+      "destination": "/posts/half-marathon-training-plan-12-weeks-thgy",
+      "permanent": true
+    },
+    {
+      "source": "/posts/moment-precision-defined-record-breaking-race",
+      "destination": "/posts/moment-defines-race-execution-world-records",
+      "permanent": true
+    },
+    {
+      "source": "/posts/when-precision-defines-race",
+      "destination": "/posts/moment-defines-race-execution-world-records",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-right-moment-push-world-cross",
+      "destination": "/posts/choosing-when-push-during-championship-race",
       "permanent": true
     }
   ]
