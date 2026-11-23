@@ -26,9 +26,10 @@ function formatDate(dateString: string) {
 function Home() {
   const [posts, setPosts] = useState<BriefingPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCategory = searchParams.get("category") || "All";
+  // Page lives in the URL (?page=N) so every page of posts is a crawlable <a href>.
+  const requestedPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -71,12 +72,8 @@ function Home() {
     return ["All", ...ordered, ...extras];
   }, [posts]);
 
-  // Reset to page 1 when category filter changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
   const handleCategoryChange = (cat: string) => {
+    // Changing category drops ?page, i.e. resets to page 1.
     if (cat === "All") {
       setSearchParams({});
     } else {
@@ -95,22 +92,18 @@ function Home() {
     : posts.slice(1);
 
   const totalPages = Math.ceil(gridPosts.length / POSTS_PER_PAGE);
+  const currentPage = Math.min(requestedPage, Math.max(totalPages, 1));
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const currentPosts = gridPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  const pageHref = (page: number) => {
+    const params = new URLSearchParams();
+    if (isFiltered) params.set("category", selectedCategory);
+    if (page > 1) params.set("page", String(page));
+    const qs = params.toString();
+    return qs ? `/?${qs}` : "/";
   };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (loading) {
     return (
@@ -149,7 +142,10 @@ function Home() {
           name="description"
           content="6AMKICK is a performance-focused running blog covering racing mindset, training insights, and competition at all levels."
         />
-        <link rel="canonical" href={absoluteUrl("/")} />
+        <link
+          rel="canonical"
+          href={absoluteUrl(!isFiltered && currentPage > 1 ? `/?page=${currentPage}` : "/")}
+        />
       </Helmet>
 
       <div className="min-h-screen bg-amber-50/60 py-6 px-4 sm:px-6 lg:px-8">
@@ -257,46 +253,51 @@ function Home() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-3 mt-8">
-              <Button
-                onClick={handlePrevPage}
-                disabled={currentPage === 1}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-1.5 text-xs"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-                Newer
-              </Button>
+              {currentPage > 1 ? (
+                <Button asChild variant="outline" size="sm" className="flex items-center gap-1.5 text-xs">
+                  <Link to={pageHref(currentPage - 1)} onClick={scrollTop} rel="prev">
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    Newer
+                  </Link>
+                </Button>
+              ) : (
+                <Button disabled variant="outline" size="sm" className="flex items-center gap-1.5 text-xs">
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  Newer
+                </Button>
+              )}
 
               <div className="flex items-center gap-1.5">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
+                  <Link
                     key={page}
-                    onClick={() => {
-                      setCurrentPage(page);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    className={`w-7 h-7 rounded text-xs font-semibold transition-colors ${
+                    to={pageHref(page)}
+                    onClick={scrollTop}
+                    aria-current={page === currentPage ? "page" : undefined}
+                    className={`w-7 h-7 rounded text-xs font-semibold transition-colors flex items-center justify-center ${
                       page === currentPage
                         ? "bg-slate-900 text-white"
                         : "bg-white text-gray-600 border border-gray-200 hover:border-slate-400"
                     }`}
                   >
                     {page}
-                  </button>
+                  </Link>
                 ))}
               </div>
 
-              <Button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-1.5 text-xs"
-              >
-                Older
-                <ChevronRight className="w-3.5 h-3.5" />
-              </Button>
+              {currentPage < totalPages ? (
+                <Button asChild variant="outline" size="sm" className="flex items-center gap-1.5 text-xs">
+                  <Link to={pageHref(currentPage + 1)} onClick={scrollTop} rel="next">
+                    Older
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </Button>
+              ) : (
+                <Button disabled variant="outline" size="sm" className="flex items-center gap-1.5 text-xs">
+                  Older
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Button>
+              )}
             </div>
           )}
         </div>

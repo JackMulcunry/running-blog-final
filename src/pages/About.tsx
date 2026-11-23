@@ -1,13 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { absoluteUrl, ABOUT_PAGE } from "@/lib/site.js";
 
 const About: React.FC = () => {
-  const navigate = useNavigate();
-
   return (
     <>
       <Helmet>
@@ -20,9 +18,11 @@ const About: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}
           <div className="mb-8">
-            <Button onClick={() => navigate('/')} variant="outline" className="mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+            <Button asChild variant="outline" className="mb-6">
+              <Link to="/">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Link>
             </Button>
           </div>
 
@@ -90,9 +90,11 @@ const About: React.FC = () => {
 
             {/* Bottom Navigation */}
             <div className="mt-12 pt-8 border-t border-gray-200">
-              <Button onClick={() => navigate('/')} variant="outline" size="lg">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to All Briefings
+              <Button asChild variant="outline" size="lg">
+                <Link to="/">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to All Briefings
+                </Link>
               </Button>
             </div>
           </article>
