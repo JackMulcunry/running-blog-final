@@ -149,7 +149,7 @@ const slugs = filenames.map(filename => filename.replace('.json', '').replace(/^
 Every post includes a canonical URL pointing to its unique slug:
 
 ```html
-<link rel="canonical" href="https://6amkick.vercel.app/posts/{slug}" />
+<link rel="canonical" href="https://www.6amkick.com/posts/{slug}" />
 ```
 
 This prevents duplicate content issues and tells Google which URL is authoritative.

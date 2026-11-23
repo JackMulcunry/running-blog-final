@@ -37,3 +37,6 @@ core
 
 .github/
 
+
+# Generated at build time by scripts/generate-sitemap.cjs
+public/sitemap.xml

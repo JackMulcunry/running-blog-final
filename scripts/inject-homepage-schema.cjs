@@ -26,24 +26,16 @@ if (hasWebSiteSchema && hasOrganizationSchema) {
     "@type": "WebSite",
     "name": "6AMKICK",
     "alternateName": "6AM KICK",
-    "url": "https://6amkick.com",
-    "description": "Your 6AM running briefing. One story. One lesson. One thing to try today.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://6amkick.com/?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    }
+    "url": "https://www.6amkick.com",
+    "description": "Your 6AM running briefing. One story. One lesson. One thing to try today."
   };
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "6AMKICK",
-    "url": "https://6amkick.com",
-    "logo": "https://6amkick.com/favicon-512.png",
+    "url": "https://www.6amkick.com",
+    "logo": "https://www.6amkick.com/favicon-512.png",
     "sameAs": []
   };
 

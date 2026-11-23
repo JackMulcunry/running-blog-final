@@ -8,6 +8,7 @@ import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
 import Footer from "../../components/Footer";
+import { absoluteUrl } from "@/lib/site.js";
 
 function convertMarkdownTables(html: string): string {
   return html.replace(/<p>(\|[\s\S]*?)<\/p>/g, (match, content) => {
@@ -303,16 +304,10 @@ const BriefingPage: React.FC = () => {
       <Helmet>
         <title>{post.title} | 6AMKICK</title>
         <meta name="description" content={post.excerpt} />
-        <link
-          rel="canonical"
-          href={`https://6amkick.com/posts/${post.slug}`}
-        />
+        <link rel="canonical" href={absoluteUrl(`/posts/${post.slug}`)} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta
-          property="og:url"
-          content={`https://6amkick.com/posts/${post.slug}`}
-        />
+        <meta property="og:url" content={absoluteUrl(`/posts/${post.slug}`)} />
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={post.title} />

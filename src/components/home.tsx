@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import { Button } from "./ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Clock } from "lucide-react";
 import { BriefingPost, PostCategory } from "@/types/briefing";
+import { absoluteUrl } from "@/lib/site.js";
 
 const POSTS_PER_PAGE = 9;
 
@@ -148,7 +149,7 @@ function Home() {
           name="description"
           content="6AMKICK is a performance-focused running blog covering racing mindset, training insights, and competition at all levels."
         />
-        <link rel="canonical" href="https://6amkick.com/" />
+        <link rel="canonical" href={absoluteUrl("/")} />
       </Helmet>
 
       <div className="min-h-screen bg-amber-50/60 py-6 px-4 sm:px-6 lg:px-8">
