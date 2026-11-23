@@ -2,116 +2,62 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Generates static HTML pages for each blog post with proper SEO meta tags
- * This ensures Google can index post-specific content without JavaScript
+ * Runs after `vite build`. Writes a static HTML file per post (dist/posts/<slug>.html)
+ * with SEO tags AND a server-rendered copy of the article, topic-cluster links and
+ * related links inside #root, so crawlers get real content and real <a href> links
+ * without executing JavaScript. React replaces #root on load.
+ *
+ * Also prerenders a crawlable list of every post into dist/index.html (the homepage).
+ *
+ * Link selection comes from src/lib/related.js, the same module the React post page
+ * uses, so raw HTML and rendered DOM always link to the same posts.
  */
 
 const DIST_DIR = path.join(__dirname, '../dist');
 const POSTS_DIR = path.join(__dirname, '../public/data/posts');
 const INDEX_FILE = path.join(POSTS_DIR, 'index.json');
 const TEMPLATE_FILE = path.join(DIST_DIR, 'index.html');
+const ROOT_EMPTY = '<div id="root"></div>';
 
-// Read the base HTML template
-const template = fs.readFileSync(TEMPLATE_FILE, 'utf-8');
+async function main() {
+  const { SITE_URL, ABOUT_PAGE } = await import('../src/lib/site.js');
+  const { getPostLinks } = await import('../src/lib/related.js');
 
-// Read the list of post files
-const postFilenames = JSON.parse(fs.readFileSync(INDEX_FILE, 'utf-8'));
-
-// Extract asset paths from template
-const cssMatch = template.match(/href="(\/assets\/[^"]+\.css)"/);
-const jsMatch = template.match(/src="(\/assets\/[^"]+\.js)"/);
-
-if (!cssMatch || !jsMatch) {
-  console.error('❌ Could not find asset paths in template');
-  process.exit(1);
-}
-
-const cssPath = cssMatch[1];
-const jsPath = jsMatch[1];
-
-// Load all posts for related posts logic
-const allPosts = postFilenames.map(filename => {
-  const cleanFilename = filename.replace(/^\/+/, '').replace('.json', '');
-  const postPath = path.join(POSTS_DIR, `${cleanFilename}.json`);
-  return JSON.parse(fs.readFileSync(postPath, 'utf-8'));
-});
-
-let generatedCount = 0;
-
-// Generate HTML for each post
-postFilenames.forEach(filename => {
-  // Remove leading slash and .json extension
-  const cleanFilename = filename.replace(/^\/+/, '').replace('.json', '');
-
-  // Read post data
-  const postPath = path.join(POSTS_DIR, `${cleanFilename}.json`);
-  const post = JSON.parse(fs.readFileSync(postPath, 'utf-8'));
-
-  // Find related posts (2 posts with matching tags, or most recent)
-  const otherPosts = allPosts.filter(p => p.id !== post.id);
-  const postsWithMatchingTags = otherPosts.filter(p =>
-    p.tags && p.tags.some && p.tags.some(tag => post.tags && post.tags.includes(tag))
-  );
-
-  let relatedPosts = [];
-  if (postsWithMatchingTags.length >= 2) {
-    relatedPosts = postsWithMatchingTags.slice(0, 2);
-  } else if (postsWithMatchingTags.length === 1) {
-    relatedPosts = [postsWithMatchingTags[0]];
-    const remaining = otherPosts.filter(p => p.id !== relatedPosts[0].id);
-    if (remaining.length > 0) {
-      remaining.sort((a, b) => new Date(b.date) - new Date(a.date));
-      relatedPosts.push(remaining[0]);
-    }
-  } else {
-    otherPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    relatedPosts = otherPosts.slice(0, 2);
+  const template = fs.readFileSync(TEMPLATE_FILE, 'utf-8');
+  const cssMatch = template.match(/href="(\/assets\/[^"]+\.css)"/);
+  const jsMatch = template.match(/src="(\/assets\/[^"]+\.js)"/);
+  if (!cssMatch || !jsMatch || !template.includes(ROOT_EMPTY)) {
+    throw new Error('Could not find asset paths / empty #root in dist/index.html');
   }
+  const cssPath = cssMatch[1];
+  const jsPath = jsMatch[1];
 
-  // Generate related posts HTML
-  const relatedPostsHtml = relatedPosts.length > 0 ? `
-    <div class="related-briefings" style="margin-top: 3rem;">
-      <h2 style="font-size: 1.5rem; font-weight: bold; color: #111827; margin-bottom: 1.5rem;">Related Briefings</h2>
-      <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
-        ${relatedPosts.map(rp => `
-          <a href="/posts/${rp.slug}" style="display: block; background: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; text-decoration: none; color: inherit;">
-            <h3 style="font-size: 1.125rem; font-weight: bold; color: #111827; margin-bottom: 0.5rem;">${escapeHtml(rp.title)}</h3>
-            <p style="font-size: 0.875rem; color: #4b5563; margin-bottom: 0.75rem;">${escapeHtml(rp.excerpt)}</p>
-            <div style="font-size: 0.75rem; color: #6b7280;">
-              <span>${rp.date}</span>
-              <span style="margin: 0 0.5rem;">•</span>
-              <span>${rp.readTimeMinutes} min read</span>
-            </div>
-          </a>
-        `).join('')}
-      </div>
-    </div>
-  ` : '';
+  const allPosts = JSON.parse(fs.readFileSync(INDEX_FILE, 'utf-8')).map((filename) => {
+    const clean = filename.replace(/^\/+/, '').replace(/\.json$/, '');
+    return JSON.parse(fs.readFileSync(path.join(POSTS_DIR, `${clean}.json`), 'utf-8'));
+  });
 
-  // Create Article schema JSON-LD
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.title,
-    "description": post.excerpt,
-    "datePublished": post.date,
-    "dateModified": post.date,
-    "author": {
-      "@type": "Organization",
-      "name": "6AMKICK"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "6AMKICK"
-    },
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://6amkick.com/posts/${post.slug}`
-    }
-  };
+  const postsOutputDir = path.join(DIST_DIR, 'posts');
+  fs.mkdirSync(postsOutputDir, { recursive: true });
 
-  // Create post-specific HTML
-  const postHtml = `<!doctype html>
+  for (const post of allPosts) {
+    const url = `${SITE_URL}/posts/${post.slug}`;
+    const { topic, topicPosts, related } = getPostLinks(post, allPosts);
+
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.excerpt,
+      datePublished: post.date,
+      dateModified: post.updated || post.date,
+      url,
+      author: { '@type': 'Organization', name: '6AMKICK', url: `${SITE_URL}/` },
+      publisher: { '@type': 'Organization', name: '6AMKICK', url: `${SITE_URL}/` },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    };
+
+    const postHtml = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -121,13 +67,14 @@ postFilenames.forEach(filename => {
     <!-- SEO Meta Tags -->
     <title>${escapeHtml(post.title)} | 6AMKICK</title>
     <meta name="description" content="${escapeHtml(post.excerpt)}" />
-    <link rel="canonical" href="https://6amkick.com/posts/${post.slug}" />
+    <link rel="canonical" href="${url}" />
 
     <!-- OpenGraph Tags -->
     <meta property="og:title" content="${escapeHtml(post.title)}" />
     <meta property="og:description" content="${escapeHtml(post.excerpt)}" />
-    <meta property="og:url" content="https://6amkick.com/posts/${post.slug}" />
+    <meta property="og:url" content="${url}" />
     <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="6AMKICK" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
@@ -136,7 +83,7 @@ postFilenames.forEach(filename => {
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
-${JSON.stringify(articleSchema, null, 6)}
+${JSON.stringify(articleSchema, null, 6).replace(/</g, '\\u003c')}
     </script>
 
     <!-- Google Analytics 4 -->
@@ -155,35 +102,106 @@ ${JSON.stringify(articleSchema, null, 6)}
     <link rel="stylesheet" crossorigin href="${cssPath}">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">${renderPostBody(post, topic, topicPosts, related)}</div>
   </body>
 </html>`;
 
-  // Create posts directory if it doesn't exist
-  const postsOutputDir = path.join(DIST_DIR, 'posts');
-  if (!fs.existsSync(postsOutputDir)) {
-    fs.mkdirSync(postsOutputDir, { recursive: true });
+    fs.writeFileSync(path.join(postsOutputDir, `${post.slug}.html`), postHtml);
   }
+  console.log(`✅ Generated ${allPosts.length} post HTML pages in dist/posts/`);
 
-  // Write post HTML file
-  const outputPath = path.join(postsOutputDir, `${post.slug}.html`);
-  fs.writeFileSync(outputPath, postHtml);
+  // /about: its own HTML (title, description, canonical) instead of the homepage shell.
+  fs.writeFileSync(path.join(DIST_DIR, 'about.html'), renderAbout(template, SITE_URL, ABOUT_PAGE));
+  console.log('✅ Generated dist/about.html');
 
-  generatedCount++;
-});
-
-console.log(`✅ Generated ${generatedCount} post HTML pages in dist/posts/`);
-
-/**
- * Escapes HTML special characters to prevent XSS
- */
-function escapeHtml(text) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return text.replace(/[&<>"']/g, m => map[m]);
+  // Homepage: crawlable list of every post (newest first) inside #root.
+  const byDate = [...allPosts].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const homeHtml = template.replace(
+    ROOT_EMPTY,
+    `<div id="root"><div class="pt-[60px] sm:pt-[64px]"><main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<h1 class="font-extrabold text-[#1a1a1a] mb-6 leading-tight text-3xl">6AMKICK: A Performance-Focused Running Blog</h1>
+<h2 class="text-xs uppercase tracking-[0.12em] font-bold text-gray-400 mb-6">All Briefings</h2>
+<ul>
+${byDate.map((p) => `<li><a href="/posts/${p.slug}">${escapeHtml(p.title)}</a> <span class="text-xs text-gray-400">${p.date}</span></li>`).join('\n')}
+</ul>
+<p class="mt-10"><a href="/about">About 6AMKICK</a></p>
+</main></div></div>`,
+  );
+  fs.writeFileSync(TEMPLATE_FILE, homeHtml);
+  console.log(`✅ Prerendered ${byDate.length} post links into dist/index.html`);
 }
+
+function renderAbout(template, siteUrl, page) {
+  const url = `${siteUrl}/about`;
+  const t = escapeHtml(page.title);
+  const d = escapeHtml(page.description);
+  const replacements = [
+    [/<title>[^<]*<\/title>/, `<title>${t}</title>`],
+    [/(<meta name="title" content=")[^"]*/, `$1${t}`],
+    [/(<meta name="description" content=")[^"]*/, `$1${d}`],
+    [/(<meta property="og:url" content=")[^"]*/, `$1${url}`],
+    [/(<meta property="og:title" content=")[^"]*/, `$1${t}`],
+    [/(<meta property="og:description" content=")[^"]*/, `$1${d}`],
+    [/(<meta name="twitter:url" content=")[^"]*/, `$1${url}`],
+    [/(<meta name="twitter:title" content=")[^"]*/, `$1${t}`],
+    [/(<meta name="twitter:description" content=")[^"]*/, `$1${d}`],
+  ];
+  let html = template;
+  for (const [re, value] of replacements) {
+    if (!re.test(html)) throw new Error(`about.html: template is missing ${re}`);
+    html = html.replace(re, value);
+  }
+  return html
+    .replace('</head>', `  <link rel="canonical" href="${url}" />\n  </head>`)
+    .replace(
+      ROOT_EMPTY,
+      `<div id="root"><div class="pt-[60px] sm:pt-[64px]"><main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<h1 class="font-extrabold text-[#1a1a1a] mb-6 leading-tight text-3xl">About 6AMKICK</h1>
+<p>${d}</p>
+<p class="mt-10"><a href="/">See all briefings</a></p>
+</main></div></div>`,
+    );
+}
+
+function renderPostBody(post, topic, topicPosts, related) {
+  // Mirror the client: the body usually repeats the title as an <h1>; the page renders its own.
+  const body = String(post.body || '').replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, '');
+  const card = (p) => `
+          <a href="/posts/${p.slug}" class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-6 group">
+            <h3 class="text-base font-bold text-[#1a1a1a] mb-2 leading-snug tracking-tight">${escapeHtml(p.title)}</h3>
+            <p class="text-xs text-gray-500 mb-3 line-clamp-2 leading-relaxed">${escapeHtml(p.excerpt)}</p>
+            <div class="flex items-center gap-3 text-xs text-gray-400"><span>${p.date}</span><span>·</span><span>${p.readTimeMinutes} min read</span></div>
+          </a>`;
+  const section = (title, posts, cls) =>
+    posts.length
+      ? `
+      <section class="mt-12 ${cls}">
+        <h2 class="text-xs uppercase tracking-[0.12em] font-bold text-gray-400 mb-6">${escapeHtml(title)}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">${posts.map(card).join('')}
+        </div>
+      </section>`
+      : '';
+
+  return `<div class="pt-[60px] sm:pt-[64px]"><div class="min-h-screen bg-amber-50/60"><div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <nav class="mb-8"><a href="/">← All Briefings</a></nav>
+      <article class="rounded-xl shadow-sm p-7 sm:p-12 bg-white border border-gray-100">
+        <p class="mb-5 text-[10px] uppercase tracking-[0.1em] font-bold">${escapeHtml(post.category)}</p>
+        <h1 class="font-extrabold text-[#1a1a1a] mb-6 leading-tight tracking-[-0.02em] text-3xl sm:text-[2.6rem]">${escapeHtml(post.title)}</h1>
+        <p class="mb-8 text-sm text-gray-500"><time datetime="${post.date}">${post.date}</time> · ${post.readTimeMinutes} min read</p>
+        ${post.keyTakeaway ? `<p class="my-8 p-5 border-l-4 rounded-r-lg bg-amber-50 border-brand-orange"><strong>Key Takeaway:</strong> ${escapeHtml(post.keyTakeaway)}</p>` : ''}
+        <div class="prose prose-lg max-w-none">${body}</div>
+      </article>${topic ? section(`More ${topic.title}`, topicPosts, 'topic-posts') : ''}${section('Related Briefings', related, 'related-briefings')}
+      <nav class="mt-10"><a href="/">Back to All Briefings</a></nav>
+    </div></div></div>`;
+}
+
+/** Escapes HTML special characters. */
+function escapeHtml(text) {
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return String(text ?? '').replace(/[&<>"']/g, (m) => map[m]);
+}
+
+main().catch((err) => {
+  console.error('❌', err.message);
+  process.exit(1);
+});

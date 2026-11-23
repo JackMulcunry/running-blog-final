@@ -8,6 +8,8 @@ import { BriefingPost } from "../../types/briefing";
 import PostFeedback from "../../components/PostFeedback";
 import AffiliateCard, { AffiliateProduct } from "../../components/AffiliateCard";
 import Footer from "../../components/Footer";
+import { absoluteUrl } from "@/lib/site.js";
+import { getPostLinks, type Topic } from "@/lib/related.js";
 
 function convertMarkdownTables(html: string): string {
   return html.replace(/<p>(\|[\s\S]*?)<\/p>/g, (match, content) => {
@@ -146,6 +148,8 @@ const BriefingPage: React.FC = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState<BriefingPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BriefingPost[]>([]);
+  const [topic, setTopic] = useState<Topic | null>(null);
+  const [topicPosts, setTopicPosts] = useState<BriefingPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [readingProgress, setReadingProgress] = useState(0);
@@ -196,7 +200,8 @@ const BriefingPage: React.FC = () => {
         const data = await response.json();
         setPost(data);
         trackView(data.id);
-        await loadRelatedPosts(data);
+        // Don't block the article on loading every other post for the link sections.
+        loadRelatedPosts(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load post");
       } finally {
@@ -224,33 +229,15 @@ const BriefingPage: React.FC = () => {
         }),
       );
 
-      const otherPosts = allPosts.filter((p) => p.id !== currentPost.id);
-      const withMatchingTags = otherPosts.filter((p) =>
-        p.tags.some((tag: string) => currentPost.tags.includes(tag)),
-      );
-
-      let related: BriefingPost[] = [];
-      if (withMatchingTags.length >= 2) {
-        related = withMatchingTags.slice(0, 2);
-      } else if (withMatchingTags.length === 1) {
-        related = [withMatchingTags[0]];
-        const remaining = otherPosts.filter((p) => p.id !== related[0].id);
-        if (remaining.length > 0) {
-          remaining.sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-          );
-          related.push(remaining[0]);
-        }
-      } else {
-        otherPosts.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
-        related = otherPosts.slice(0, 2);
-      }
-
-      setRelatedPosts(related);
+      // Same selection as the build-time static HTML (scripts/generate-post-pages.cjs).
+      const links = getPostLinks(currentPost, allPosts as BriefingPost[]);
+      setTopic(links.topic);
+      setTopicPosts(links.topicPosts);
+      setRelatedPosts(links.related);
     } catch (error) {
       console.error("Error loading related posts:", error);
+      setTopic(null);
+      setTopicPosts([]);
       setRelatedPosts([]);
     }
   };
@@ -303,16 +290,10 @@ const BriefingPage: React.FC = () => {
       <Helmet>
         <title>{post.title} | 6AMKICK</title>
         <meta name="description" content={post.excerpt} />
-        <link
-          rel="canonical"
-          href={`https://6amkick.com/posts/${post.slug}`}
-        />
+        <link rel="canonical" href={absoluteUrl(`/posts/${post.slug}`)} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
-        <meta
-          property="og:url"
-          content={`https://6amkick.com/posts/${post.slug}`}
-        />
+        <meta property="og:url" content={absoluteUrl(`/posts/${post.slug}`)} />
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={post.title} />
@@ -333,14 +314,11 @@ const BriefingPage: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back button */}
           <div className="mb-8">
-            <Button
-              onClick={() => navigate("/")}
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
-              All Briefings
+            <Button asChild variant="outline" size="sm" className="text-xs">
+              <Link to="/">
+                <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+                All Briefings
+              </Link>
             </Button>
           </div>
 
@@ -518,14 +496,18 @@ const BriefingPage: React.FC = () => {
             <PostFeedback postId={post.id} />
           </motion.article>
 
-          {/* Related Briefings */}
-          {relatedPosts.length > 0 && (
-            <div className="mt-12">
+          {/* Topic cluster (e.g. all marathon training plans) + Related Briefings */}
+          {[
+            { key: "topic", title: topic ? `More ${topic.title}` : "", posts: topic ? topicPosts : [] },
+            { key: "related", title: "Related Briefings", posts: relatedPosts },
+          ].map((section) =>
+            section.posts.length > 0 && (
+            <div key={section.key} className="mt-12">
               <h2 className="text-xs uppercase tracking-[0.12em] font-bold text-gray-400 mb-6">
-                Related Briefings
+                {section.title}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {relatedPosts.map((related) => (
+                {section.posts.map((related) => (
                   <Link
                     key={related.id}
                     to={`/posts/${related.slug}`}
@@ -556,18 +538,16 @@ const BriefingPage: React.FC = () => {
                 ))}
               </div>
             </div>
+            ),
           )}
 
           {/* Bottom nav */}
           <div className="mt-10">
-            <Button
-              onClick={() => navigate("/")}
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
-              Back to All Briefings
+            <Button asChild variant="outline" size="sm" className="text-xs">
+              <Link to="/">
+                <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+                Back to All Briefings
+              </Link>
             </Button>
           </div>
         </div>

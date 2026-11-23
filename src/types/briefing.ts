@@ -1,6 +1,7 @@
 export type PostCategory = "Race" | "Training" | "Science" | "Shoes" | "Opinion" | "Weekly";
 
-export type PostType = "briefing" | "weekly";
+// "article" = long-form guide, "daily"/"briefing" = short news briefing (see src/lib/related.js).
+export type PostType = "briefing" | "daily" | "weekly" | "article";
 
 export interface BriefingPost {
   id: string;

@@ -1,27 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { absoluteUrl, ABOUT_PAGE } from "@/lib/site.js";
 
 const About: React.FC = () => {
-  const navigate = useNavigate();
-
   return (
     <>
       <Helmet>
-        <title>About 6AMKICK | Performance-Focused Running Blog</title>
-        <meta name="description" content="Learn about 6AMKICK, a running blog dedicated to racing, training, and competitive mindset with daily briefings focused on real racing conditions." />
-        <link rel="canonical" href="https://6amkick.com/about" />
+        <title>{ABOUT_PAGE.title}</title>
+        <meta name="description" content={ABOUT_PAGE.description} />
+        <link rel="canonical" href={absoluteUrl("/about")} />
       </Helmet>
 
       <div className="min-h-screen bg-yellow-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Back Button */}
           <div className="mb-8">
-            <Button onClick={() => navigate('/')} variant="outline" className="mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+            <Button asChild variant="outline" className="mb-6">
+              <Link to="/">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Link>
             </Button>
           </div>
 
@@ -89,9 +90,11 @@ const About: React.FC = () => {
 
             {/* Bottom Navigation */}
             <div className="mt-12 pt-8 border-t border-gray-200">
-              <Button onClick={() => navigate('/')} variant="outline" size="lg">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to All Briefings
+              <Button asChild variant="outline" size="lg">
+                <Link to="/">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to All Briefings
+                </Link>
               </Button>
             </div>
           </article>

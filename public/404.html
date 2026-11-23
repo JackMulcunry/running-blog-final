@@ -1,41 +1,24 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Running Blog</title>
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      // This script checks to see if a redirect is present in the query string,
-      // converts it back into the correct url and adds it to the
-      // browser's history using window.history.replaceState(...),
-      // which won't cause the browser to attempt to load the new url.
-      // When the single page app is loaded further down in this file,
-      // the correct url will be waiting in the browser's history for
-      // the single page app to route accordingly.
-      (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(
-            null,
-            null,
-            l.pathname.slice(0, -1) + decoded + l.hash,
-          );
-        }
-      })(window.location);
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Page not found | 6AMKICK</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <style>
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #fffbeb; color: #1a1a1a; }
+      main { max-width: 36rem; margin: 15vh auto; padding: 0 1rem; text-align: center; }
+      h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+      p { color: #4b5563; }
+      a { color: #E8501A; font-weight: 600; }
+    </style>
   </head>
   <body>
-    <!-- This file is a fallback for GitHub Pages to handle deep linking -->
-    <script type="text/javascript">
-      window.location.replace("/running-blog-final/");
-    </script>
+    <main>
+      <h1>Page not found</h1>
+      <p>This briefing doesn't exist or has moved.</p>
+      <p><a href="/">See all briefings on 6AMKICK</a></p>
+    </main>
   </body>
 </html>

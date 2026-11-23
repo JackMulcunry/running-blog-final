@@ -1,13 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface WebsiteHeaderProps {
   className?: string;
 }
 
 const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
-  const navigate = useNavigate();
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-900/97 via-blue-900/97 to-slate-800/97 backdrop-blur-md border-b border-white/5 ${className}`}
@@ -18,8 +16,9 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between py-3 sm:py-3.5">
           {/* Logo + Brand */}
-          <button
-            onClick={() => navigate("/")}
+          <Link
+            to="/"
+            aria-label="6AMKICK home"
             className="flex items-center space-x-3 group"
             style={{ cursor: "default" }}
           >
@@ -43,7 +42,7 @@ const WebsiteHeader: React.FC<WebsiteHeaderProps> = ({ className = "" }) => {
               </p>
               <div className="h-[2px] w-0 group-hover:w-full bg-brand-orange rounded-full mt-1.5 transition-all duration-300 ease-out" />
             </div>
-          </button>
+          </Link>
 
           {/* Nav — About only */}
           <nav className="flex items-center">
