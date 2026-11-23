@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/posts/:slug",
@@ -209,6 +210,11 @@
     {
       "source": "/posts/choosing-right-moment-push-world-cross",
       "destination": "/posts/choosing-when-push-during-championship-race",
+      "permanent": true
+    },
+    {
+      "source": "/posts/running-shoes-flat-feet-overpronation",
+      "destination": "/posts/running-shoes-flat-feet-plantar-fasciitis-paek",
       "permanent": true
     }
   ]
