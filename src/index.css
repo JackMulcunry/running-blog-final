@@ -113,6 +113,77 @@
     margin: 2rem 0;
   }
 
+  /* Week-by-week training plan tables embedded in post body HTML */
+  .plan-table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose .plan-table {
+    width: 100%;
+    min-width: 720px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .prose .plan-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.8125rem;
+    color: #6b7280;
+    padding-bottom: 0.5rem;
+  }
+
+  .prose .plan-table th,
+  .prose .plan-table td {
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .prose .plan-table thead th {
+    background: #f3f4f6;
+    font-weight: 600;
+  }
+
+  .prose .plan-table tbody th {
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  .prose .plan-table small {
+    color: #6b7280;
+    font-size: 0.6875rem;
+  }
+
+  .prose .plan-table .rest {
+    color: #9ca3af;
+  }
+
+  .prose .plan-table .total {
+    background: #fffbf5;
+    white-space: nowrap;
+  }
+
+  .prose .plan-table .race {
+    background: #E8501A;
+    color: #fff;
+  }
+
+  .prose .plan-table tr.phase-cutback,
+  .prose .plan-table tr.phase-taper {
+    background: #f9fafb;
+  }
+
+  .prose .choose-table {
+    min-width: 640px;
+    font-size: 0.8125rem;
+  }
+
   /* Key takeaway blocks embedded in post body HTML */
   .key-takeaway {
     background-color: #fffbf5;
