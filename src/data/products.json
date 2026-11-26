@@ -1,0 +1,1361 @@
+{
+  "_about": "Single source of truth for every running watch and shoe spec quoted in posts. Posts must use these numbers; scripts/check_products.py fails if a post disagrees, or recommends a superseded product. Prices are US MSRP (manufacturer or major-retailer list price, not sale prices) as of msrp_checked. Battery hours are the manufacturer's rating: battery_gps_h = standard/GPS-only mode, battery_dualband_h = dual-band/multi-band mode. Weights are as listed by the cited source (sizes vary by source).",
+  "products": [
+    {
+      "id": "garmin-forerunner-70",
+      "name": "Garmin Forerunner 70",
+      "aliases": [
+        "Forerunner 70",
+        "FR70"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2026-05",
+      "msrp_usd": 249.99,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 23,
+      "battery_allsystems_h": 16,
+      "battery_smartwatch_days": 13,
+      "weight_g": 40,
+      "music": "none",
+      "maps": false,
+      "dual_band": false,
+      "sources": [
+        "https://www.tomsguide.com/wellness/smartwatches/garmin-forerunner-70-review",
+        "https://techradar.com/health-fitness/garmin-forerunner-70-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-170",
+      "name": "Garmin Forerunner 170",
+      "aliases": [
+        "Forerunner 170",
+        "FR170"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2026-05",
+      "msrp_usd": 299.99,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 20,
+      "battery_allsystems_h": 14,
+      "battery_smartwatch_days": 10,
+      "music": "none",
+      "maps": false,
+      "dual_band": false,
+      "sources": [
+        "https://www8.garmin.com/manuals/webhelp/GUID-4A2FC8FE-7025-4AEC-946E-097B31131B45/EN-US/GUID-3426BC21-1907-4CC6-BB99-CE06893FD9F0.html",
+        "https://www.t3.com/active/fitness-trackers/garmin-forerunner-70-forerunner-170-launch-0526"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-170-music",
+      "name": "Garmin Forerunner 170 Music",
+      "aliases": [
+        "Forerunner 170 Music",
+        "FR170 Music"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2026-05",
+      "msrp_usd": 349.99,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 20,
+      "battery_gps_music_h": 7.5,
+      "battery_smartwatch_days": 10,
+      "music_storage_gb": 4,
+      "music": "streaming",
+      "maps": false,
+      "dual_band": false,
+      "notes": "Offline playlists from Spotify, Amazon Music and Deezer (paid tiers).",
+      "sources": [
+        "https://www8.garmin.com/manuals-apac/webhelp/forerunner170/EN-SG/GUID-8504CBEA-3405-4D85-939A-02261101F1C3-388.html",
+        "https://www.rei.com/product/C13318/garmin-forerunner-170-music"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-570",
+      "name": "Garmin Forerunner 570",
+      "aliases": [
+        "Forerunner 570",
+        "FR570"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-05",
+      "msrp_usd": 549.99,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 18,
+      "battery_gps_music_h": 9,
+      "battery_smartwatch_days": 11,
+      "music": "streaming",
+      "maps": false,
+      "dual_band": true,
+      "notes": "Battery figures for the 47 mm model. No offline maps; breadcrumb navigation only.",
+      "sources": [
+        "https://www8.garmin.com/manuals/webhelp/GUID-25E3235D-44D2-4384-A591-DD1D71BEBCB1/EN-US/GUID-6E1935AD-17DC-48E6-8C54-B2FC79917B0B.html",
+        "https://www.wareable.com/garmin/garmin-forerunner-570-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-970",
+      "name": "Garmin Forerunner 970",
+      "aliases": [
+        "Forerunner 970",
+        "FR970"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-05",
+      "msrp_usd": 749.99,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 26,
+      "battery_smartwatch_days": 15,
+      "music": "streaming",
+      "maps": true,
+      "dual_band": true,
+      "sources": [
+        "https://dcrainmaker.com/2025/06/garmin-forerunner-970-in-depth-review-brillance.html",
+        "https://www.techradar.com/health-fitness/garmin-forerunner-970-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-enduro-3",
+      "name": "Garmin Enduro 3",
+      "aliases": [
+        "Enduro 3"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2024-08",
+      "msrp_usd": 899,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 120,
+      "battery_dualband_h": 60,
+      "battery_gps_solar_h": 320,
+      "dual_band": true,
+      "sources": [
+        "https://dcrainmaker.com/2024/08/garmin-enduro-3-in-depth-review-vs-fenix8-solar.html",
+        "https://www.t3.com/active/fitness-trackers/garmin-enduro-3-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-instinct-3-solar",
+      "name": "Garmin Instinct 3 Solar",
+      "aliases": [
+        "Instinct 3 Solar",
+        "Instinct 3"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-01",
+      "msrp_usd": 399,
+      "msrp_checked": "2026-11-26",
+      "dual_band": false,
+      "notes": "MSRP for the 45 mm model. Solar charging; memory-in-pixel display.",
+      "sources": [
+        "https://dcrainmaker.com/2025/01/garmin-instinct-3-in-depth-review-amoled-solar.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "coros-pace-4",
+      "name": "Coros Pace 4",
+      "aliases": [
+        "Pace 4"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-11",
+      "msrp_usd": 249,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 41,
+      "battery_dualband_h": 31,
+      "battery_smartwatch_days": 19,
+      "music_storage_gb": 4,
+      "weight_g": 32,
+      "case_mm": 43.4,
+      "music": "mp3",
+      "maps": true,
+      "dual_band": true,
+      "notes": "Weight with nylon band. MP3 files only, no streaming services.",
+      "sources": [
+        "https://coros.com/stories/press-release/coros-unveils-pace-4",
+        "https://www.techradar.com/health-fitness/smartwatches/coros-pace-4-review",
+        "https://support.coros.com/hc/en-us/articles/4406180772244-Playing-Music-from-Your-COROS-Watch",
+        "https://www.tomsguide.com/wellness/smartwatches/coros-just-added-offline-maps-to-its-most-affordable-sports-watch-but-theres-a-catch"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "coros-pace-4-pro",
+      "name": "Coros Pace 4 Pro",
+      "aliases": [
+        "Pace 4 Pro"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2026-09",
+      "msrp_usd": 449,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 60,
+      "battery_smartwatch_days": 21,
+      "music_storage_gb": 32,
+      "dual_band": true,
+      "sources": [
+        "https://coros.com/pace4pro",
+        "https://www.tomsguide.com/wellness/smartwatches/coros-pace-4-pro-review",
+        "https://www.active.com/running/articles/coros-pace-4-pro-review"
+      ],
+      "last_checked": "2026-11-26",
+      "music": "mp3",
+      "maps": true
+    },
+    {
+      "id": "coros-apex-4",
+      "name": "Coros Apex 4",
+      "aliases": [
+        "Apex 4"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-10",
+      "msrp_usd": 479,
+      "other_prices": [
+        429
+      ],
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 65,
+      "battery_dualband_h": 41,
+      "dual_band": true,
+      "notes": "46 mm model ($479). The 42 mm model is $429 with 41 h standard GPS.",
+      "sources": [
+        "https://coros.com/us/stories/press-release/c/coros-announces-apex-4",
+        "https://www.outdoorgearlab.com/reviews/camping-and-hiking/gps-watch/coros-apex-4"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "coros-vertix-2s",
+      "name": "Coros Vertix 2S",
+      "aliases": [
+        "Vertix 2S"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 699,
+      "msrp_checked": "2026-11-26",
+      "battery_gps_h": 118,
+      "battery_dualband_h": 43,
+      "battery_smartwatch_days": 46,
+      "dual_band": true,
+      "notes": "MSRP is the launch price; no successor announced as of last_checked.",
+      "sources": [
+        "https://www.tomsguide.com/wellness/smartwatches/i-tested-the-coros-vertix-2s-vs-garmin-enduro-2-for-22-days-this-is-the-battery-life-champ",
+        "https://irunfar.com/coros-vertix-2-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "suunto-race-2",
+      "name": "Suunto Race 2",
+      "aliases": [
+        "Race 2"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-08",
+      "msrp_usd": 499,
+      "other_prices": [
+        599
+      ],
+      "msrp_checked": "2026-11-26",
+      "battery_dualband_h": 55,
+      "music": "none",
+      "maps": true,
+      "dual_band": true,
+      "notes": "Steel version; titanium is $599.",
+      "sources": [
+        "https://www.notebookcheck.net/Suunto-Race-2-smartwatch-debuts-with-2-000-nit-OLED-display-55-hour-runtime-and-offline-GPS-maps-for-trail-runners.1099757.0.html",
+        "https://www.tomsguide.com/wellness/smartwatches/suunto-race-2-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "suunto-vertical-2",
+      "name": "Suunto Vertical 2",
+      "aliases": [
+        "Vertical 2"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "release": "2025-09",
+      "msrp_usd": 599,
+      "other_prices": [
+        699
+      ],
+      "msrp_checked": "2026-11-26",
+      "battery_dualband_h": 65,
+      "battery_smartwatch_days": 20,
+      "dual_band": true,
+      "notes": "Steel version; titanium is $699. 65 h is full-GNSS dual-band recording.",
+      "sources": [
+        "https://www.dcrainmaker.com/2025/09/suunto-vertical-2-in-depth-review-flashlight.html",
+        "https://www.wareable.com/sport/suunto-vertical-2-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "amazfit-t-rex-3-pro",
+      "name": "Amazfit T-Rex 3 Pro",
+      "aliases": [
+        "T-Rex 3 Pro"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 399.99,
+      "msrp_checked": "2026-11-26",
+      "dual_band": true,
+      "sources": [
+        "https://us.amazfit.com/products/t-rex-3-pro",
+        "https://www.techradar.com/health-fitness/smartwatches/amazfit-t-rex-3-pro-review"
+      ],
+      "last_checked": "2026-11-26",
+      "maps": true
+    },
+    {
+      "id": "fitbit-charge-6",
+      "name": "Fitbit Charge 6",
+      "aliases": [
+        "Charge 6"
+      ],
+      "type": "watch",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 159.95,
+      "msrp_checked": "2026-11-26",
+      "battery_smartwatch_days": 7,
+      "music": "none",
+      "maps": false,
+      "dual_band": false,
+      "notes": "Fitness band with built-in GPS + GLONASS; GPS use shortens the 7-day rating.",
+      "sources": [
+        "https://store.google.com/us/product/fitbit_charge_6_specs?hl=en-us",
+        "https://www.androidcentral.com/wearables/fitbit/fitbit-charge-6"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-165",
+      "name": "Garmin Forerunner 165",
+      "aliases": [
+        "Forerunner 165",
+        "FR165"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-forerunner-170",
+      "sources": [
+        "https://www.t3.com/active/fitness-trackers/garmin-forerunner-70-forerunner-170-launch-0526"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-165-music",
+      "name": "Garmin Forerunner 165 Music",
+      "aliases": [
+        "Forerunner 165 Music"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-forerunner-170-music",
+      "sources": [
+        "https://www.t3.com/active/fitness-trackers/garmin-forerunner-70-forerunner-170-launch-0526"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-55",
+      "name": "Garmin Forerunner 55",
+      "aliases": [
+        "Forerunner 55"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-forerunner-70",
+      "sources": [
+        "https://www.t3.com/active/fitness-trackers/garmin-forerunner-70-forerunner-170-launch-0526"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-265",
+      "name": "Garmin Forerunner 265",
+      "aliases": [
+        "Forerunner 265",
+        "FR265"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-forerunner-570",
+      "sources": [
+        "https://the5krunner.com/specs/garmin/forerunner-570/"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-forerunner-965",
+      "name": "Garmin Forerunner 965",
+      "aliases": [
+        "Forerunner 965",
+        "FR965"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-forerunner-970",
+      "sources": [
+        "https://www.techradar.com/health-fitness/garmin-forerunner-970-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "garmin-instinct-2x-solar",
+      "name": "Garmin Instinct 2X Solar",
+      "aliases": [
+        "Instinct 2X Solar",
+        "Instinct 2X"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "garmin-instinct-3-solar",
+      "sources": [
+        "https://www.androidcentral.com/wearables/garmin-instinct-3-vs-2x-vs-2"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "coros-pace-3",
+      "name": "Coros Pace 3",
+      "aliases": [
+        "Pace 3"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "coros-pace-4",
+      "notes": "Discontinued February 2026.",
+      "sources": [
+        "https://the5krunner.com/2026/02/10/coros-pace-3-discontinued/"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "coros-pace-pro",
+      "name": "Coros Pace Pro",
+      "aliases": [
+        "Pace Pro"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "coros-pace-4-pro",
+      "sources": [
+        "https://the5krunner.com/2026/09/26/coros-pace-4-pro-review-opinion/"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "suunto-race",
+      "name": "Suunto Race",
+      "aliases": [
+        "Suunto Race"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": "suunto-race-2",
+      "sources": [
+        "https://www.notebookcheck.net/Suunto-Race-2-smartwatch-debuts-with-2-000-nit-OLED-display-55-hour-runtime-and-offline-GPS-maps-for-trail-runners.1099757.0.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "polar-grit-x",
+      "name": "Polar Grit X",
+      "aliases": [
+        "Grit X"
+      ],
+      "type": "watch",
+      "status": "superseded",
+      "successor": null,
+      "notes": "Replaced by the Grit X2 / Grit X2 Pro.",
+      "sources": [
+        "https://www.wareable.com/sport/polar-grit-x2-pro-vs-polar-grit-x"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-novablast-6",
+      "name": "ASICS Novablast 6",
+      "aliases": [
+        "Novablast 6"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-06",
+      "msrp_usd": 155,
+      "msrp_checked": "2026-11-26",
+      "drop_mm": 8,
+      "sources": [
+        "https://www.runningwarehouse.com/ASICS_Novablast_6/descpage-ANB6M8.html",
+        "https://www.tomsguide.com/wellness/running/the-asics-novablast-5-is-on-sale-for-usd129-should-you-get-it-over-the-newer-novablast-6"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-gel-cumulus-28",
+      "name": "ASICS Gel-Cumulus 28",
+      "aliases": [
+        "Gel-Cumulus 28",
+        "Cumulus 28"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 145,
+      "msrp_checked": "2026-11-26",
+      "weight_g": 266,
+      "drop_mm": 8,
+      "sources": [
+        "https://theruntesters.com/the-best-asics-running-shoes/"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-gel-nimbus-28",
+      "name": "ASICS Gel-Nimbus 28",
+      "aliases": [
+        "Gel-Nimbus 28",
+        "Nimbus 28"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 170,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.roadrunnersports.com/category/shoes/running/asics"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-gel-kayano-33",
+      "name": "ASICS Gel-Kayano 33",
+      "aliases": [
+        "Gel-Kayano 33",
+        "Kayano 33"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-06",
+      "msrp_usd": 170,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 40,
+      "stack_forefoot_mm": 32,
+      "drop_mm": 8,
+      "sources": [
+        "https://run.outsideonline.com/running/running-shoe-drops-june-2026/?scope=anon"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-superblast-3",
+      "name": "ASICS Superblast 3",
+      "aliases": [
+        "Superblast 3"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 210,
+      "msrp_checked": "2026-11-26",
+      "drop_mm": 8,
+      "sources": [
+        "https://www.roadrunnersports.com/category/shoes/running/asics",
+        "https://racketsandrunners.ca/blogs/running/asics-s-stacked-lineup"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-megablast",
+      "name": "ASICS Megablast",
+      "aliases": [
+        "Megablast"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 225,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.runningwarehouse.com/ASICS_MEGABLAST/descpage-ASMBU4.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-metaspeed-edge-tokyo",
+      "name": "ASICS Metaspeed Edge Tokyo",
+      "aliases": [
+        "Metaspeed Edge Tokyo"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 270,
+      "msrp_checked": "2026-11-26",
+      "weight_g": 159,
+      "notes": "For runners who speed up mainly by increasing cadence.",
+      "sources": [
+        "https://www.runningwarehouse.com/ASICS_METASPEED_Edge_Tokyo/descpage-AMSETU1.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-metaspeed-sky-tokyo",
+      "name": "ASICS Metaspeed Sky Tokyo",
+      "aliases": [
+        "Metaspeed Sky Tokyo"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 270,
+      "msrp_checked": "2026-11-26",
+      "notes": "For runners who speed up mainly by lengthening their stride.",
+      "sources": [
+        "https://www.roadrunnersports.com/category/shoes/racing/asics",
+        "https://www.roadtrailrun.com/2025/06/asics-metaspeed-sky-tokyo-review-3.html?amp=1"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-skyward-x-2",
+      "name": "Hoka Skyward X 2",
+      "aliases": [
+        "Skyward X 2"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-05",
+      "msrp_usd": 225,
+      "msrp_checked": "2026-11-26",
+      "drop_mm": 5,
+      "sources": [
+        "https://www.tomsguide.com/wellness/running/hoka-skyward-x-2-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-mach-x-3",
+      "name": "Hoka Mach X 3",
+      "aliases": [
+        "Mach X 3",
+        "Mach X3"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 190,
+      "msrp_checked": "2026-11-26",
+      "notes": "Neutral trainer with a Pebax (not carbon) plate.",
+      "sources": [
+        "https://www.doctorsofrunning.com/2025/09/hoka-mach-x-3-review-2025.html",
+        "https://www.runningwarehouse.com/HOKA_Mach_X_3/descpage-H3MAXM1.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-arahi-8",
+      "name": "Hoka Arahi 8",
+      "aliases": [
+        "Arahi 8"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 150,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.zappos.com/men/OgLpL3oE0wTYBIIBA5YWBsABAuICBBgHDw8.zso"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-bondi-9",
+      "name": "Hoka Bondi 9",
+      "aliases": [
+        "Bondi 9"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2025-01",
+      "msrp_usd": 175,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 43,
+      "drop_mm": 5,
+      "widths": "standard, wide, extra wide",
+      "sources": [
+        "https://www.roadtrailrun.com/2024/11/hoka-2025-previews-clifton-10-cielo-x1.html?m=0",
+        "https://rununited.com/blog/clifton-10-vs-bondi-9"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-clifton-10",
+      "name": "Hoka Clifton 10",
+      "aliases": [
+        "Clifton 10"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2025-04",
+      "msrp_usd": 155,
+      "other_prices": [
+        150
+      ],
+      "msrp_checked": "2026-11-26",
+      "drop_mm": 8,
+      "notes": "Launched at $150; listed at $155 when checked.",
+      "sources": [
+        "https://www.zappos.com/men/OgLpL3oE0wTYBIIBA5YWBsABAuICBBgHDw8.zso",
+        "https://rununited.com/blog/clifton-10-vs-bondi-9"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-cielo-x1-3",
+      "name": "Hoka Cielo X1 3.0",
+      "aliases": [
+        "Cielo X1 3.0"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-01",
+      "msrp_usd": 275,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.tomsguide.com/wellness/running/hoka-cielo-x1-3-0-review",
+        "https://www.runningwarehouse.com/HOKA_Cielo_X1_30/descpage-HCX13U1.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-tecton-x-3",
+      "name": "Hoka Tecton X 3",
+      "aliases": [
+        "Tecton X 3"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 275,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://runrepeat.com/ranking/rankings-of-expensive-running-shoes"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-speedgoat-7",
+      "name": "Hoka Speedgoat 7",
+      "aliases": [
+        "Speedgoat 7"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "lug_mm": 5,
+      "sources": [
+        "https://www.runrepeat.com/hoka-speedgoat-7",
+        "https://www.irunfar.com/hoka-speedgoat-7-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-challenger-8",
+      "name": "Hoka Challenger 8",
+      "aliases": [
+        "Challenger 8"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "sources": [
+        "https://runrepeat.com/hoka-challenger-8"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "salomon-speedcross-6",
+      "name": "Salomon Speedcross 6",
+      "aliases": [
+        "Speedcross 6"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "notes": "Deep, widely spaced lugs for mud and soft ground (reviews measure about 5.5-6 mm).",
+      "sources": [
+        "https://www.outdoorgearlab.com/reviews/shoes-and-boots/trail-running-shoes-men/hoka-speedgoat-7"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-ghost-18",
+      "name": "Brooks Ghost 18",
+      "aliases": [
+        "Ghost 18"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-06",
+      "msrp_usd": 150,
+      "msrp_checked": "2026-11-26",
+      "widths": "narrow, medium, wide, extra wide",
+      "sources": [
+        "https://tomsguide.com/wellness/running/the-brooks-ghost-18-has-launched-heres-everything-you-need-to-know-about-the-latest-model-of-popular-running-shoe",
+        "https://www.brooksrunning.com/en_us/mens/shoes/road-running-shoes/ghost-18/1104931D429.100.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-glycerin-23",
+      "name": "Brooks Glycerin 23",
+      "aliases": [
+        "Glycerin 23"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 180,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 38,
+      "stack_forefoot_mm": 30,
+      "sources": [
+        "https://www.fleetfeet.com/blog/brooks-glycerin-23-review-legacy-meets-luxury",
+        "https://www.roadrunnersports.com/category/shoes/running/&page=7"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-adrenaline-gts-25",
+      "name": "Brooks Adrenaline GTS 25",
+      "aliases": [
+        "Adrenaline GTS 25"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "widths": "narrow, medium, wide, extra wide",
+      "notes": "Adrenaline GTS 26 ($155) is on preorder; switch when it ships.",
+      "sources": [
+        "https://www.brooksrunning.com/en_us/featured/shoes-in-widths/?utm=airanks.net",
+        "https://www.rtings.com/running-shoes/tools/compare/brooks-glycerin-gts-23-brooks-adrenaline-gts-25/123467/115172"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-cascadia-19",
+      "name": "Brooks Cascadia 19",
+      "aliases": [
+        "Cascadia 19"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 170,
+      "msrp_checked": "2026-11-26",
+      "widths": "men's medium and wide",
+      "sources": [
+        "https://www.fleetfeet.com/products/mens-brooks-cascadia-19"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nb-880v15",
+      "name": "New Balance Fresh Foam X 880v15",
+      "aliases": [
+        "880v15"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 140,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 40.5,
+      "stack_forefoot_mm": 34.5,
+      "drop_mm": 6,
+      "widths": "standard, wide, extra wide",
+      "sources": [
+        "https://believeintherun.com/shoe-reviews/new-balance-fresh-foam-880v15-review/",
+        "https://www.rtings.com/running-shoes/reviews/new-balance/fresh-foam-x-880v15"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nb-1080v15",
+      "name": "New Balance 1080v15",
+      "aliases": [
+        "1080v15"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 170,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.newbalance.com/pd/1080v15/M10808MP-D-15.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-endorphin-speed-5",
+      "name": "Saucony Endorphin Speed 5",
+      "aliases": [
+        "Endorphin Speed 5"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 175,
+      "msrp_checked": "2026-11-26",
+      "notes": "Nylon-plated trainer.",
+      "sources": [
+        "https://runrepeat.com/ranking/rankings-of-expensive-running-shoes"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-endorphin-azura",
+      "name": "Saucony Endorphin Azura",
+      "aliases": [
+        "Endorphin Azura"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-02",
+      "msrp_usd": 150,
+      "msrp_checked": "2026-11-26",
+      "notes": "Plateless daily trainer with PWRRUN PB foam.",
+      "sources": [
+        "https://www.tomsguide.com/wellness/fitness/we-ran-55-miles-in-the-saucony-endorphin-azura-heres-our-verdict"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hylo-impact-2",
+      "name": "Hylo Athletics Impact 2",
+      "aliases": [
+        "Hylo Impact 2",
+        "Impact 2"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-08",
+      "msrp_usd": 155,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.roadtrailrun.com/2026/07/hylo-impact-2-review-less-planet-impact.html?m=0",
+        "https://www.fleetfeet.com/products/hylo-athletics-impact-2"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "adidas-adios-pro-4",
+      "name": "Adidas Adizero Adios Pro 4",
+      "aliases": [
+        "Adios Pro 4"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 250,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 39,
+      "stack_forefoot_mm": 33,
+      "drop_mm": 6,
+      "sources": [
+        "https://www.fleetfeet.com/blog/adidas-adizero-adios-pro-4-review-your-current-pr-just-started-sweating",
+        "https://www.tomsguide.com/wellness/running/adidas-adizero-adios-pro-4-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "adidas-adios-pro-evo-3",
+      "name": "Adidas Adizero Adios Pro Evo 3",
+      "aliases": [
+        "Adios Pro Evo 3"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-04",
+      "msrp_usd": 500,
+      "msrp_checked": "2026-11-26",
+      "weight_g": 97,
+      "sources": [
+        "https://www.t3.com/active/running/adidas-adizero-adios-pro-evo-3-launch-0426",
+        "https://www.roadrunnersports.com/blog/adidas-adizero-adios-pro-evo-3/"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "adidas-evo-sl",
+      "name": "Adidas Adizero EVO SL",
+      "aliases": [
+        "Adizero EVO SL",
+        "EVO SL"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 150,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.roadrunnersports.com/category/shoes/running/&page=7"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-alphafly-3",
+      "name": "Nike Alphafly 3",
+      "aliases": [
+        "Alphafly 3"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 295,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-37v7jzawwpwzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-vaporfly-4",
+      "name": "Nike Vaporfly 4",
+      "aliases": [
+        "Vaporfly 4"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 270,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-shoes-37v7jzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-vomero-18",
+      "name": "Nike Vomero 18",
+      "aliases": [
+        "Vomero 18"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 155,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-37v7jzawwpwzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-vomero-plus",
+      "name": "Nike Vomero Plus",
+      "aliases": [
+        "Vomero Plus"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 180,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-shoes-37v7jzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-pegasus-42",
+      "name": "Nike Pegasus 42",
+      "aliases": [
+        "Pegasus 42"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-04",
+      "msrp_usd": 145,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.si.com/fannation/sneakers/news/nike-unveils-pegasus-42-tech-specs-pricing-release-dates"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-pegasus-premium",
+      "name": "Nike Pegasus Premium",
+      "aliases": [
+        "Pegasus Premium"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 220,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-shoes-37v7jzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-structure-plus",
+      "name": "Nike Structure Plus",
+      "aliases": [
+        "Structure Plus"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 170,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-shoes-37v7jzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-pegasus-trail-5",
+      "name": "Nike Pegasus Trail 5",
+      "aliases": [
+        "Pegasus Trail 5"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 155,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-shoes-37v7jzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nike-winflo-12",
+      "name": "Nike Winflo 12",
+      "aliases": [
+        "Winflo 12"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 110,
+      "msrp_checked": "2026-11-26",
+      "sources": [
+        "https://www.nike.com/w/running-37v7jzawwpwzy7ok"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "topo-phantom-4-wp",
+      "name": "Topo Athletic Phantom 4 WP",
+      "aliases": [
+        "Phantom 4 WP"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 165,
+      "msrp_checked": "2026-11-26",
+      "notes": "Waterproof eVent membrane version of the Phantom 4.",
+      "sources": [
+        "https://believeintherun.com/shoe-reviews/topo-athletic-phantom-4-wp-review/",
+        "https://www.fleetfeet.com/products/mens-topo-phantom-4-wp"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-novablast-5",
+      "name": "ASICS Novablast 5",
+      "aliases": [
+        "Novablast 5"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "asics-novablast-6",
+      "sources": [
+        "https://www.tomsguide.com/wellness/running/the-asics-novablast-5-is-on-sale-for-usd129-should-you-get-it-over-the-newer-novablast-6"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "asics-gel-kayano-32",
+      "name": "ASICS Gel-Kayano 32",
+      "aliases": [
+        "Gel-Kayano 32",
+        "Kayano 32"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "asics-gel-kayano-33",
+      "sources": [
+        "https://run.outsideonline.com/running/running-shoe-drops-june-2026/?scope=anon"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-ghost-17",
+      "name": "Brooks Ghost 17",
+      "aliases": [
+        "Ghost 17"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "brooks-ghost-18",
+      "sources": [
+        "https://www.tomsguide.com/wellness/running/brooks-ghost-18-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-ghost-16",
+      "name": "Brooks Ghost 16",
+      "aliases": [
+        "Ghost 16"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "brooks-ghost-18",
+      "sources": [
+        "https://www.tomsguide.com/wellness/running/brooks-ghost-18-review"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-glycerin-22",
+      "name": "Brooks Glycerin 22",
+      "aliases": [
+        "Glycerin 22"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "brooks-glycerin-23",
+      "sources": [
+        "https://www.fleetfeet.com/blog/brooks-glycerin-23-review-legacy-meets-luxury"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "brooks-cascadia-18",
+      "name": "Brooks Cascadia 18",
+      "aliases": [
+        "Cascadia 18"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "brooks-cascadia-19",
+      "sources": [
+        "https://www.fleetfeet.com/products/mens-brooks-cascadia-19"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-endorphin-speed-4",
+      "name": "Saucony Endorphin Speed 4",
+      "aliases": [
+        "Endorphin Speed 4"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "saucony-endorphin-speed-5",
+      "sources": [
+        "https://runrepeat.com/ranking/rankings-of-expensive-running-shoes"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-triumph-22",
+      "name": "Saucony Triumph 22",
+      "aliases": [
+        "Triumph 22"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": null,
+      "notes": "Triumph 23 released June 2025.",
+      "sources": [
+        "https://www.rtings.com/running-shoes/tools/compare/brooks-glycerin-22-saucony-triumph-23/81059/81125"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-speedgoat-6",
+      "name": "Hoka Speedgoat 6",
+      "aliases": [
+        "Speedgoat 6"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "hoka-speedgoat-7",
+      "sources": [
+        "https://www.runrepeat.com/hoka-speedgoat-7"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "hoka-challenger-7",
+      "name": "Hoka Challenger 7",
+      "aliases": [
+        "Challenger 7"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "hoka-challenger-8",
+      "sources": [
+        "https://runrepeat.com/hoka-challenger-8"
+      ],
+      "last_checked": "2026-11-26"
+    }
+  ]
+}
