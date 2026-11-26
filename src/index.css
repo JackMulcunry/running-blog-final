@@ -384,6 +384,81 @@
     font-size: 0.8125rem;
   }
 
+  .prose .choose-table tbody th {
+    white-space: normal;
+    font-weight: 600;
+  }
+
+  /* Hub "Choose your plan" table: one card per plan on phones/tablets, same breakpoint
+     as the schedule tables. Plan name (link) heads the card; one labelled line per column. */
+  @media (max-width: 879px) {
+    .prose .plan-table.choose-table {
+      display: block;
+      min-width: 0;
+      width: 100%;
+      font-size: 0.875rem;
+    }
+
+    .prose .choose-table caption {
+      display: block;
+      white-space: normal;
+      padding-bottom: 0.75rem;
+    }
+
+    .prose .choose-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .prose .choose-table tbody {
+      display: block;
+    }
+
+    .prose .choose-table tr {
+      display: block;
+      margin: 0 0 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid #E8501A;
+      border-radius: 0.5rem;
+      background: #fff;
+    }
+
+    .prose .choose-table th,
+    .prose .choose-table td {
+      display: block;
+      border: 0;
+      padding: 0;
+      background: none;
+    }
+
+    .prose .choose-table tbody th {
+      padding-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+
+    .prose .choose-table td {
+      position: relative;
+      min-width: 0;
+      padding: 0.3rem 0 0.3rem 7.5rem;
+      border-top: 1px solid #f3f4f6;
+      overflow-wrap: anywhere;
+    }
+
+    .prose .choose-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      top: 0.3rem;
+      font-weight: 600;
+      color: #6b7280;
+    }
+  }
+
   /* Key takeaway blocks embedded in post body HTML */
   .key-takeaway {
     background-color: #fffbf5;
