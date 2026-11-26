@@ -123,12 +123,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-09",
-      "destination": "/posts/balancing-race-selection-long-term-progress",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-09/",
-      "destination": "/posts/balancing-race-selection-long-term-progress",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
       "permanent": true
     },
     {
@@ -163,12 +163,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-13",
-      "destination": "/posts/choosing-right-training-environment-build-confidence",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-13/",
-      "destination": "/posts/choosing-right-training-environment-build-confidence",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
       "permanent": true
     },
     {
@@ -183,12 +183,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-15",
-      "destination": "/posts/choosing-progress-speed-breakthrough-running-moments",
+      "destination": "/posts/quiet-art-smart-race-execution-long",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-15/",
-      "destination": "/posts/choosing-progress-speed-breakthrough-running-moments",
+      "destination": "/posts/quiet-art-smart-race-execution-long",
       "permanent": true
     },
     {
@@ -409,6 +409,36 @@
     {
       "source": "/posts/running-shoes-flat-feet-overpronation/",
       "destination": "/posts/running-shoes-flat-feet-plantar-fasciitis-paek",
+      "permanent": true
+    },
+    {
+      "source": "/posts/balancing-race-selection-long-term-progress",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
+      "permanent": true
+    },
+    {
+      "source": "/posts/balancing-race-selection-long-term-progress/",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-right-training-environment-build-confidence",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-right-training-environment-build-confidence/",
+      "destination": "/posts/when-clock-doesnt-stop-2025s-memorable",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-progress-speed-breakthrough-running-moments",
+      "destination": "/posts/quiet-art-smart-race-execution-long",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-progress-speed-breakthrough-running-moments/",
+      "destination": "/posts/quiet-art-smart-race-execution-long",
       "permanent": true
     },
     {
