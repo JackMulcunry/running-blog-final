@@ -19,9 +19,13 @@ const INDEX_FILE = path.join(POSTS_DIR, 'index.json');
 const TEMPLATE_FILE = path.join(DIST_DIR, 'index.html');
 const ROOT_EMPTY = '<div id="root"></div>';
 
+// Loaded in main() (ESM module shared with the client).
+let sanitizePostBody;
+
 async function main() {
   const { SITE_URL, ABOUT_PAGE } = await import('../src/lib/site.js');
   const { getPostLinks } = await import('../src/lib/related.js');
+  ({ sanitizePostBody } = await import('../src/lib/postBody.js'));
 
   const template = fs.readFileSync(TEMPLATE_FILE, 'utf-8');
   const cssMatch = template.match(/href="(\/assets\/[^"]+\.css)"/);
@@ -164,8 +168,9 @@ function renderAbout(template, siteUrl, page) {
 }
 
 function renderPostBody(post, topic, topicPosts, related) {
-  // Mirror the client: the body usually repeats the title as an <h1>; the page renders its own.
-  const body = String(post.body || '').replace(/<h1[^>]*>[\s\S]*?<\/h1>/i, '');
+  // Same cleanup as the client (drops the body's <h1>, converts "---", Markdown tables,
+  // reference labels) so the raw HTML matches what readers see.
+  const body = sanitizePostBody(String(post.body || ''));
   const card = (p) => `
           <a href="/posts/${p.slug}" class="block bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow p-6 group">
             <h3 class="text-base font-bold text-[#1a1a1a] mb-2 leading-snug tracking-tight">${escapeHtml(p.title)}</h3>

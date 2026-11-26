@@ -113,6 +113,352 @@
     margin: 2rem 0;
   }
 
+  /* Week-by-week training plan tables embedded in post body HTML */
+  .plan-table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose .plan-table {
+    width: 100%;
+    min-width: 720px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .prose .plan-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.8125rem;
+    color: #6b7280;
+    padding-bottom: 0.5rem;
+  }
+
+  .prose .plan-table th,
+  .prose .plan-table td {
+    border: 1px solid #e5e7eb;
+    padding: 6px 8px;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .prose .plan-table thead th {
+    background: #f3f4f6;
+    font-weight: 600;
+  }
+
+  .prose .plan-table tbody th {
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  .prose .plan-table small {
+    color: #6b7280;
+    font-size: 0.6875rem;
+  }
+
+  .prose .plan-table .rest {
+    color: #9ca3af;
+  }
+
+  .prose .plan-table .total {
+    background: #fffbf5;
+    white-space: nowrap;
+  }
+
+  .prose .plan-table .race {
+    background: #E8501A;
+    color: #fff;
+  }
+
+  .prose .plan-table tr.phase-cutback,
+  .prose .plan-table tr.phase-taper,
+  .prose .plan-table tr.phase-race {
+    background: #f9fafb;
+  }
+
+  /* Card-only parts of the schedule table (hidden in the desktop grid) */
+  .prose .plan-table .wk-label,
+  .prose .plan-table .rest-summary {
+    display: none;
+  }
+
+  /* Phones and tablets: each week becomes a stacked card. Same single <table> markup;
+     day names come from data-label. 880px is where the 720px table stops fitting
+     inside the article padding. */
+  @media (max-width: 879px) {
+    .plan-table-wrap {
+      overflow-x: visible;
+    }
+
+    .prose .plan-table:not(.choose-table) {
+      display: block;
+      min-width: 0;
+      width: 100%;
+      font-size: 0.875rem;
+    }
+
+    .prose .plan-table:not(.choose-table) caption {
+      display: block;
+      white-space: normal;
+      padding-bottom: 0.75rem;
+    }
+
+    .prose .plan-table:not(.choose-table) thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .prose .plan-table:not(.choose-table) tbody {
+      display: block;
+    }
+
+    .prose .plan-table:not(.choose-table) tr {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      min-width: 0;
+      margin: 0 0 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid #e5e7eb;
+      border-radius: 0.5rem;
+      background: #fff;
+    }
+
+    .prose .plan-table:not(.choose-table) th,
+    .prose .plan-table:not(.choose-table) td {
+      border: 0;
+      padding: 0;
+      background: none;
+    }
+
+    .prose .plan-table:not(.choose-table) br {
+      display: none;
+    }
+
+    /* Header line: "Week 5  Build" ... "37 mi / 60 km" */
+    .prose .plan-table:not(.choose-table) tbody th {
+      grid-row: 1;
+      grid-column: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.4rem;
+      font-size: 0.9375rem;
+    }
+
+    .prose .plan-table:not(.choose-table) .wk-label {
+      display: inline;
+      margin-right: -0.25rem;
+    }
+
+    .prose .plan-table:not(.choose-table) .phase {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6b7280;
+    }
+
+    .prose .plan-table:not(.choose-table) td.total {
+      border-top: 0;
+      grid-row: 1;
+      grid-column: 2;
+      align-self: center;
+      padding: 0 0 0.4rem 0.75rem;
+      text-align: right;
+      white-space: nowrap;
+      background: none;
+    }
+
+    .prose .plan-table:not(.choose-table) td.total strong::after {
+      content: " / ";
+      font-weight: 400;
+    }
+
+    /* One line per day: "Tue  Threshold 7 mi / 11 km – 3 × 10 min @ T" */
+    .prose .plan-table:not(.choose-table) td {
+      grid-column: 1 / -1;
+      position: relative;
+      display: block;
+      min-width: 0;
+      padding: 0.3rem 0 0.3rem 3rem;
+      border-top: 1px solid #f3f4f6;
+      overflow-wrap: anywhere;
+    }
+
+    .prose .plan-table--long-labels:not(.choose-table) td {
+      padding-left: 5.5rem;
+    }
+
+    .prose .plan-table:not(.choose-table) td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      top: 0.3rem;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .prose .plan-table:not(.choose-table) td.total::before {
+      content: none;
+    }
+
+    .prose .plan-table:not(.choose-table) td strong {
+      font-weight: 600;
+    }
+
+    /* The hidden <br> took the whitespace with it: "Intervals 8 mi", not "Intervals8 mi" */
+    .prose .plan-table:not(.choose-table) td:not(.total) > strong {
+      margin-right: 0.35em;
+    }
+
+    .prose .plan-table:not(.choose-table) td small {
+      font-size: 0.8125rem;
+    }
+
+    .prose .plan-table:not(.choose-table) td small::before {
+      content: " – ";
+    }
+
+    .prose .plan-table:not(.choose-table) td.rest {
+      display: none;
+    }
+
+    .prose .plan-table:not(.choose-table) td.rest-summary {
+      display: block;
+      color: #9ca3af;
+    }
+
+    .prose .plan-table:not(.choose-table) td.race {
+      color: #E8501A;
+      background: none;
+    }
+
+    /* Cutback / taper / race weeks: tinted card, coloured edge, pill label */
+    .prose .plan-table:not(.choose-table) tr.phase-cutback {
+      background: #f9fafb;
+      border-left-color: #9ca3af;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-taper {
+      background: #fffbf5;
+      border-left-color: #f4a582;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-race {
+      background: #fff4ef;
+      border-left-color: #E8501A;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-cutback .phase,
+    .prose .plan-table:not(.choose-table) tr.phase-taper .phase,
+    .prose .plan-table:not(.choose-table) tr.phase-race .phase {
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      color: #fff;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-cutback .phase {
+      background: #6b7280;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-taper .phase {
+      background: #d9733f;
+    }
+
+    .prose .plan-table:not(.choose-table) tr.phase-race .phase {
+      background: #E8501A;
+    }
+  }
+
+  .prose .choose-table {
+    min-width: 640px;
+    font-size: 0.8125rem;
+  }
+
+  .prose .choose-table tbody th {
+    white-space: normal;
+    font-weight: 600;
+  }
+
+  /* Hub "Choose your plan" table: one card per plan on phones/tablets, same breakpoint
+     as the schedule tables. Plan name (link) heads the card; one labelled line per column. */
+  @media (max-width: 879px) {
+    .prose .plan-table.choose-table {
+      display: block;
+      min-width: 0;
+      width: 100%;
+      font-size: 0.875rem;
+    }
+
+    .prose .choose-table caption {
+      display: block;
+      white-space: normal;
+      padding-bottom: 0.75rem;
+    }
+
+    .prose .choose-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .prose .choose-table tbody {
+      display: block;
+    }
+
+    .prose .choose-table tr {
+      display: block;
+      margin: 0 0 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid #E8501A;
+      border-radius: 0.5rem;
+      background: #fff;
+    }
+
+    .prose .choose-table th,
+    .prose .choose-table td {
+      display: block;
+      border: 0;
+      padding: 0;
+      background: none;
+    }
+
+    .prose .choose-table tbody th {
+      padding-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+
+    .prose .choose-table td {
+      position: relative;
+      min-width: 0;
+      padding: 0.3rem 0 0.3rem 7.5rem;
+      border-top: 1px solid #f3f4f6;
+      overflow-wrap: anywhere;
+    }
+
+    .prose .choose-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      top: 0.3rem;
+      font-weight: 600;
+      color: #6b7280;
+    }
+  }
+
   /* Key takeaway blocks embedded in post body HTML */
   .key-takeaway {
     background-color: #fffbf5;

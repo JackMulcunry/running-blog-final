@@ -28,3 +28,7 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## Marathon plan schedules
+
+The week-by-week tables in the marathon training plan posts are generated from `scripts/marathon_plans.py`. After changing a schedule, run `python3 scripts/marathon_plans.py` to check progression (weekly increases, cutback weeks, taper, peak long run timing); it exits non-zero if any check fails.
