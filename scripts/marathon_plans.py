@@ -38,7 +38,10 @@ def fmt_dist(mi):
 
 
 def expand(detail):
-    return re.sub(r"\{(\d+(?:\.\d+)?)\}", lambda m: fmt_dist(float(m.group(1))), detail)
+    d = re.sub(r"\{(\d+(?:\.\d+)?)\}", lambda m: fmt_dist(float(m.group(1))), detail)
+    # keep "6 × 800 m", "10 min", "@ T" together when a narrow cell wraps
+    d = d.replace(" × ", "&nbsp;×&nbsp;").replace(" @ ", "&nbsp;@&nbsp;")
+    return re.sub(r"(\d) (m|km|s|min)\b", r"\1&nbsp;\2", d)
 
 
 LABEL = {"E": "Easy", "S": "Easy + strides", "H": "Hills", "T": "Threshold", "I": "Intervals",
@@ -59,16 +62,19 @@ def parse(tok):
     return (m.group(1), float(m.group(2)), m.group(3) or DEFAULT_DETAIL.get(m.group(1), ""))
 
 
-def cell(tok):
+def cell(tok, label, xt_column=False):
     t, mi, d = parse(tok)
+    lab = f' data-label="{label}"'
     if t == "R":
-        return '<td class="rest">Rest</td>'
+        return f'<td class="rest"{lab}>Rest</td>'
     if t == "RACE":
-        return '<td class="race"><strong>RACE</strong><br>26.2&nbsp;mi / 42.2&nbsp;km</td>'
+        return f'<td class="race"{lab}><strong>RACE</strong><br>26.2&nbsp;mi / 42.2&nbsp;km</td>'
     if t == "X":
-        return f'<td class="xt">Cross-train<br>{d}&nbsp;min</td>'
+        if xt_column:  # the column/label already says cross-training
+            return f'<td class="xt"{lab}>{d}&nbsp;min</td>'
+        return f'<td class="xt"{lab}><strong>Cross-train</strong><br>{d}&nbsp;min</td>'
     extra = f"<br><small>{expand(d)}</small>" if d else ""
-    return f'<td class="{t.lower()}"><strong>{LABEL[t]}</strong><br>{fmt_dist(mi)}{extra}</td>'
+    return f'<td class="{t.lower()}"{lab}><strong>{LABEL[t]}</strong><br>{fmt_dist(mi)}{extra}</td>'
 
 
 def week_total(days):
@@ -231,6 +237,7 @@ PLANS["marathon-training-plan-sub-4-hours-km1h"] = dict(
 # 3 days a week: 16 weeks, Run 1 / Run 2 / Long run + 2 cross-training sessions, base 15-20 mi
 PLANS["marathon-training-plan-3-days-a-week-vnjv"] = dict(
     name="3-day 16-week", columns=["Run 1 (e.g. Tue)", "Run 2 (e.g. Thu)", "Run 3: long (e.g. Sun)", "Cross-training"],
+    labels=["Run 1", "Run 2", "Run 3", "Cross-train"],
     base=(15, 20), peak_target=30, weeks=[
         ("Base", ["T5:2 × 8 min @ T", "S4", "L8", "X2 × 30"]),
         ("Base", ["T5:3 × 8 min @ T", "I5:6 × 400 m @ I", "L9", "X2 × 30"]),
@@ -252,20 +259,29 @@ PLANS["marathon-training-plan-3-days-a-week-vnjv"] = dict(
 
 
 def render_table(slug):
+    """One <table> for every screen size. Below the mobile breakpoint, CSS (src/index.css)
+    shows each row as a card: header with week, phase and total; one line per day using the
+    cells' data-label; rest days collapsed into the row's single rest-summary cell."""
     p = PLANS[slug]
+    labels = p.get("labels", p["columns"])
     head = "".join(f'<th scope="col">{c}</th>' for c in p["columns"])
     rows = []
     for i, (phase, days) in enumerate(p["weeks"], 1):
         tot = week_total(days)
+        rest = [labels[j] for j, t in enumerate(days) if t == "R"]
+        rest_cell = f'<td class="rest-summary" data-label="Rest">{", ".join(rest)}</td>' if rest else ""
         rows.append(
-            f'<tr class="phase-{phase.lower()}"><th scope="row">{i}<br><small>{phase}</small></th>'
-            + "".join(cell(t) for t in days)
-            + f'<td class="total"><strong>{tot:g}&nbsp;mi</strong><br>{km(tot)}&nbsp;km</td></tr>'
+            f'<tr class="phase-{phase.lower()}"><th scope="row"><span class="wk-label">Week </span>{i}'
+            f'<br><small class="phase">{phase}</small></th>'
+            + "".join(cell(t, labels[j], xt_column="Cross" in labels[j]) for j, t in enumerate(days))
+            + rest_cell
+            + f'<td class="total" data-label="Total"><strong>{tot:g}&nbsp;mi</strong><br>{km(tot)}&nbsp;km</td></tr>'
         )
     caption = (f'{p["name"]} marathon training plan: every week in miles and kilometres. '
                'Totals exclude race day; km are rounded.')
+    wide = " plan-table--long-labels" if "labels" in p else ""
     return (
-        f'<div class="plan-table-wrap"><table class="plan-table" data-plan="{slug}">'
+        f'<div class="plan-table-wrap"><table class="plan-table{wide}" data-plan="{slug}">'
         f"<caption>{caption}</caption>"
         f'<thead><tr><th scope="col">Week</th>{head}<th scope="col">Total</th></tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>'
