@@ -22,6 +22,36 @@
   ],
   "redirects": [
     {
+      "source": "/posts/gps-watch-for-running-with-music",
+      "destination": "/posts/garmin-vs-coros-for-running",
+      "permanent": true
+    },
+    {
+      "source": "/posts/gps-watch-for-running-with-music/",
+      "destination": "/posts/garmin-vs-coros-for-running",
+      "permanent": true
+    },
+    {
+      "source": "/posts/best-running-shoes-2026-asics-98q7",
+      "destination": "/posts/best-running-shoes-2026-daily-trainer-kxic",
+      "permanent": true
+    },
+    {
+      "source": "/posts/best-running-shoes-2026-asics-98q7/",
+      "destination": "/posts/best-running-shoes-2026-daily-trainer-kxic",
+      "permanent": true
+    },
+    {
+      "source": "/posts/half-marathon-beginner-shoes-oiow",
+      "destination": "/posts/best-running-shoes-2026-half-marathon",
+      "permanent": true
+    },
+    {
+      "source": "/posts/half-marathon-beginner-shoes-oiow/",
+      "destination": "/posts/best-running-shoes-2026-half-marathon",
+      "permanent": true
+    },
+    {
       "source": "/posts/briefing-2025-12-30",
       "destination": "/posts/topo-athletic-phantom-wp-what-need",
       "permanent": true
@@ -333,12 +363,12 @@
     },
     {
       "source": "/posts/gps-watch-for-running-without-phone",
-      "destination": "/posts/gps-watch-for-running-with-music",
+      "destination": "/posts/garmin-vs-coros-for-running",
       "permanent": true
     },
     {
       "source": "/posts/gps-watch-for-running-without-phone/",
-      "destination": "/posts/gps-watch-for-running-with-music",
+      "destination": "/posts/garmin-vs-coros-for-running",
       "permanent": true
     },
     {
