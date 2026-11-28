@@ -1356,6 +1356,60 @@
         "https://runrepeat.com/hoka-challenger-8"
       ],
       "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-guide-19",
+      "name": "Saucony Guide 19",
+      "aliases": [
+        "Guide 19"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "release": "2026-03",
+      "msrp_usd": 140,
+      "msrp_checked": "2026-11-26",
+      "stack_heel_mm": 35,
+      "stack_forefoot_mm": 29,
+      "drop_mm": 6,
+      "notes": "Stability via CenterPath (wide base, raised sidewalls, rocker); no medial post since the Guide 17.",
+      "sources": [
+        "https://www.roadtrailrun.com/2025/12/saucony-guide-19-review-gentle-support.html?m=1",
+        "https://runrepeat.com/saucony-guide-19",
+        "https://www.fleetfeet.com/blog/saucony-guide-18-review-soft-meets-supportive"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "nb-860v15",
+      "name": "New Balance Fresh Foam X 860v15",
+      "aliases": [
+        "860v15"
+      ],
+      "type": "shoe",
+      "status": "current",
+      "successor": null,
+      "msrp_usd": 149.99,
+      "msrp_checked": "2026-11-26",
+      "notes": "Stability shoe using New Balance's Stability Plane with Fresh Foam X cushioning.",
+      "sources": [
+        "https://www.newbalance.com/pd/fresh-foam-x-860v15/M8603TW-B-10.html"
+      ],
+      "last_checked": "2026-11-26"
+    },
+    {
+      "id": "saucony-guide-18",
+      "name": "Saucony Guide 18",
+      "aliases": [
+        "Guide 18"
+      ],
+      "type": "shoe",
+      "status": "superseded",
+      "successor": "saucony-guide-19",
+      "sources": [
+        "https://www.roadtrailrun.com/2025/12/saucony-guide-19-review-gentle-support.html?m=1"
+      ],
+      "last_checked": "2026-11-26"
     }
   ]
 }

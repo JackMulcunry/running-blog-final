@@ -7,8 +7,8 @@ table HTML with render_table(slug), and run the checks:
     python3 scripts/marathon_plans.py
 
 Checks per plan: weekly mileage rises <= 15% (vs the previous non-cutback week), a cutback
-week (<= 85%) at least every 4th week, a 2-3 week taper that declines each week, the peak
-long run 3-5 weeks before race day, peak week near its target, and no week row shared
+week (<= 85%) at least every 4th week, a taper that declines each week (2-3 weeks for a
+marathon, 1-2 for a half), the peak long run 3-5 weeks before race day (2-3 for a half), peak week near its target, and no week row shared
 between plans. Exits non-zero if any check fails.
 
 Week tokens (Mon..Sun, or Run1/Run2/Run3 for the 3-day plan):
@@ -44,7 +44,7 @@ def expand(detail):
     return re.sub(r"(\d) (m|km|s|min)\b", r"\1&nbsp;\2", d)
 
 
-LABEL = {"E": "Easy", "S": "Easy + strides", "H": "Hills", "T": "Threshold", "I": "Intervals",
+LABEL = {"G": "Goal pace", "E": "Easy", "S": "Easy + strides", "H": "Hills", "T": "Threshold", "I": "Intervals",
          "M": "Marathon pace", "L": "Long run"}
 DEFAULT_DETAIL = {"S": "6 × 20 s strides"}
 
@@ -56,19 +56,19 @@ def parse(tok):
         return ("RACE", 0, "")
     if tok.startswith("X"):
         return ("X", 0, tok[1:])
-    m = re.fullmatch(r"([ESHTIML])(\d+(?:\.\d+)?)(?::(.*))?", tok)
+    m = re.fullmatch(r"([ESHTIMLG])(\d+(?:\.\d+)?)(?::(.*))?", tok)
     if not m:
         raise ValueError(f"bad token {tok!r}")
     return (m.group(1), float(m.group(2)), m.group(3) or DEFAULT_DETAIL.get(m.group(1), ""))
 
 
-def cell(tok, label, xt_column=False):
+def cell(tok, label, xt_column=False, race=("26.2", "42.2")):
     t, mi, d = parse(tok)
     lab = f' data-label="{label}"'
     if t == "R":
         return f'<td class="rest"{lab}>Rest</td>'
     if t == "RACE":
-        return f'<td class="race"{lab}><strong>RACE</strong><br>26.2&nbsp;mi / 42.2&nbsp;km</td>'
+        return f'<td class="race"{lab}><strong>RACE</strong><br>{race[0]}&nbsp;mi / {race[1]}&nbsp;km</td>'
     if t == "X":
         if xt_column:  # the column/label already says cross-training
             return f'<td class="xt"{lab}>{d}&nbsp;min</td>'
@@ -258,6 +258,26 @@ PLANS["marathon-training-plan-3-days-a-week-vnjv"] = dict(
     ])
 
 
+# 12-week half marathon: 4 runs (Tue, Thu, Sat, Sun), base 10-13 mi with a 3-mile continuous run.
+# Half-marathon rules: shorter taper (1-2 weeks) and peak long run 2-3 weeks before race day.
+PLANS["half-marathon-training-plan-12-weeks-thgy"] = dict(
+    name="12-week", kind="half marathon", columns=DAYS7, base=(10, 13), peak_target=23,
+    race=("13.1", "21.1"), taper_weeks=(1, 2), peak_long_weeks_before=(2, 3), weeks=[
+        ("Base", ["X30", "E3", "R", "S3", "R", "E2", "L4"]),
+        ("Base", ["X30", "E3", "R", "S3", "R", "E3", "L4"]),
+        ("Base", ["X30", "E3", "R", "S3", "R", "E3", "L5"]),
+        ("Cutback", ["X30", "E3", "R", "S2", "R", "E2", "L4"]),
+        ("Build", ["X30", "E3", "R", "T4:2 × 8 min @ T", "R", "E3", "L6"]),
+        ("Build", ["X30", "E4", "R", "T4:3 × 8 min @ T", "R", "E3", "L7"]),
+        ("Build", ["X40", "E4", "R", "I4:6 × 400 m @ I", "R", "E3", "L8"]),
+        ("Cutback", ["X30", "E3", "R", "S4", "R", "E3", "L6"]),
+        ("Peak", ["X40", "E4", "R", "G5:{3} @ goal pace", "R", "E3", "L9"]),
+        ("Peak", ["X40", "E4", "R", "T5:2 × 12 min @ T", "R", "E3", "L11"]),
+        ("Taper", ["X30", "E4", "R", "G4:{2} @ goal pace", "R", "E3", "L8"]),
+        ("Race", ["R", "S3", "R", "G3:{1} @ goal pace", "R", "E2", "RACE"]),
+    ])
+
+
 def render_table(slug):
     """One <table> for every screen size. Below the mobile breakpoint, CSS (src/index.css)
     shows each row as a card: header with week, phase and total; one line per day using the
@@ -273,11 +293,11 @@ def render_table(slug):
         rows.append(
             f'<tr class="phase-{phase.lower()}"><th scope="row"><span class="wk-label">Week </span>{i}'
             f'<br><small class="phase">{phase}</small></th>'
-            + "".join(cell(t, labels[j], xt_column="Cross" in labels[j]) for j, t in enumerate(days))
+            + "".join(cell(t, labels[j], xt_column="Cross" in labels[j], race=p.get("race", ("26.2", "42.2"))) for j, t in enumerate(days))
             + rest_cell
             + f'<td class="total" data-label="Total"><strong>{tot:g}&nbsp;mi</strong><br>{km(tot)}&nbsp;km</td></tr>'
         )
-    caption = (f'{p["name"]} marathon training plan: every week in miles and kilometres. '
+    caption = (f'{p["name"]} {p.get("kind", "marathon")} training plan: every week in miles and kilometres. '
                'Totals exclude race day; km are rounded.')
     wide = " plan-table--long-labels" if "labels" in p else ""
     return (
@@ -336,15 +356,18 @@ def check(slug):
     contiguous = taper == list(range(n - len(taper), n))
     peak = max(totals[: n - len(taper)])
     decreasing = all(totals[j] < totals[j - 1] for j in taper)
-    ok(contiguous and 2 <= len(taper) <= 3 and decreasing,
+    t_lo, t_hi = p.get("taper_weeks", (2, 3))
+    ok(contiguous and t_lo <= len(taper) <= t_hi and decreasing,
        f"taper {len(taper)} weeks ({' → '.join(f'{totals[j]:g}' for j in taper)} mi, from peak {peak:g}; first taper week {totals[taper[0]]/peak:.0%} of peak)")
 
     # peak long run 3-5 weeks before race week
     pl = max(longs)
     last_pl = max(i for i, l in enumerate(longs) if l == pl) + 1
-    ok(3 <= n - last_pl <= 5, f"peak long run {pl:g} mi / {km(pl)} km in week {last_pl} = {n - last_pl} weeks before race day")
+    w_lo, w_hi = p.get("peak_long_weeks_before", (3, 5))
+    ok(w_lo <= n - last_pl <= w_hi, f"peak long run {pl:g} mi / {km(pl)} km in week {last_pl} = {n - last_pl} weeks before race day")
     ok(abs(peak - p["peak_target"]) <= 2, f"peak week {peak:g} mi / {km(peak)} km (target ~{p['peak_target']})")
     ok(phases[-1] == "Race" and weeks[-1][1].count("RACE") == 1, "final week ends with race day")
+    results.append(("INFO", f"rules: taper {t_lo}-{t_hi} weeks, peak long run {w_lo}-{w_hi} weeks before race day"))
     return results, totals, longs
 
 
@@ -358,7 +381,7 @@ if __name__ == "__main__":
         print("  weekly mi:", " ".join(f"{t:g}" for t in totals))
         print("  long  mi:", " ".join(f"{l:g}" for l in longs))
         for status, msg in res:
-            all_pass &= status == "PASS"
+            all_pass &= status != "FAIL"
             print(f"  {status}  {msg}")
     print("\nDistinct schedules:")
     slugs = list(PLANS)

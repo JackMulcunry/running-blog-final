@@ -22,6 +22,26 @@
   ],
   "redirects": [
     {
+      "source": "/posts/choosing-trail-shoes-amid-new-technologies",
+      "destination": "/posts/what-gear-is-essential-for-trail-running-kn8y",
+      "permanent": true
+    },
+    {
+      "source": "/posts/choosing-trail-shoes-amid-new-technologies/",
+      "destination": "/posts/what-gear-is-essential-for-trail-running-kn8y",
+      "permanent": true
+    },
+    {
+      "source": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
+      "permanent": true
+    },
+    {
+      "source": "/posts/balancing-muscle-gain-recovery-endurance-training/",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
+      "permanent": true
+    },
+    {
       "source": "/posts/gps-watch-for-running-with-music",
       "destination": "/posts/garmin-vs-coros-for-running",
       "permanent": true
@@ -233,12 +253,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-17",
-      "destination": "/posts/choosing-trail-shoes-amid-new-technologies",
+      "destination": "/posts/what-gear-is-essential-for-trail-running-kn8y",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-17/",
-      "destination": "/posts/choosing-trail-shoes-amid-new-technologies",
+      "destination": "/posts/what-gear-is-essential-for-trail-running-kn8y",
       "permanent": true
     },
     {
@@ -323,12 +343,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-28",
-      "destination": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-28/",
-      "destination": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
       "permanent": true
     },
     {
