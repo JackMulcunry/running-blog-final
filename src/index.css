@@ -106,6 +106,8 @@
   .prose a {
     color: #E8501A;
     text-decoration-color: #E8501A;
+    /* Long bare URLs (reference lists) break only when they would overflow on phones */
+    overflow-wrap: anywhere;
   }
 
   .prose hr {
