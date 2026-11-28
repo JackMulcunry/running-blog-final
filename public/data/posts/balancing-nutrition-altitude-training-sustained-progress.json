@@ -1,18 +1,19 @@
 {
   "id": "balancing-nutrition-altitude-training-sustained-progress",
   "slug": "balancing-nutrition-altitude-training-sustained-progress",
-  "title": "Balancing Nutrition and Altitude Training For Sustained Progress",
-  "excerpt": "This episode covers emerging 2026 nutrition trends, the role of ferritin in altitude training, and gut training techniques. It provides actionable insights to optimize training and recovery.",
+  "title": "Altitude Training and Iron: Why Ferritin Matters",
+  "excerpt": "Low ferritin may blunt the benefit of altitude training. What the research shows, and why to test your iron before supplementing, on medical advice.",
   "date": "2026-01-22",
+  "updated": "2026-11-27",
   "category": "Science",
   "tags": [
-    "nutrition",
     "altitude training",
     "ferritin",
-    "gut health"
+    "iron",
+    "endurance nutrition"
   ],
   "readTimeMinutes": 2,
-  "body": "<p>Balancing nutrition and altitude training for sustained progress requires careful, gradual adjustments to your fueling strategy rather than drastic changes that could undermine recovery during an already demanding training phase.</p>\n<p>During a critical week of altitude training in early spring, athletes face the challenge of timing their recovery alongside adapting to thinner air. One runner, midway through a ten-day training camp, contemplates whether to adjust their nutrition to better support this unique physiological stress or to rely solely on their established practices. The window for change is narrow given the intense training load and limited recovery opportunities.</p>\n<p>For runners, long-term development is shaped by such moments of balance between innovation and consistency. Navigating new nutritional strategies while respecting the demands of altitude adaptation requires patience and thoughtful adjustments rather than quick fixes. This mindset helps cultivate resilience and sustainable progress rather than chasing immediate results that can undermine recovery or growth.</p>\n<p>If you're heading to altitude for training, prioritize iron-rich foods and monitor your ferritin levels in the weeks beforehand. Arriving with depleted iron stores significantly reduces the physiological benefit of high-altitude exposure, making pre-camp nutrition as important as the training itself.</p>",
-  "keyTakeaway": "Incorporate gradual nutritional adjustments during altitude training to support adaptation without compromising recovery for lasting performance gains.",
+  "body": "<p>Iron matters for altitude training. Part of how your body adapts to thinner air is by making more red blood cells, and that process needs iron. If your iron stores are low, you may get less benefit from an altitude block.</p>\n<p>The research is mixed. In one study of endurance athletes at 2,500 m, those with low ferritin (the body's iron store) did not increase their red cell volume over four weeks, unlike athletes with normal ferritin. Iron supplementation brought their ferritin back up. However, a study of 107 altitude camps by world-class endurance athletes found that pre-camp ferritin and iron supplements were not related to the increase in hemoglobin mass in athletes whose iron stores were already normal. So low ferritin may blunt the response, while normal stores appear to be enough.</p>\n<p>If you're planning an altitude block:</p>\n<ul>\n<li>Have your ferritin tested beforehand, through your doctor.</li>\n<li>Take iron supplements only if a doctor advises it. Iron you don't need can cause side effects, and too much is harmful.</li>\n<li>Include iron-rich foods in your diet, and avoid drastic changes to how you eat in the middle of a training camp.</li>\n</ul>\n<p class=\"post-source\"><strong>Sources:</strong> <a href=\"https://pubmed.ncbi.nlm.nih.gov/31670602/\" target=\"_blank\" rel=\"noopener noreferrer\">Iron insufficiency diminishes the erythropoietic response to moderate altitude</a>; <a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC4532405/\" target=\"_blank\" rel=\"noopener noreferrer\">Pre-altitude ferritin and iron supplement dose</a>; <a href=\"https://believeintherun.com/podcasts/e123-2026-nutrition-trends-ferritin-and-altitude-nomio-and-gut-training/\" target=\"_blank\" rel=\"noopener noreferrer\">Believe in the Run, episode 123</a></p>",
+  "keyTakeaway": "Get your ferritin tested before an altitude block, and take iron only if a doctor advises it.",
   "sourceUrl": "https://believeintherun.com/podcasts/e123-2026-nutrition-trends-ferritin-and-altitude-nomio-and-gut-training/"
 }

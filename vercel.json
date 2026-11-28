@@ -22,6 +22,16 @@
   ],
   "redirects": [
     {
+      "source": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
+      "permanent": true
+    },
+    {
+      "source": "/posts/balancing-muscle-gain-recovery-endurance-training/",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
+      "permanent": true
+    },
+    {
       "source": "/posts/gps-watch-for-running-with-music",
       "destination": "/posts/garmin-vs-coros-for-running",
       "permanent": true
@@ -323,12 +333,12 @@
     },
     {
       "source": "/posts/briefing-2026-01-28",
-      "destination": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
       "permanent": true
     },
     {
       "source": "/posts/briefing-2026-01-28/",
-      "destination": "/posts/balancing-muscle-gain-recovery-endurance-training",
+      "destination": "/posts/what-is-an-ideal-marathon-training-plan-ajcq",
       "permanent": true
     },
     {
